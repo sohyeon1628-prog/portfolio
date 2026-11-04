@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portfolio — [이름]</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --nav-w: 200px;
+  --bg0: #F2F0EC; --bg1: #EDEAE4; --bg2: #E5E2DB; --white: #FAFAF8;
+  --ink0: #1C1B19; --ink1: #5C5A55; --ink2: #9B9890;
+  --accent: #2A3BE0; --accent-dim: #DADDFB; --accent-text: #1B2AB0;
+}
+html { scroll-behavior: smooth; scroll-snap-type: y proximity; }
+body { font-family: 'Inter','Noto Sans KR',sans-serif; background: var(--bg0); color: var(--ink0); display: flex; min-height: 100vh; -webkit-font-smoothing: antialiased; }
+section { scroll-snap-align: start; }
+[contenteditable]:focus { outline: 1px dashed var(--accent); outline-offset: 3px; }
+
+/* NAV */
+nav { width: var(--nav-w); height: 100vh; background: var(--bg1); border-right: 1px solid rgba(0,0,0,.07); position: fixed; top: 0; left: 0; display: flex; flex-direction: column; padding: 36px 0 28px; z-index: 50; }
+.nav-top { padding: 0 24px 28px; border-bottom: 1px solid rgba(0,0,0,.07); }
+.nav-name { font-size: 14px; font-weight: 600; letter-spacing: -.3px; }
+.nav-role { font-size: 11px; color: var(--ink2); margin-top: 3px; }
+.nav-links { list-style: none; padding: 20px 0; flex: 1; overflow-y: auto; }
+.nav-group-label { font-size: 9px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink2); padding: 14px 24px 5px; display: block; }
+.nav-links a { display: flex; align-items: center; gap: 8px; padding: 7px 24px; font-size: 12.5px; color: var(--ink1); text-decoration: none; border-left: 2px solid transparent; transition: color .15s, background .15s; }
+.nav-links a:hover { color: var(--ink0); background: rgba(0,0,0,.03); }
+.nav-links a.active { color: var(--accent); border-left-color: var(--accent); background: var(--accent-dim); font-weight: 500; }
+.nav-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: .35; flex-shrink: 0; }
+.nav-bottom { padding: 18px 24px 0; border-top: 1px solid rgba(0,0,0,.07); display: flex; gap: 14px; }
+.nav-bottom a { font-size: 11px; color: var(--ink2); text-decoration: none; }
+.nav-bottom a:hover { color: var(--ink0); }
+
+main { margin-left: var(--nav-w); flex: 1; min-width: 0; }
+
+/* HERO */
+.hero { height: 100vh; min-height: 640px; display: flex; flex-direction: column; justify-content: flex-end; padding: 0 72px 80px; position: relative; border-bottom: 1px solid rgba(0,0,0,.07); overflow: hidden; }
+.hero-bg-text { position: absolute; top: 50%; left: 60px; transform: translateY(-50%); font-size: clamp(120px,16vw,220px); font-weight: 600; letter-spacing: -8px; color: rgba(0,0,0,.04); line-height: 1; pointer-events: none; user-select: none; white-space: nowrap; }
+.hero-eyebrow { font-size: 11px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+.hero-title { font-size: clamp(44px,7vw,84px); font-weight: 300; letter-spacing: -3px; line-height: 1.04; margin-bottom: 28px; }
+.hero-title strong { font-weight: 600; display: block; }
+.hero-desc { font-size: 15px; color: var(--ink1); line-height: 1.75; max-width: 480px; margin-bottom: 36px; }
+.hero-chips { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 52px; }
+.chip { font-size: 11px; font-weight: 500; padding: 4px 11px; border-radius: 100px; background: var(--white); border: 1px solid rgba(0,0,0,.1); color: var(--ink1); }
+.chip.hi { background: var(--accent-dim); border-color: rgba(42,59,224,.25); color: var(--accent-text); }
+.hero-scroll-hint { display: flex; align-items: center; gap: 10px; font-size: 11px; color: var(--ink2); }
+.scroll-line { width: 32px; height: 1px; background: var(--ink2); }
+
+/* PROJECT: 화면 전체를 채우는 2분할 */
+.pj { height: 100vh; min-height: 640px; display: grid; grid-template-columns: 1fr 1fr; border-bottom: 1px solid rgba(0,0,0,.07); }
+.pj.reverse .pj-visual { order: 2; border-right: none; border-left: 1px solid rgba(0,0,0,.07); }
+.pj-visual { background: var(--bg2) center / cover no-repeat; border-right: 1px solid rgba(0,0,0,.07); position: relative; overflow: hidden; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.pj-visual::before { content: attr(data-num); position: absolute; bottom: -24px; right: 0; font-size: 220px; font-weight: 700; letter-spacing: -8px; color: rgba(0,0,0,.05); line-height: 1; pointer-events: none; }
+.pj-visual.has-img::before, .pj-visual.has-img .ph-hint { display: none; }
+.ph-hint { font-size: 12px; color: var(--ink2); text-align: center; line-height: 1.7; pointer-events: none; }
+.pj-content { display: flex; flex-direction: column; justify-content: center; padding: 56px 60px; overflow-y: auto; }
+.pj-num { font-size: 10px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--ink2); margin-bottom: 14px; }
+.pj-title { font-size: clamp(28px,3.2vw,40px); font-weight: 600; letter-spacing: -1px; line-height: 1.15; margin-bottom: 8px; }
+.pj-stack-label { font-size: 12px; font-weight: 500; color: var(--accent); margin-bottom: 18px; }
+.pj-lead { font-size: 14.5px; font-weight: 500; color: var(--ink0); line-height: 1.65; margin-bottom: 12px; max-width: 460px; }
+.pj-desc { font-size: 13px; color: var(--ink1); line-height: 1.8; margin-bottom: 22px; max-width: 460px; }
+.pj-meta { display: flex; flex-direction: column; gap: 9px; margin-bottom: 22px; padding: 18px 20px; background: var(--bg1); border-radius: 10px; border: 1px solid rgba(0,0,0,.06); max-width: 460px; }
+.meta-row { display: flex; gap: 14px; align-items: flex-start; }
+.meta-k { font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--ink2); width: 40px; flex-shrink: 0; padding-top: 2px; }
+.meta-v { font-size: 12.5px; color: var(--ink1); line-height: 1.5; }
+.pj-outcome { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; max-width: 460px; margin-bottom: 18px; }
+.metric { border-top: 2px solid var(--ink0); padding-top: 8px; }
+.metric b { display: block; font-size: 20px; font-weight: 600; letter-spacing: -1px; }
+.metric small { font-size: 10.5px; color: var(--ink2); line-height: 1.4; display: block; margin-top: 3px; }
+.pj-learn { font-size: 12.5px; color: var(--ink1); line-height: 1.7; max-width: 460px; }
+.pj-learn b { color: var(--accent-text); font-weight: 600; }
+
+/* ABOUT / CONTACT */
+.about { height: 100vh; min-height: 640px; display: flex; align-items: center; padding: 80px 72px; position: relative; overflow: hidden; }
+.about-bg { position: absolute; top: -60px; right: -80px; width: 460px; height: 460px; border-radius: 50%; background: var(--accent-dim); opacity: .5; pointer-events: none; }
+.about-inner { max-width: 640px; position: relative; }
+.eyebrow { font-size: 10px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+.about-name { font-size: 44px; font-weight: 300; letter-spacing: -2px; line-height: 1.1; margin-bottom: 24px; }
+.about-name strong { font-weight: 600; }
+.about-bio { font-size: 14px; color: var(--ink1); line-height: 1.85; margin-bottom: 40px; }
+.about-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-bottom: 36px; }
+.block-title { font-size: 10px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--ink2); margin-bottom: 12px; }
+.info-rows { display: flex; flex-direction: column; gap: 8px; }
+.info-row { display: flex; gap: 10px; font-size: 13px; color: var(--ink1); }
+.info-row span:first-child { color: var(--ink2); font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; width: 48px; flex-shrink: 0; padding-top: 2px; }
+.skill-wrap { display: flex; flex-wrap: wrap; gap: 6px; }
+.skill { font-size: 11.5px; font-weight: 500; padding: 5px 12px; border-radius: 7px; background: var(--white); border: 1px solid rgba(0,0,0,.09); color: var(--ink1); }
+.skill.main { background: var(--accent-dim); border-color: rgba(42,59,224,.2); color: var(--accent-text); }
+
+/* reveal */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+.reveal.visible { opacity: 1; transform: none; }
+.pj .pj-content .reveal { transform: translateX(48px); }
+.pj.reverse .pj-content .reveal { transform: translateX(-48px); }
+.pj .pj-content .reveal.visible { transform: none; }
+
+/* scroll motion */
+#progress { position: fixed; top: 0; left: 0; height: 3px; width: 100%; background: var(--accent); transform: scaleX(0); transform-origin: 0 0; z-index: 100; }
+.hero-bg-text { transform: translate(calc(var(--p,0) * -260px), -50%); }
+.hero > .reveal.visible { transform: translateY(calc(var(--p,0) * -70px)); opacity: calc(1 - var(--p,0) * 1.2); transition: none; }
+.pj-visual { clip-path: inset(0 0 100% 0); transition: clip-path 1.1s cubic-bezier(.7,0,.2,1); }
+.pj.reverse .pj-visual { clip-path: inset(100% 0 0 0); }
+.pj-visual.visible { clip-path: inset(0); }
+.pj-img { position: absolute; inset: -12% 0; background: center / cover no-repeat; transform: translateY(calc((var(--p,.5) - .5) * -90px)) scale(1.08); will-change: transform; }
+.pj-visual::before { transform: translateY(calc((var(--p,.5) - .5) * -160px)); }
+.about-bg { transform: translate(calc(var(--p,0) * -80px), calc(var(--p,0) * 120px)) scale(calc(.8 + var(--p,0) * .4)); }
+
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: rgba(0,0,0,.12); border-radius: 3px; }
+
+@media (max-width: 860px) {
+  nav { display: none; }
+  main { margin-left: 0; }
+  .hero { padding: 60px 28px; justify-content: center; }
+  .pj, .pj.reverse { grid-template-columns: 1fr; grid-template-rows: 38vh 1fr; height: auto; min-height: 100vh; }
+  .pj.reverse .pj-visual { order: 0; border-left: none; }
+  .pj-visual { border-right: none; border-bottom: 1px solid rgba(0,0,0,.07); }
+  .pj-content { padding: 36px 28px; }
+  .about { padding: 60px 28px; height: auto; }
+  .about-cols { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-top">
+    <div class="nav-name" contenteditable spellcheck="false">[이름]</div>
+    <div class="nav-role">영화 · 콘텐츠 마케터</div>
+  </div>
+  <ul class="nav-links" id="navLinks"></ul>
+  <div class="nav-bottom">
+    <a href="#about">Email</a>
+    <a href="#about">Link</a>
+  </div>
+</nav>
+
+<main id="main">
+  <section class="hero" id="hero">
+    <div class="hero-bg-text">26</div>
+    <div class="hero-eyebrow reveal">Portfolio 2026</div>
+    <h1 class="hero-title reveal" contenteditable spellcheck="false">
+      영화 · 콘텐츠 마케터
+      <strong>[이름]입니다</strong>
+    </h1>
+    <p class="hero-desc reveal" contenteditable spellcheck="false">
+      영상으로 기획하고, 데이터로 확인하고,<br>콘텐츠로 전달합니다.
+    </p>
+    <div class="hero-chips reveal">
+      <span class="chip hi">영상 기획 · 제작</span>
+      <span class="chip hi">라이브커머스</span>
+      <span class="chip hi">데이터 · AI 활용</span>
+      <span class="chip">단편영화</span>
+      <span class="chip">웹사이트</span>
+    </div>
+    <div class="hero-scroll-hint reveal"><span class="scroll-line"></span>스크롤하여 프로젝트 보기</div>
+  </section>
+</main>
+
+<input type="file" id="pick" accept="image/*" hidden>
+
+<script>
+const projects = [
+  { n:'01', name:'단편영화 제작', sub:'영상 · 영화 제작',
+    lead:'영화가 기획되고 만들어지는 전 과정을 직접 거치며, 작품이 관객에게 닿기까지의 흐름을 이해했습니다.',
+    bg:'[로그라인 · 장르]의 단편영화를 [제작 목적]으로 만들었습니다. [기획 · 연출 · 촬영 · 편집 · 홍보 중 내가 맡은 일]을 담당했습니다.',
+    metrics:['상영 · 조회','관객 반응','제작 규모'],
+    learn:'영화는 만드는 것만큼 알리는 일이 중요하다는 점을 배웠습니다. [가장 인상 깊었던 순간]' },
+  { n:'02', name:'60초 단편영화', sub:'신한은행 · 대회 출품',
+    lead:'60초 안에 브랜드 메시지를 전해야 하는 제약 속에서, 메시지를 하나로 좁혀 이야기로 만들었습니다.',
+    bg:'신한은행 주최 [대회명] 출품작입니다. 시청자가 [핵심 메시지]를 기억하도록 [콘셉트]로 기획했고, [내가 맡은 일]을 담당했습니다.',
+    metrics:['조회 · 반응','심사 코멘트','제작 기간'],
+    learn:'짧은 영상일수록 메시지를 하나로 좁히는 일이 가장 중요했습니다. [개선 포인트]' },
+  { n:'03', name:'라이브커머스', sub:'방송 · 커머스 (대회 출품)',
+    lead:'상품을 알리는 데서 끝나지 않고, 시청자가 사고 싶어지는 흐름을 기획해 방송으로 진행했습니다.',
+    bg:'[대회명] 출품작으로 [상품]을 소개하는 라이브 방송을 기획·진행했습니다. 타깃은 [연령 · 관심사]입니다.',
+    metrics:['시청자 수','참여도','심사 피드백'],
+    learn:'방송 흐름과 멘트 한 줄이 시청자 반응을 좌우한다는 점을 [구체 장면]에서 확인했습니다.' },
+  { n:'04', name:'만약에', sub:'심리학 데이터 활용 웹사이트',
+    lead:'심리학 데이터를 활용해, 사용자가 자기 이야기를 흥미롭게 탐색하도록 만든 웹 서비스입니다.',
+    bg:'[심리학 데이터 · 출처]를 바탕으로 [사용자가 하는 일]을 제공합니다. [사용자의 니즈 · 문제]를 해결하려 했습니다.',
+    metrics:['방문 · 이용자','공유 · 재방문','피드백'],
+    learn:'데이터를 이해하기 쉬운 이야기로 바꾸는 일이 콘텐츠 기획의 핵심임을 배웠습니다.' },
+  { n:'05', name:'영화 사이트', sub:'영화 도메인 웹사이트',
+    lead:'영화를 찾고 고르는 관객의 흐름을 고민하며 만든 영화 정보 웹사이트입니다.',
+    bg:'[영화 정보 출처 · API]를 활용해 [검색 · 추천 · 상세 정보 등 기능]을 제공합니다.',
+    metrics:['이용자 · 테스트 인원','피드백','구현 기능 수'],
+    learn:'관객이 무엇을 보고 영화를 선택하는지 관찰하며 정보 구조를 설계하는 감각을 키웠습니다.' },
+  { n:'06', name:'AI 기사 생성', sub:'AI 콘텐츠 자동화',
+    lead:'주제만 입력하면 기사 초안이 나오는 흐름을 만들어, 콘텐츠 제작 시간을 줄이는 방법을 실험했습니다.',
+    bg:'[사용한 AI · 기술]로 [입력]을 받아 기사 형태의 콘텐츠를 생성합니다. 보도자료나 카피 작성에도 적용할 수 있습니다.',
+    metrics:['생성 시간','수정 횟수','테스트 결과'],
+    learn:'AI는 초안을 빠르게 만들지만 최종 판단은 사람의 몫이라는 점을 배웠습니다.' }
+];
+
+const E = 'contenteditable spellcheck="false"';
+const main = document.getElementById('main');
+
+projects.forEach((p, i) => {
+  main.insertAdjacentHTML('beforeend', `
+  <section class="pj ${i % 2 ? 'reverse' : ''}" id="p${i+1}">
+    <div class="pj-visual" data-num="${p.n}"><div class="pj-img"></div><div class="ph-hint">클릭해서<br>${p.name} 이미지 추가</div></div>
+    <div class="pj-content">
+      <div class="pj-num reveal">Project ${p.n}</div>
+      <h2 class="pj-title reveal" ${E}>${p.name}</h2>
+      <div class="pj-stack-label reveal" ${E}>${p.sub}</div>
+      <p class="pj-lead reveal" ${E}>${p.lead}</p>
+      <p class="pj-desc reveal" ${E}>${p.bg}</p>
+      <div class="pj-meta reveal">
+        <div class="meta-row"><span class="meta-k">기간</span><span class="meta-v" ${E}>[YYYY.MM – YYYY.MM]</span></div>
+        <div class="meta-row"><span class="meta-k">역할</span><span class="meta-v" ${E}>[내가 맡은 일]</span></div>
+        <div class="meta-row"><span class="meta-k">링크</span><span class="meta-v" ${E}>[영상 · 사이트 · 저장소]</span></div>
+      </div>
+      <div class="pj-outcome reveal">
+        ${p.metrics.map(m => `<div class="metric"><b ${E}>[00]</b><small>${m}</small></div>`).join('')}
+      </div>
+      <p class="pj-learn reveal" ${E}><b>배운 점</b> · ${p.learn}</p>
+    </div>
+  </section>`);
+});
+
+main.insertAdjacentHTML('beforeend', `
+  <section class="about" id="about">
+    <div class="about-bg"></div>
+    <div class="about-inner">
+      <div class="eyebrow reveal">About Me</div>
+      <h2 class="about-name reveal" ${E}>[이름]<br><strong>Content Marketer</strong></h2>
+      <p class="about-bio reveal" ${E}>
+        영상 제작과 라이브커머스, 데이터 · AI 프로젝트를 직접 해보며 콘텐츠가 사람에게 닿는 과정에 관심을 갖게 됐습니다.<br>
+        영상을 만든 경험과 마케팅을 실행한 경험을 함께 갖춘 마케터가 되고 싶습니다. [지원 회사에서 하고 싶은 일 한 줄]
+      </p>
+      <div class="about-cols reveal">
+        <div><div class="block-title">Info</div><div class="info-rows" ${E}>
+          <div class="info-row"><span>Email</span><span>[이메일]</span></div>
+          <div class="info-row"><span>Tel</span><span>[전화]</span></div>
+          <div class="info-row"><span>Link</span><span>[포트폴리오 · 영상 링크]</span></div>
+        </div></div>
+        <div><div class="block-title">Education</div><div class="info-rows" ${E}>
+          <div class="info-row"><span>학교</span><span>[학교 · 학과]</span></div>
+          <div class="info-row"><span>수료</span><span>[수료 과정]</span></div>
+        </div></div>
+      </div>
+      <div class="reveal">
+        <div class="block-title">Skills</div>
+        <div class="skill-wrap">
+          <span class="skill main">영상 기획 · 제작</span><span class="skill main">마케팅 실행</span><span class="skill main">데이터 · AI 활용</span>
+          <span class="skill">편집</span><span class="skill">라이브 진행</span><span class="skill">웹</span>
+        </div>
+      </div>
+    </div>
+  </section>`);
+
+// nav
+const nav = document.getElementById('navLinks');
+nav.innerHTML = `<li><a href="#hero" class="active"><span class="nav-dot"></span>Home</a></li>
+  <li><span class="nav-group-label">Projects</span></li>` +
+  projects.map((p,i) => `<li><a href="#p${i+1}"><span class="nav-dot"></span>${p.name}</a></li>`).join('') +
+  `<li><span class="nav-group-label">More</span></li><li><a href="#about"><span class="nav-dot"></span>About Me</a></li>`;
+
+// active nav
+const links = document.querySelectorAll('nav a[href^="#"]');
+const navObs = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) links.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
+}), { threshold: 0.5 });
+document.querySelectorAll('section[id]').forEach(s => navObs.observe(s));
+
+// reveal
+const revealObs = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); }
+}), { threshold: 0.12 });
+document.querySelectorAll('.pj-content, .about-inner, .hero').forEach(box =>
+  box.querySelectorAll(':scope > .reveal').forEach((el, i) => el.style.transitionDelay = (i * 90) + 'ms'));
+document.querySelectorAll('.reveal, .pj-visual').forEach(el => revealObs.observe(el));
+
+// scroll-linked motion
+document.body.insertAdjacentHTML('afterbegin', '<div id="progress"></div>');
+const bar = document.getElementById('progress');
+const hero = document.getElementById('hero');
+const pjs = document.querySelectorAll('.pj, .about');
+let ticking = false;
+function onScroll() {
+  const vh = innerHeight;
+  const max = document.documentElement.scrollHeight - vh;
+  bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+  hero.style.setProperty('--p', Math.min(1, scrollY / vh));
+  pjs.forEach(s => {
+    const r = s.getBoundingClientRect();
+    if (r.bottom < -100 || r.top > vh + 100) return;
+    s.style.setProperty('--p', Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height))));
+  });
+  ticking = false;
+}
+addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+addEventListener('resize', onScroll);
+onScroll();
+
+// image upload
+const pick = document.getElementById('pick');
+let target = null;
+main.addEventListener('click', e => {
+  const v = e.target.closest('.pj-visual');
+  if (v) { target = v; pick.click(); }
+});
+pick.addEventListener('change', () => {
+  const f = pick.files[0];
+  if (!f || !target) return;
+  const r = new FileReader();
+  r.onload = () => { target.querySelector('.pj-img').style.backgroundImage = `url(${r.result})`; target.classList.add('has-img'); pick.value = ''; };
+  r.readAsDataURL(f);
+});
+</script>
+</body>
+</html>

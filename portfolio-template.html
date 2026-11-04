@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio Template</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root { --g: #2A3BE0; --ink: #0b0b0b; --mute: #6f6f6f; --s: 1; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: var(--ink); -webkit-font-smoothing: antialiased; }
+
+.bar { position: fixed; left: 16px; bottom: 16px; z-index: 60; max-width: 560px; background: #111; color: #fff; font-size: 12px; line-height: 1.6; padding: 10px 38px 10px 14px; border-radius: 10px; box-shadow: 0 6px 20px rgba(0,0,0,.25); }
+.bar b { color: #9fb0ff; }
+.bar button { position: absolute; top: 6px; right: 8px; background: none; border: 0; color: #aaa; font-size: 18px; cursor: pointer; line-height: 1; }
+
+/* 슬라이드 = 화면 한 장 */
+.wrap { height: 100vh; min-height: calc(720px * var(--s)); display: flex; align-items: center; justify-content: center; background: #fff; scroll-snap-align: start; overflow: hidden; }
+.fit { width: calc(1280px * var(--s)); height: calc(720px * var(--s)); flex-shrink: 0; }
+.slide { position: relative; width: 1280px; height: 720px; background: #fff; overflow: hidden; transform: scale(var(--s)); transform-origin: 0 0; }
+
+/* 진행 바 · 점 내비 */
+#progress { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: var(--g); transform: scaleX(0); transform-origin: 0 0; z-index: 70; }
+#dots { position: fixed; right: 12px; top: 50%; translate: 0 -50%; display: flex; flex-direction: column; gap: 8px; z-index: 60; }
+#dots a { position: relative; display: block; width: 6px; height: 6px; border-radius: 3px; background: #c9c9c9; transition: height .3s, background .3s; }
+#dots a.on { height: 22px; background: var(--g); }
+#dots a::after { content: attr(data-l); position: absolute; right: 14px; top: 50%; translate: 0 -50%; white-space: nowrap; font-size: 11px; font-weight: 700; color: var(--g); background: #fff; padding: 2px 8px; border: 1px solid var(--g); border-radius: 20px; opacity: 0; pointer-events: none; transition: opacity .2s; }
+#dots a:hover::after { opacity: 1; }
+
+/* 모션 규칙 — 모든 장이 같은 규칙으로 움직인다
+   · 속도 3단계: 빠름 .3s(장식) / 보통 .6s(글자) / 느림 .9s(사진 · 영상 · 세로 제목)
+   · 곡선 1개(--e), 이동 거리 1개(--rise, 아래에서 위로)
+   · 등장 순서는 역할 순서로 고정(아래 스크립트의 ROLE_DELAY): 제목 0 → 사진 120 → 본문 240 → 표 줄 360+50씩 → 장식 500ms
+   · 이미 본 장(.seen)으로 돌아오면 순서 없이 .3s 만에 한꺼번에 */
+:root { --e: cubic-bezier(.2,.7,.2,1); --fast: .3s; --base: .6s; --slow: .9s; --rise: 16px; }
+.slide > * { transition: opacity var(--base) var(--e) var(--d,0ms), translate var(--base) var(--e) var(--d,0ms), scale var(--base) var(--e) var(--d,0ms); }
+.slide > .ph { clip-path: inset(0); translate: 0 calc((var(--p,.5) - .5) * 30px); transition: clip-path var(--slow) var(--e) var(--d,0ms), translate .15s linear; }
+.slide > .vt { clip-path: inset(0); translate: 0 calc((var(--p,.5) - .5) * -30px); transition: clip-path var(--slow) var(--e) var(--d,0ms), translate .15s linear; }
+.slide > .vid, .slide > .vid-print { transition: opacity var(--slow) var(--e) var(--d,0ms), translate var(--slow) var(--e) var(--d,0ms); }
+.slide > .ring { transition: opacity var(--fast) var(--e) var(--d,0ms); }
+.line-h, .line-v { transform-origin: 0 0; }
+.row, .tl, .mr { transition: opacity var(--base) var(--e) var(--d,0ms), translate var(--base) var(--e) var(--d,0ms); }
+
+.wrap:not(.in) .slide > .t:not(.vt) { opacity: 0; translate: 0 var(--rise); }
+.wrap:not(.in) .slide > .vt { clip-path: inset(0 0 100% 0); }
+.wrap:not(.in) .slide > .ph { clip-path: inset(0 100% 0 0); }
+.wrap:not(.in) .slide > .ring { opacity: 0; }
+.wrap:not(.in) .slide > .line-h { scale: 0 1; }
+.wrap:not(.in) .slide > .line-v { scale: 1 0; }
+.wrap:not(.in) .slide > .sm.a:not(.t) { opacity: 0; }
+.wrap:not(.in) .row, .wrap:not(.in) .tl, .wrap:not(.in) .mr { opacity: 0; translate: 0 var(--rise); }
+.wrap.seen .slide > *, .wrap.seen .row, .wrap.seen .tl, .wrap.seen .mr { --d: 0ms !important; transition-duration: var(--fast) !important; }
+@media (prefers-reduced-motion: reduce) {
+  .slide > *, .row, .tl, .mr { transition: none !important; }
+  .wrap .slide > *, .wrap .row, .wrap .tl, .wrap .mr { opacity: 1 !important; translate: none !important; scale: none !important; clip-path: none !important; }
+}
+
+.a { position: absolute; }
+.t:focus { outline: 1px dashed var(--g); outline-offset: 3px; }
+
+.vt { writing-mode: vertical-rl; text-orientation: sideways; transform: rotate(180deg); font-weight: 900; font-size: 92px; line-height: .92; letter-spacing: -3px; top: 0; bottom: 0; white-space: nowrap; }
+.ht { font-weight: 900; font-size: 64px; line-height: .95; letter-spacing: -2px; }
+.lead { color: var(--g); font-weight: 800; font-size: 15px; line-height: 1.35; }
+.p { font-size: 14px; line-height: 1.6; color: #111; }
+.big { font-size: 21px; line-height: 1.45; font-weight: 500; letter-spacing: -.3px; }
+.sm { font-size: 10px; color: var(--mute); line-height: 1.5; }
+.num { font-weight: 900; font-size: 46px; letter-spacing: -2px; line-height: 1; }
+
+.ph { position: absolute; background: #d6d6d6 center / cover no-repeat; filter: grayscale(1); display: flex; align-items: center; justify-content: center; cursor: pointer; color: #8a8a8a; font-size: 12px; }
+.ph:not(.has-img)::after { content: attr(data-l) ' ＋ 사진 추가'; text-align: center; padding: 8px; }
+/* 본문 링크: 파란 강조색과 겹치지 않게 진한 굵은 글씨 + 검은 밑줄 + 밑줄 아래 은은한 그림자 띠 */
+.slide a:not(.gh) { color: #111 !important; font-weight: 700; text-decoration: underline; text-decoration-color: #111; text-decoration-thickness: 1.5px; text-underline-offset: 3px; background-image: linear-gradient(to bottom, transparent 70%, rgba(0,0,0,.10) 70%, rgba(0,0,0,.03) 100%); padding: 0 1px; border-radius: 2px; transition: background-color .2s; }
+.slide a:not(.gh):hover { background-color: rgba(0,0,0,.05); }
+.slide > .ph.shot { clip-path: inset(-60px); }
+.ph.shot { filter: none; border-radius: 6px; box-shadow: 0 0 0 1px rgba(0,0,0,.06), 0 6px 14px rgba(0,0,0,.10), 0 18px 40px rgba(0,0,0,.14); }
+.scap { font-size: 11px; line-height: 1.5; color: #444; }
+.scap b { color: var(--g); font-weight: 800; margin-right: 6px; }
+.code b { display: block; font-size: 13px; font-weight: 900; margin-bottom: 4px; }
+.code .sm { display: block; font-size: 11px; color: #555; margin-bottom: 8px; line-height: 1.5; }
+.code pre { background: #0f1222; color: #e6e8f5; font: 10.5px/1.55 ui-monospace, Menlo, monospace; padding: 12px 14px; border-radius: 6px; white-space: pre-wrap; word-break: break-all; }
+.code pre i { color: #8a93b8; font-style: normal; }
+.webc .sm { display: block; font-size: 12.5px; color: #444; line-height: 1.7; }
+.webc .k { display: block; font-size: 11px; font-weight: 800; color: var(--g); letter-spacing: .04em; margin: 14px 0 2px; }
+.webc .meta { display: block; margin-top: 16px; padding-top: 10px; border-top: 1px solid #e5e5e5; font-size: 11px; line-height: 1.8; color: #777; }
+.webc .meta a { font-weight: 600 !important; }
+.ring { position: absolute; width: 22px; height: 22px; border: 1.5px solid var(--g); border-radius: 50%; }
+.line-v { position: absolute; width: 0; border-left: 1px solid var(--g); }
+.line-h { position: absolute; height: 0; border-top: 1px solid var(--g); }
+
+.mr { display: flex; gap: 16px; border-top: 1px solid #ddd; padding: 8px 0; font-size: 13px; }
+.mr b { width: 56px; font-weight: 700; flex-shrink: 0; }
+.mr span { color: #444; }
+.row { display: flex; align-items: baseline; gap: 18px; border-bottom: 1px solid #111; padding: 12px 0; }
+.row .n { font-weight: 900; font-size: 22px; width: 40px; }
+.row .nm { font-weight: 800; font-size: 22px; flex: 1; letter-spacing: -.5px; }
+.row .ty { font-size: 12px; color: var(--mute); width: 380px; }
+.tl { display: flex; gap: 20px; padding: 9px 0; border-top: 1px solid #ddd; }
+.tl b { width: 80px; font-size: 12px; flex-shrink: 0; }
+.tl i { font-style: normal; font-weight: 800; width: 150px; font-size: 13px; flex-shrink: 0; }
+.tl span { font-size: 12px; color: #444; }
+.gh { display: inline-flex; align-items: center; gap: 4px; padding: 3px 9px; background: var(--g); color: #fff; font-size: 10px; font-weight: 700; text-decoration: none; border-radius: 999px; z-index: 3; }
+.gh svg { width: 10px; height: 10px; }
+.gh:hover { background: #1F2EC0; }
+.wrap:not(.in) .slide > .gh { opacity: 0; translate: 0 var(--rise); }
+.cv h4 { font-size: 11px; font-weight: 800; color: var(--g); margin: 14px 0 2px; letter-spacing: .02em; }
+.cv h4:first-child { margin-top: 0; }
+.cv .tl { padding: 7px 0; }
+.cv .tl b { width: 160px; font-weight: 600; color: #444; white-space: nowrap; }
+.cv .tl i { width: 190px; }
+
+.st h4 { font-size: 11px; font-weight: 800; color: var(--g); margin: 0 0 4px; letter-spacing: .02em; }
+.st .tl { padding: 8px 0; }
+.st .tl b { width: 84px; }
+.st .tl i { width: 120px; }
+.shotslider .ss-view { position: relative; height: 350px; border-radius: 6px; overflow: visible; background: #f3f3f3; box-shadow: 0 0 0 1px rgba(0,0,0,.06), 0 6px 14px rgba(0,0,0,.10), 0 18px 40px rgba(0,0,0,.14); }
+.shotslider .ss-view img { position: absolute; inset: 0; width: 100%; height: 100%; border-radius: 6px; object-fit: cover; object-position: top center; opacity: 0; transition: opacity var(--base) var(--e); }
+.shotslider .ss-view img.on { opacity: 1; }
+.shotslider .ss-btn { position: absolute; top: 50%; translate: 0 -50%; width: 30px; height: 30px; border: 1px solid #e3e3e3; border-radius: 50%; background: #fff; color: #111; font-size: 18px; line-height: 28px; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,.2); opacity: .85; transition: opacity var(--fast); z-index: 2; }
+.shotslider .ss-btn:hover { opacity: 1; }
+.shotslider .ss-btn.prev { left: -40px; } .shotslider .ss-btn.next { right: -40px; }
+.shotslider .ss-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 9px; font-size: 10.5px; color: var(--mute); }
+.shotslider .ss-dots { display: flex; gap: 5px; }
+.shotslider .ss-dots i { display: block; width: 6px; height: 6px; border-radius: 3px; background: #ccc; cursor: pointer; transition: width var(--fast) var(--e), background var(--fast); }
+.shotslider .ss-dots i.on { width: 18px; background: var(--g); }
+.slide > .shotslider { transition: opacity var(--slow) var(--e) var(--d,0ms), translate var(--slow) var(--e) var(--d,0ms); }
+.wrap:not(.in) .slide > .shotslider { opacity: 0; translate: 0 var(--rise); }
+.vid { background: #000; border-radius: 6px; object-fit: cover; box-shadow: 0 10px 30px rgba(0,0,0,.18); }
+.wrap:not(.in) .slide > .vid { opacity: 0; translate: 0 var(--rise); }
+.cat { display: inline-block; vertical-align: middle; margin-right: 8px; padding: 2px 10px; border: 1.5px solid var(--g); border-radius: 999px; background: #fff; color: var(--g); font-size: 10.5px; font-weight: 800; line-height: 1.45; letter-spacing: .02em; }
+.row .ty .cat { margin-right: 6px; }
+.stage .sm { font-size: 12.5px; color: #444; line-height: 1.6; }
+.stage b { display: block; font-size: 11px; color: var(--g); font-weight: 800; margin-bottom: 4px; }
+.stage strong { display: block; font-size: 17px; font-weight: 900; margin-bottom: 6px; }
+.metric { border-top: 3px solid #111; padding-top: 10px; }
+.metric small { display: block; font-size: 11px; color: var(--mute); margin-top: 6px; }
+
+@media print {
+  .shotslider .ss-btn { display: none !important; }
+  .shotslider .ss-view img:not(.on) { display: none !important; }
+  html { scroll-snap-type: none; }
+  .bar, #dots, #progress { display: none; }
+  .wrap { display: block; height: auto; min-height: 0; overflow: visible; page-break-after: always; }
+  .fit { width: 1280px; height: 720px; }
+  .slide { transform: none; }
+  .slide *, .row, .tl, .mr { opacity: 1 !important; translate: none !important; scale: none !important; rotate: none !important; clip-path: none !important; transition: none !important; }
+  .ph:not(.has-img)::after { content: ''; }
+  @page { size: 1280px 720px; margin: 0; }
+}
+</style>
+</head>
+<body>
+<div class="bar">
+  <b>사용법</b> · 스크롤하면 한 장씩 넘어갑니다 · 글자는 클릭해서 바로 수정, 회색 사진 칸을 클릭하면 이미지 추가(자동 흑백) · <b>[대괄호]</b>는 직접 채울 자리 · 완성 후 Ctrl+P → "PDF로 저장" (여백 없음, 배경 그래픽 켜기) · 수정 내용은 저장되지 않으니 PDF로 먼저 저장하세요.
+  <button type="button" onclick="this.parentNode.remove()" aria-label="닫기">×</button>
+</div>
+<div id="progress"></div>
+<nav id="dots"></nav>
+<div id="deck"></div>
+<input type="file" id="pick" accept="image/*" hidden>
+
+<script>
+const T = (cls, txt, st) => `<div class="t a ${cls}" style="${st || ''}" contenteditable="true" spellcheck="false">${txt}</div>`;
+const P = (st, label, img, pos) => `<div class="ph${img ? ' has-img shot' : ''}" style="${st}${img ? `;background-image:url(${img});background-position:${pos || 'center'}` : ''}" data-l="${label || ''}"></div>`;
+const R = (st) => `<div class="ring" style="${st}"></div>`;
+const LV = (st) => `<div class="line-v" style="${st}"></div>`;
+const LH = (st) => `<div class="line-h" style="${st}"></div>`;
+
+// 순서: AI 기사 생성 → 나루 우체국 → 만약에 → 콘텐츠 제작(60초 단편영화 · 단편영화 · 라이브커머스) → 웹 제작(쇼핑몰 · 영화 · 도서)
+const projects = [
+  { n: '01', name: 'AI 기사 생성', sub: 'AI Newsroom OS · 팀 프로젝트', cat: 'AI 서비스', single: true,
+    gh: 'https://github.com/beang66/ai-newsroom-os',
+    link: '<a href="https://github.com/beang66/ai-newsroom-os#run-locally" target="_blank" rel="noopener" style="color:var(--g)">Windows 설치형 앱 · 실행 방법</a>',
+    period: '2026.09 – 2026.10',
+    role: '팀 프로젝트 — 프론트엔드 통합 책임, STT 개발 (커밋 96건, 팀 내 2위)',
+    lead: '취재 · 녹취 · 팩트체크 · 기사 작성 · SNS 변환 · 보관을 기사 ID 하나로 잇는 로컬 설치형 AI 뉴스룸 앱입니다.',
+    bg: '기자가 기사 한 건을 내보내기까지 오가는 여러 프로그램을 하나의 작업 공간으로 묶었습니다. 팀에서 저는 팀원들이 만든 화면을 하나의 앱으로 묶는 <b>프론트엔드 통합 책임</b>을 맡았고, <b>녹취를 글로 바꾸는 STT</b>와 녹취 · 콘텐츠 변환 화면을 직접 만들었습니다.',
+    skill: '기사 하나를 SNS · 카드뉴스로 바꾸는 변환 화면과 여러 사람의 작업을 하나로 묶은 협업 경험 — SHOWBITE 작품별 SNS 콘텐츠 제작 흐름과 연결',
+    shotsH: 239,
+    shots: [
+      { src: 'assets/ainews/writer.jpg', title: '기사 작성', desc: '제목 · 부제 · 본문 작성과 AI 제안, 사진 편집' },
+      { src: 'assets/ainews/interview.jpg', title: '오디오 전사 · AI 요약', desc: '내 담당 — CLOVA Speech 녹취, 화자 편집 · 형광펜' },
+      { src: 'assets/ainews/convert.jpg', title: '콘텐츠 변환', desc: '내 담당 — Instagram · Threads · 카드뉴스 원고와 카드 편집' },
+      { src: 'assets/ainews/factcheck.jpg', title: '팩트체크', desc: '문장별로 근거자료를 찾아 판정' },
+      { src: 'assets/ainews/datamap.jpg', title: '데이터맵', desc: '기사 · 자료의 링크와 관계망 탐색' },
+      { src: 'assets/ainews/archive.jpg', title: '보관함', desc: '원고 · 송고본 검색 · 미리보기 · 공유' }
+    ],
+    highlights: [
+      ['프론트엔드 통합', '팀원들이 각자 만든 화면 브랜치를 통합 브랜치로 합치고, 메뉴 · 화면 이름과 디자인을 맞춘 뒤 다시 빌드 · 테스트해 하나의 앱으로 묶었습니다.'],
+      ['STT · 녹취', 'NAVER CLOVA Speech 전사를 서버(Render)로 중계해 키를 앱 밖에 두고, 화자 이름 바꾸기 · 합치기, 형광펜, 파형을 눌러 다시 듣기, 녹취 보관함 폴더를 만들었습니다.'],
+      ['콘텐츠 변환', '확정한 기사를 Instagram · Threads · 카드뉴스 원고로 바꾸는 화면과 카드뉴스 직접 편집 · JPG 저장을 구현했습니다.']
+    ] },
+  { n: '02', name: '나루 우체국', sub: '3D 웹게임 · 스토리텔링 기획', cat: '인터랙티브 콘텐츠', single: true,
+    highlights: [
+      ['스토리텔링', '부치지 못한 편지 네 통 → 해무가 딸에게 쓴 스무 통의 비밀 → 내가 쓰는 편지. 오프닝의 “맨 밑 주머니” 복선을 에필로그에서 회수합니다.'],
+      ['플레이 설계', '사연이 무거워질수록 바람이 거세지는 비행. 실패해도 체크포인트로 이어져 이야기가 끊기지 않습니다.'],
+      ['실제 서비스', '쓴 편지를 링크로 보내면 받는 사람에게 해무가 배달하는 도착 영상이 재생되고, 반응 · 신고 · 관리자 화면까지 갖춰 배포했습니다.']
+    ],
+    gh: 'https://github.com/sohyeon1628-prog/1030',
+    link: '<a href="https://naru-post.onrender.com" target="_blank" rel="noopener" style="color:var(--g)">naru-post.onrender.com</a> (플레이 가능)',
+    role: '개인 프로젝트 — 기획 · 스토리 · 3D 화면 · 서버 · 배포 전 과정',
+    period: '2026.10 – 2026.11',
+    lead: '은퇴하는 우체부 해무의 가방을 이어받아 네 섬에 편지를 전하고, 마지막엔 내 편지를 써서 진짜 링크로 보내는 3D 웹게임입니다.',
+    bg: '세계관은 “편지가 오가는 동안에만 열리는 바람길”입니다. 해무가 사십 년간 부치지 못한 편지 네 통(어머니·친구·자녀·반려견)을 전하면 편지섬이 열리고, <b>이야기를 보던 플레이어가 직접 편지를 쓰는 사람</b>이 됩니다. 기획부터 3D 구현 · 서버 · 배포까지 혼자 만든 개인 프로젝트입니다.',
+    skill: '세계관 · 인물 · 복선을 설계하는 스토리텔링 — 작품 하나를 인물 소개 · 명장면 · 비하인드 같은 SNS 시리즈로 넓히는 기획으로 연결',
+    stages: ['“부치지 못한 편지” 한 줄에서 출발해 네 섬과 네 사연, 해무의 비밀(딸 은결에게 쓴 스무 통)을 설계했습니다. 오프닝의 “맨 밑 주머니는 열지 말게”가 복선입니다.', '장마다 바람 세기를 1→3으로 높여 사연의 무게를 난이도로 옮기고, 해무가 장마다 자기 이야기를 조금씩 흘리다 에필로그에서 회수합니다.', '네 통을 전하면 편지섬이 열려 내 편지를 쓰고, 링크를 받은 사람에게 해무가 편지를 배달합니다. 반응 · 신고 · 관리자 화면까지 갖춰 배포했습니다.'],
+    metrics: ['편지 · 섬', '3D 연출 영상', '개발 커밋'],
+    nums: ['4', '3', '42'],
+    units: ['어머니 · 친구 · 자녀 · 반려견', '오프닝 · 에필로그 · 병 편지', '2026.10.30 – 11.03'],
+    learn: '실패해도 이야기가 끊기지 않게(하트가 닳으면 그 구간만 체크포인트) 만들어, 난이도보다 감정의 흐름을 지키는 일이 중요하다는 점을 배웠습니다. [플레이 테스트 반응 · 다시 한다면 바꿀 점]',
+    video: { src: 'assets/naru-opening.mp4', poster: 'assets/naru-opening-poster.jpg', title: '오프닝 영상',
+      caption: '▶ 오프닝 영상 · 배포된 사이트(naru-post.onrender.com)에서 직접 녹화 · 소리 없음' },
+    extra: {
+      codeH: 'CODE · 이야기와 엔진을 나눈 구조', storyH: 'STORY · 이야기가 흐르는 순서',
+      code: [
+        ['data', '이야기 레이어', '섬 · 사연 · 대사 · 자막 시각을 한곳에 모아 화면 코드와 분리. 조사(이/가) 자동 처리'],
+        ['game', '비행 엔진', '시드 난수로 매번 다른 코스, 갈수록 빨라지는 속도, 하트 · 체크포인트'],
+        ['three', '3D 장면', 'Three.js 부품 + 지도 · 오프닝 · 에필로그 · 병 편지. 화면별 분할로 첫 로드 880KB→120KB'],
+        ['components', '화면', '지도 · 편지 읽기 · 비행 · 쓰기 · 받는 사람 · 편지함 등 React 화면'],
+        ['server', 'API · 운영', 'Node + SQLite. 편지 · 녹음 · 계정, 신고(3명이면 숨김), 단어 검사, /admin, 자동 백업'],
+        ['tests', '품질', '서버 API · 비행 엔진 자동 테스트, ESLint, GitHub Actions CI']
+      ],
+      story: [
+        ['오프닝', '세계관 · 해무', '바람길 설정, 해무의 마지막 근무일. “맨 밑 주머니는 열지 말게”로 복선을 심음'],
+        ['1~4장', '네 통의 편지', '어머니 · 친구 · 자녀 · 반려견. 사연이 무거워질수록 바람도 거세짐'],
+        ['복선', '해무의 한마디', '장마다 “내 딸 생각이 나서…”처럼 자기 이야기를 조금씩 흘림'],
+        ['에필로그', '비밀의 회수', '딸 은결에게 쓴 스무 통. “바람이 없어도 먼저 날아가는 것이 편지”'],
+        ['편지섬', '내 편지 쓰기', '바통이 플레이어에게 넘어옴. 링크로 보내면 받는 사람에게 도착 영상이 재생됨'],
+        ['병 편지', '열린 결말', '보낸 사람도 내용도 보여 주지 않는 유리병으로 다음 이야기를 열어 둠']
+      ],
+      core: '사연 · 대사 · 타이밍을 데이터로 분리해, 이야기를 고쳐도 화면 코드는 그대로 둡니다. 이야기는 한 방향(받기 → 전하기 → 쓰기)으로 흐르게 했습니다.'
+    } },
+  { n: '03', name: '만약에', sub: 'AI 그림일기 웹서비스 · 콘텐츠 기획', cat: 'AI 서비스', single: true,
+    gh: 'https://github.com/sohyeon1628-prog/man-yak',
+    link: '<a href="https://man-yak.onrender.com" target="_blank" rel="noopener" style="color:var(--g)">man-yak.onrender.com</a>',
+    period: '2026.09 – 2026.10', role: '개인 프로젝트 — 기획 · 화면 · 서버 · AI 연동 · 배포',
+    lead: '“만약에” 질문에 답하면 AI가 손그림 삽화가 있는 그림일기로 바꿔 주는, 상상을 기록하고 나누는 웹서비스입니다.',
+    bg: '“어른이 되며 잊은 ‘만약에’라는 주문을 되찾자”는 브랜드 스토리에서 출발했습니다. 질문에 답하면 <b>그림일기 → 다이어리 → 주간 월드컵 → 우체통</b>으로 이어져, 혼자 쓰는 일기가 함께 즐기는 콘텐츠가 됩니다. 기획부터 AI 연동 · 배포까지 혼자 만든 개인 프로젝트입니다.',
+    skill: '질문 · 월드컵 · 엽서처럼 사용자가 참여하는 콘텐츠 기획 — 댓글 · 투표형 SNS 이벤트와 이미지 콘텐츠 제작으로 연결',
+    shots: [
+      { src: 'assets/manyak/home.jpg', title: '홈', desc: '상상가 이름만 정하면 시작' },
+      { src: 'assets/manyak/imagine.jpg', title: '오늘의 질문', desc: '96개 질문 중 하나에 자유롭게 답하기' },
+      { src: 'assets/manyak/result.jpg', title: '그림일기', desc: '답이 크레파스 삽화와 원고지 일기로' },
+      { src: 'assets/manyak/diary.jpg', title: '나의 상상 다이어리', desc: '월 · 주 플래너에 쌓이는 일기' },
+      { src: 'assets/manyak/cards.jpg', title: '주간 상상 월드컵', desc: '닉네임당 1점, 선착순 8강' },
+      { src: 'assets/manyak/about.jpg', title: 'ABOUT', desc: '브랜드 스토리와 이용 5단계' }
+    ],
+    highlights: [
+      ['질문 설계', '“만약에” 질문 96개를 12개 주제(능력 · 시간 · 선택 · 미래 등)로 직접 만들고, 질문마다 상상 · 창의성 요소를 태그했습니다.'],
+      ['AI 그림일기', '답변 → 일기 문장 · 그림 설명 생성 → gpt-image-1 삽화의 2단계 생성. 개발 중에는 비용 0원 Mock 모드로 테스트했습니다.'],
+      ['참여 콘텐츠', '스티커 · 크레파스로 꾸미는 다이어리, 닉네임당 1점 선착순 8강 상상 월드컵, 모두가 보는 엽서 우체통.']
+    ] },
+  { n: '01', name: '콘텐츠 제작', sub: '60초 단편영화 · 단편영화 · 라이브커머스', cat: '영상 · 방송',
+    lead: '60초 브랜드 영상, 단편영화, 라이브커머스 방송을 직접 기획 · 제작하며, 짧은 시간 안에 메시지를 전하고 화면 너머 관객의 반응을 끌어내는 법을 익혔습니다.',
+    bg: '<b>60초 단편영화</b> — 신한은행 주최 [대회명] 출품작. [핵심 메시지]를 [콘셉트]로 풀고 [맡은 일]을 담당했습니다.<br><b style="display:inline-block;margin-top:8px">단편영화</b> — [로그라인 · 장르]의 단편영화에서 <b>[내 역할]</b>을 맡아 한정된 일정과 인원 안에서 완성했습니다.<br><b style="display:inline-block;margin-top:8px">라이브커머스</b> — [대회명] 출품작. [상품]을 소개하는 라이브 방송을 기획하고 [진행 · 촬영 등 맡은 일]을 담당했습니다.',
+    skill: '짧은 영상 기획 · 편집, 영화 제작, 라이브 방송 진행 — SHOWBITE 숏폼 제작 · 편집과 SNS 채널에서 관객과 소통하는 일로 연결',
+    stages: ['작품마다 전할 메시지 하나와 타깃을 먼저 정하고, 60초 구성안 · 시나리오 · 방송 큐시트를 만들었습니다.', '핵심 컷에 집중해 [촬영 · 편집]하고, 라이브 방송에서는 [홍보 방법]으로 시청자를 모아 채팅으로 소통했습니다.', '[조회수 · 심사 피드백], [상영 · 관객 반응], [시청자 수 · 참여도]를 정리했습니다. (수상이 없다면 수상처럼 보이는 표현은 쓰지 않습니다)'],
+    metrics: ['조회 · 시청자 수', '심사 · 관객 반응', '제작한 영상 작품'],
+    nums: ['[00]', '[00]', '3'],
+    units: ['[단위 / 설명]', '[단위 / 설명]', '60초 영상 · 단편영화 · 라이브 방송'],
+    learn: '짧은 영상일수록 메시지를 하나로 좁혀야 하고, 영화든 방송이든 만드는 것만큼 알리고 반응을 듣는 일이 중요하다는 점을 배웠습니다. [가장 인상 깊었던 장면 · 개선 포인트]' },
+  { n: '05', name: '웹 제작', sub: '쇼핑몰 · 영화 · 도서 사이트', cat: '웹 개발',
+    lead: '쇼핑몰 · 영화 · 도서 사이트를 만들며, 사용자가 무엇을 먼저 보고 고르는지에 맞춰 정보를 배치하는 연습을 했습니다.',
+    skill: '사용자가 고르는 순간에 맞춘 정보 구조 — 플랫폼 · 디지털 콘텐츠 아카이빙 관리와 연결',
+    group: [
+      { name: '쇼핑몰 (VANS)', lead: 'VANS 공식 스토어를 참고해 메인 · 상품 상세 · 사이즈 추천까지 직접 구현했습니다.',
+        desc: '자동 배너 · 상품 슬라이드(JSON), 확대 렌즈 · 사이즈 선택 · 공유, 발 길이로 찾는 사이즈 추천 창',
+        point: '구매 직전의 고민(사이즈)을 줄이는 장치',
+        period: '2026.08', tech: 'HTML · CSS · JS', gh: 'https://github.com/sohyeon1628-prog/0826',
+        link: '<a href="https://sohyeon1628-prog.github.io/0826/" target="_blank" rel="noopener" style="color:var(--g)">사이트 보기</a>',
+        imgs: { card: 'assets/shop/main.jpg', cardPos: 'top center' } },
+      { name: '영화 사이트 (MEGABOX)', lead: '기존 메가박스 사이트를 각색하고 AI를 붙여, 오늘의 기분을 적으면 감정을 읽고 영화를 추천해 주는 기능을 더했습니다.',
+        desc: '감정 입력 → 영화 · 위로 한마디 추천, 박스오피스(KOBIS) · 포스터(TMDB) 연동',
+        point: '영화를 고르는 기준을 “지금 내 기분”까지 넓힌 추천',
+        period: '2026.09', tech: 'React · Router · KOBIS / TMDB API',
+        link: '<a href="https://sohyeon1628-prog.github.io/0915_/" target="_blank" rel="noopener" style="color:var(--g)">사이트 보기</a>',
+        gh: 'https://github.com/sohyeon1628-prog/0915_',
+        imgs: { card: 'assets/movie/main.jpg', cardPos: 'top center' } },
+      { name: '도서 사이트 (KYOBO)', lead: '교보문고를 참고해, 카카오 도서 검색 API로 베스트셀러 · 신간을 실시간으로 불러오는 도서 사이트를 만들었습니다.',
+        desc: '카테고리별 베스트셀러 · 통합 검색 · 신간, “AI와 함께 읽는” 큐레이션, 도서 상세 페이지',
+        point: '책을 고르는 흐름(카테고리 → 순위 → 상세)에 맞춘 정보 배치',
+        period: '2026.08', tech: 'HTML · CSS · JS · Kakao 도서 API',
+        link: '<a href="https://sohyeon1628-prog.github.io/book/" target="_blank" rel="noopener" style="color:var(--g)">사이트 보기</a>',
+        gh: 'https://github.com/sohyeon1628-prog/book',
+        imgs: { card: 'assets/book/main.jpg', cardPos: 'top center' } },
+    ] }
+];
+
+projects.forEach((p, i) => { p.n = String(i + 1).padStart(2, '0'); });
+
+const CAT = p => p.cat ? `<span class="cat">${p.cat}</span>` : '';
+
+const GH_ICON = '<svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>';
+
+const slides = [];
+
+// 1. COVER
+slides.push(
+  R('left:640px;top:36px') + T('num', '26', 'left:672px;top:26px;font-size:30px;letter-spacing:-1px') +
+  LH('left:110px;top:560px;width:300px') +
+  T('lead', '즐거움은 옹골차게, 이야기는 너르게 펼치는', 'left:112px;top:385px;font-size:32px;letter-spacing:-1px;white-space:nowrap') +
+  T('ht', '박소현입니다', 'left:106px;top:440px;font-size:96px;letter-spacing:-3px;white-space:nowrap') +
+  T('vt', 'portfolio', 'right:30px;font-size:130px')
+);
+
+// 2. ABOUT
+slides.push(
+  P('left:110px;top:80px;width:300px;height:400px', '프로필 사진') +
+  T('p', '<b style="font-size:20px;font-weight:900">박소현</b><br><span class="sm">쇼박스 콘텐츠확장팀 지원<br>sohyeon1628@gmail.com<br>[포트폴리오 · 영상 링크]</span>', 'left:110px;top:500px;width:300px') +
+  T('lead', '영화 한 편을 숏폼 · 이미지 · SNS 콘텐츠로 넓혀 관객에게 닿게 하는 사람', 'left:470px;top:80px;width:600px') +
+  T('p', '단편영화 · 60초 영상을 직접 기획하고 편집했고, 게임과 웹서비스로 이야기를 설계해 봤습니다. 쇼박스 작품의 이야기를 SHOWBITE의 숏폼과 이미지 콘텐츠로 넓혀, 극장 밖에서도 관객이 작품을 만나게 하고 싶습니다.', 'left:470px;top:115px;width:600px') +
+  T('p cv',
+    '<h4>경력</h4>' +
+    [['[YYYY.MM – YYYY.MM]', '[회사 · 기관]', '[직무 · 맡은 일 한 줄]'], ['[YYYY.MM – YYYY.MM]', '[회사 · 기관]', '[직무 · 맡은 일 한 줄]']].map(r => `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join('') +
+    '<h4>학력 · 교육</h4>' +
+    [['2021.03 – 2026.02', '[대학교명] 미디어커뮤니케이션학과', '졸업 (4년제)'], ['[YYYY.MM]', '[수료 과정]', '[배운 내용 한 줄]']].map(r => `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join('') +
+    '<h4>대회 · 활동</h4>' +
+    [['[YYYY.MM]', '신한은행 주최 [대회명]', '60초 단편영화 출품'], ['[YYYY.MM]', '[대회명]', '라이브커머스 기획 · 진행 출품'], ['[YYYY.MM]', '코삭 2회 (도박, 청도)', '[맡은 역할 · 결과]']].map(r => `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join('') +
+    '<h4>Tools</h4><span class="sm" style="font-size:12px;color:#444"><b>화면</b> React · Three.js(3D) · Vite &nbsp;/&nbsp; <b>서버</b> Node.js · Express · SQLite · Supabase &nbsp;/&nbsp; <b>AI</b> Claude · Gemini · ChatGPT · OpenAI API(이미지 생성) &nbsp;/&nbsp; <b>배포</b> Render · GitHub Actions</span>',
+    'left:470px;top:190px;width:640px') +
+  T('vt', 'about me', 'right:30px')
+);
+
+// 3. STRENGTHS
+slides.push(
+  T('big', '짧은 영상을 직접 기획 · 편집할 수 있고, 이야기 하나를 여러 콘텐츠로 넓히는 기획을 해 봤으며, 채널에서 관객과 소통하며 실행해 봤습니다.', 'left:150px;top:80px;width:600px') +
+  [['숏폼 · 영상 제작', '콘텐츠 제작 (60초 단편영화 · 단편영화)'], ['작품별 콘텐츠 기획', '나루 우체국 · 만약에'], ['채널 운영 · 실행', '콘텐츠 제작 (라이브커머스)']].map((s, i) =>
+    P(`left:${150 + i * 200}px;top:360px;width:170px;height:200px`, '이미지') +
+    T('p', `<b>${s[0]}</b><br><span class="sm">${s[1]} · [근거 한 줄]</span>`, `left:${150 + i * 200}px;top:575px;width:170px`)
+  ).join('') +
+  LV('left:760px;top:420px;height:300px') + LH('left:760px;top:420px;width:520px') +
+  T('ht', 'my<br>strengths', 'left:800px;top:560px;font-size:70px')
+);
+
+// 4. INDEX
+slides.push(
+  T('vt', 'projects', 'left:30px;font-size:80px') +
+  T('lead', '프로젝트마다 카테고리를 붙였습니다 — AI 서비스 · 인터랙티브 콘텐츠 · 영상 · 방송 · 웹 개발.', 'left:150px;top:36px;width:520px') +
+  T('p', projects.map(p => `<div class="row"><span class="n">${p.n}</span><span class="nm">${p.name}</span><span class="ty">${CAT(p)}${p.sub}</span></div>`).join(''), 'left:150px;top:100px;width:980px') +
+  P('left:150px;top:530px;width:980px;height:150px', '프로젝트 이미지 모음')
+);
+
+// 5. PROJECT SLIDES (concept + outcomes)
+projects.forEach((p, i) => {
+  const small = p.name.length > 6;
+  if (p.group) {
+    // 웹 제작 묶음: 제목은 위쪽 가운데, 사이트 카드들은 화면 가운데에 나란히 (결과 슬라이드 없음)
+    const W = 320, GAP = 30, n = p.group.length, x0 = (1280 - (n * W + (n - 1) * GAP)) / 2;
+    slides.push(
+      T('sm', `${CAT(p)}PROJECT ${p.n} · ${p.sub}`, 'left:0;top:40px;width:1280px;text-align:center') +
+      T('ht', p.name, 'left:0;top:62px;width:1280px;text-align:center;font-size:52px') +
+      T('lead', p.lead, 'left:140px;top:124px;width:1000px;text-align:center') +
+      p.group.map((g, k) => {
+        const x = x0 + k * (W + GAP);
+        return P(`left:${x}px;top:168px;width:${W}px;height:165px`, g.name + ' 화면', g.imgs?.card, g.imgs?.cardPos || 'top center') +
+          T('p webc', `<b style="display:block;text-align:center;font-size:17px;font-weight:900;margin-bottom:6px">${g.name}</b><span class="sm">${g.lead}</span><span class="k">주요 기능</span><span class="sm">${g.desc}</span><span class="k">보여준 점</span><span class="sm">${g.point}</span><span class="meta">${g.period || '[기간]'} · ${g.tech || '[사용 기술]'}<br>${g.link || '[사이트 링크]'}${g.gh ? ` · <a href="${g.gh}" target="_blank" rel="noopener">${g.gh.replace('https://', '')}</a>` : ''}</span>`, `left:${x}px;top:345px;width:${W}px;text-align:left`);
+      }).join('')
+    );
+    return;
+  }
+  const ghRow = p.gh ? `<div class="mr"><b>GitHub</b><span><a href="${p.gh}" target="_blank" rel="noopener" style="color:var(--g)">${p.gh.replace('https://', '')}</a></span></div>` : '';
+  const meta = '<div class="mr"><b>기간</b><span>' + (p.period || '[YYYY.MM – YYYY.MM]') + '</span></div><div class="mr"><b>역할</b><span>' + (p.role || '[내가 맡은 일 — 팀이면 팀 규모와 내 범위]') + '</span></div>' + (p.single ? '' : '<div class="mr"><b>성격</b><span>' + p.sub + '</span></div>') + '<div class="mr"><b>링크</b><span>' + (p.link || '[영상 · 사이트 · 저장소 링크]') + '</span></div>' + ghRow;
+  if (p.single) {
+    slides.push(
+      (p.video
+        ? `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:70px;width:560px;height:315px"></video>` + T('sm', p.video.caption, 'left:70px;top:393px;width:560px') + T('p', meta, 'left:70px;top:423px;width:560px')
+        : p.shots
+          ? `<div class="shotslider a" style="left:90px;top:70px;width:500px" data-caps="${JSON.stringify(p.shots.map((sh, k) => `${String(k + 1).padStart(2, '0')} / ${String(p.shots.length).padStart(2, '0')} · ${sh.title} — ${sh.desc}`)).replace(/"/g, '&quot;')}"><div class="ss-view" style="height:${p.shotsH || 313}px">${p.shots.map((sh, k) => `<img src="${sh.src}" alt="${sh.title}"${k ? '' : ' class="on"'}>`).join('')}<button type="button" class="ss-btn prev" aria-label="이전 화면">‹</button><button type="button" class="ss-btn next" aria-label="다음 화면">›</button></div><div class="ss-bar"><span class="ss-cap"></span><span class="ss-dots">${p.shots.map(() => '<i></i>').join('')}</span></div></div>` + T('p', meta, `left:70px;top:${70 + (p.shotsH || 313) + 38}px;width:560px`)
+          : P('left:70px;top:70px;width:560px;height:350px', '메인 화면', p.shot.src, 'center') + T('sm', p.shot.caption, 'left:70px;top:428px;width:560px') + T('p', meta, 'left:70px;top:458px;width:560px')) +
+      T('sm', `${CAT(p)}PROJECT ${p.n} · ${p.sub}`, 'left:670px;top:54px;width:460px') +
+      T('lead', p.lead, 'left:670px;top:110px;width:440px') +
+      T('p', p.bg, 'left:670px;top:180px;width:440px') +
+      T('p webc', p.highlights.map(h => `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join('') + `<span class="k" style="margin-top:14px">이 프로젝트로 보여줄 점</span><span class="sm">${p.skill}</span>`, 'left:670px;top:290px;width:440px') +
+      T('vt', p.name, `right:30px;font-size:${small ? 64 : 84}px`)
+    );
+    return;
+  }
+  if (p.video) {
+    // 영상이 있는 프로젝트: 왼쪽에 16:9 영상, 그 아래 기본 정보, 오른쪽에 소개 글
+    slides.push(
+      `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:70px;width:560px;height:315px"></video>` +
+      T('sm', p.video.caption, 'left:70px;top:395px;width:560px') +
+      T('p', meta, 'left:70px;top:430px;width:560px') +
+      T('sm', `${CAT(p)}PROJECT ${p.n} · ${p.sub}`, 'left:670px;top:54px;width:460px') +
+      T('lead', p.lead, 'left:670px;top:110px;width:440px') +
+      T('p', `${p.bg}<br><br><span class="sm">이 프로젝트로 보여줄 점: ${p.skill}</span>`, 'left:670px;top:185px;width:440px') +
+      T('vt', p.name, `right:30px;font-size:${small ? 64 : 84}px`)
+    );
+  } else slides.push(
+    P('left:70px;top:50px;width:300px;height:620px', '메인 이미지', p.imgs?.main, p.imgs?.mainPos) +
+    T('sm', `${CAT(p)}PROJECT ${p.n} · ${p.sub}`, 'left:410px;top:54px;width:460px') +
+    T('lead', p.lead, 'left:410px;top:110px;width:440px') +
+    T('p', `${p.bg}<br><br><span class="sm">이 프로젝트로 보여줄 점: ${p.skill}</span>`, 'left:410px;top:230px;width:440px') +
+    T('p', meta, 'left:410px;top:470px;width:440px') +
+    P('left:880px;top:50px;width:230px;height:620px', '서브 이미지', p.imgs?.sub, p.imgs?.subPos) +
+    T('vt', p.name, `right:30px;font-size:${small ? 64 : 84}px`)
+  );
+  slides.push(
+    T('vt', 'outcomes', 'left:30px;font-size:84px') +
+    T('lead', `${p.name} — 과정과 결과`, 'left:150px;top:44px;width:600px') +
+    ['기획', '제작 · 실행', '결과 · 확산'].map((s, k) =>
+      T('stage p', `<b>STAGE ${k + 1}</b><strong>${s}</strong><span class="sm">${p.stages[k]}</span>`, `left:${150 + k * 240}px;top:110px;width:210px`)
+    ).join('') +
+    LH('left:150px;top:300px;width:700px') +
+    p.metrics.map((m, k) =>
+      T('metric', `<div class="num">${p.nums ? p.nums[k] : '[00]'}</div><small>${m} · ${p.units ? p.units[k] : '[단위 / 설명]'}</small>`, `left:${150 + k * 240}px;top:330px;width:210px`)
+    ).join('') +
+    T('p', `<b>배운 점 · 다시 한다면</b><br><span class="sm">${p.learn}</span>`, 'left:150px;top:480px;width:700px') +
+    P('left:880px;top:50px;width:350px;height:300px', '결과물 이미지', p.imgs?.out1, p.imgs?.out1Pos) +
+    P('left:880px;top:370px;width:350px;height:300px', '결과물 이미지', p.imgs?.out2, p.imgs?.out2Pos)
+  );
+  if (p.screens) slides.push(
+    T('vt', 'screens', 'left:30px;font-size:84px') +
+    T('lead', `${p.name} — 주요 화면`, 'left:150px;top:44px;width:900px') +
+    p.screens.map((sc, k) => {
+      const x = 150 + (k % 3) * 365, y = k < 3 ? 92 : 392;
+      return P(`left:${x}px;top:${y}px;width:340px;height:212px`, sc.title, sc.img, 'top center') +
+        T('scap', `<b>${String(k + 1).padStart(2, '0')} ${sc.title}</b>${sc.desc}`, `left:${x}px;top:${y + 220}px;width:340px`);
+    }).join('')
+  );
+  if (p.extra) slides.push(
+    T('vt', 'structure', 'left:30px;font-size:84px') +
+    T('lead', `${p.name} — 코드 구조와 스토리텔링`, 'left:150px;top:44px;width:700px') +
+    T('p st', `<h4>${p.extra.codeH}</h4>` + p.extra.code.map(r => `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join(''), 'left:150px;top:100px;width:520px') +
+    T('p st', `<h4>${p.extra.storyH}</h4>` + p.extra.story.map(r => `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join(''), 'left:710px;top:100px;width:520px') +
+    T('p', `<b>핵심 설계</b><br><span class="sm">${p.extra.core}</span>`, 'left:150px;top:610px;width:1000px')
+  );
+  if (p.code) slides.push(
+    T('vt', 'code', 'left:30px;font-size:84px') +
+    T('lead', `${p.name} — 핵심 코드`, 'left:150px;top:44px;width:900px') +
+    p.code.map((c, k) => T('code', `<b>${c.title}</b><span class="sm">${c.desc}</span><pre>${c.src}</pre>`, `left:${150 + k * 365}px;top:96px;width:340px`)).join('')
+  );
+});
+
+// 6. PROPOSAL TIMELINE
+slides.push(
+  T('vt', 'timeline', 'left:30px;font-size:88px') +
+  T('lead', 'SHOWBITE 작품별 SNS 콘텐츠 운영안 (예시 구조)', 'left:150px;top:44px;width:600px') +
+  T('p', [
+    ['D-8주', '첫 숏폼 · 썸네일', '[작품 한 줄 훅 · 15초 컷 · 썸네일 문구]'],
+    ['D-6주', '인물 · 세계관 카드', '[캐릭터 소개 이미지 시리즈 · 카드뉴스]'],
+    ['D-4주', '참여형 콘텐츠', '[밸런스 게임 · “만약에” 질문 · 댓글 이벤트]'],
+    ['D-1주', '시사 반응 숏폼', '[관객 리액션 · 명대사 클립]'],
+    ['개봉주', '집중 업로드', '[업로드 주기 · 릴스 · 쇼츠 · 틱톡별 포맷]'],
+    ['개봉 후', '아카이빙 · 성과 점검', '[조회 · 저장 · 공유 지표, 콘텐츠 아카이브 정리]']
+  ].map(r => `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join(''), 'left:150px;top:100px;width:720px') +
+  T('lead', '쇼박스 작품 한 편을 정해 숏폼 · 이미지 · 참여형 콘텐츠 일정을 채워 넣으세요.<br><br>[선택한 작품 · 타깃 관객 · 핵심 KPI]', 'left:930px;top:100px;width:290px') +
+  P('left:150px;top:560px;width:720px;height:120px', '썸네일 · 홍보 이미지 시안')
+);
+
+// 7. THANK YOU
+slides.push(
+  R('left:1000px;top:36px') + T('num', '26', 'left:1032px;top:26px;font-size:30px;letter-spacing:-1px') +
+  T('lead', '읽어주셔서 감사합니다.<br>[한 줄 마무리]', 'left:110px;top:140px;width:300px') +
+  T('ht', 'thank<br>you', 'left:560px;top:150px;font-size:96px') +
+  P('left:360px;top:400px;width:520px;height:270px', '마무리 이미지') +
+  T('sm', '박소현<br>sohyeon1628@gmail.com<br>[포트폴리오 · 영상 링크]', 'left:920px;top:560px;width:260px')
+);
+
+const deck = document.getElementById('deck');
+const total = slides.length;
+slides.forEach((html, i) => {
+  const w = document.createElement('div');
+  w.className = 'wrap';
+  w.id = 's' + (i + 1);
+  w.innerHTML = `<div class="fit"><div class="slide">` +
+    T('sm', '박소현 · Portfolio', 'left:40px;top:28px;z-index:2') +
+    html +
+    `<div class="sm a" style="right:40px;top:28px;z-index:2">${String(i + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}</div></div></div>`;
+  deck.appendChild(w);
+});
+
+// 등장 순서: 모든 장이 같은 역할 순서로 등장한다
+const ROLE_DELAY = el =>
+  el.matches('.vt, .ht, .lead') ? 0 :                 // ① 제목
+  el.matches('.ph, .vid, .vid-print, .shotslider') ? 120 :         // ② 사진 · 영상
+  el.matches('.ring, .line-h, .line-v') ? 500 :       // ⑤ 장식
+  240;                                                 // ③ 본문
+deck.querySelectorAll('.slide').forEach(sl => {
+  [...sl.children].forEach(el => el.style.setProperty('--d', ROLE_DELAY(el) + 'ms'));
+  sl.querySelectorAll('.row, .tl, .mr').forEach((r, k) => r.style.setProperty('--d', (360 + Math.min(k, 5) * 50) + 'ms'));   // ④ 표 줄
+});
+
+// 화면 슬라이더: ‹ › 버튼 · 점 · 3.5초 자동 넘김(마우스를 올리면 멈춤, 장이 보일 때만)
+deck.querySelectorAll('.shotslider').forEach(sl => {
+  const imgs = [...sl.querySelectorAll('.ss-view img')], dots = [...sl.querySelectorAll('.ss-dots i')];
+  const cap = sl.querySelector('.ss-cap'), caps = JSON.parse(sl.dataset.caps);
+  let i = 0, timer = null, hover = false;
+  const go = n => { i = (n + imgs.length) % imgs.length; imgs.forEach((im, k) => im.classList.toggle('on', k === i)); dots.forEach((d, k) => d.classList.toggle('on', k === i)); cap.textContent = caps[i]; };
+  const stop = () => { clearInterval(timer); timer = null; };
+  const start = () => { stop(); if (!hover) timer = setInterval(() => go(i + 1), 3500); };
+  sl.querySelector('.prev').addEventListener('click', e => { e.stopPropagation(); go(i - 1); start(); });
+  sl.querySelector('.next').addEventListener('click', e => { e.stopPropagation(); go(i + 1); start(); });
+  dots.forEach((d, k) => d.addEventListener('click', e => { e.stopPropagation(); go(k); start(); }));
+  sl.addEventListener('mouseenter', () => { hover = true; stop(); });
+  sl.addEventListener('mouseleave', () => { hover = false; if (sl.closest('.wrap').classList.contains('in')) start(); });
+  sl._start = start; sl._stop = stop; go(0);
+});
+
+// 점 내비
+const labels = ['Cover', 'About', 'Strengths', 'Projects',
+  ...projects.flatMap(p => (p.group || p.single) ? [p.name] : [p.name, p.name + ' · 결과', ...(p.screens ? [p.name + ' · 화면'] : []), ...(p.extra ? [p.name + ' · 구조'] : []), ...(p.code ? [p.name + ' · 코드'] : [])]), 'Timeline', 'Thank you'];
+const dots = document.getElementById('dots');
+dots.innerHTML = labels.map((l, i) => `<a href="#s${i + 1}" data-l="${l}" aria-label="${l}"></a>`).join('');
+const dotLinks = dots.querySelectorAll('a');
+
+// 슬라이드 진입 시 .in → 모션 재생 (다시 돌아오면 다시 재생)
+const wraps = deck.querySelectorAll('.wrap');
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (!e.isIntersecting && e.target.classList.contains('in')) e.target.classList.add('seen');
+  e.target.classList.toggle('in', e.isIntersecting);
+  e.target.querySelectorAll('video').forEach(v => { if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); });
+  e.target.querySelectorAll('.shotslider').forEach(sl => e.isIntersecting ? sl._start() : sl._stop());
+  if (e.isIntersecting) {
+    const idx = [...wraps].indexOf(e.target);
+    dotLinks.forEach((d, i) => d.classList.toggle('on', i === idx));
+  }
+}), { threshold: 0.55 });
+wraps.forEach(w => io.observe(w));
+
+// 스크롤 진행 바 · 패럴랙스
+const bar = document.getElementById('progress');
+let ticking = false;
+function onScroll() {
+  const vh = innerHeight;
+  const max = document.documentElement.scrollHeight - vh;
+  bar.style.transform = `scaleX(${max > 0 ? scrollY / max : 0})`;
+  wraps.forEach(w => {
+    const r = w.getBoundingClientRect();
+    if (r.bottom < -50 || r.top > vh + 50) return;
+    w.style.setProperty('--p', Math.max(0, Math.min(1, (vh - r.top) / (vh + r.height))).toFixed(3));
+  });
+  ticking = false;
+}
+addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
+
+function fit() {
+  const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+  document.documentElement.style.setProperty('--s', s);
+  onScroll();
+}
+fit();
+window.addEventListener('resize', fit);
+// 인쇄 · PDF: 영상 대신 대표 장면(포스터) 사진을 넣는다(재생 버튼 · 진행 막대가 찍히지 않게)
+function swapVideos(toPrint) {
+  deck.querySelectorAll('video.vid').forEach(v => {
+    let im = v.nextElementSibling && v.nextElementSibling.classList.contains('vid-print') ? v.nextElementSibling : null;
+    if (toPrint) {
+      if (!im) { im = document.createElement('img'); im.className = 'vid-print a'; im.src = v.poster; im.style.cssText = v.style.cssText + ';object-fit:cover;border-radius:6px'; v.after(im); }
+      v.style.display = 'none'; im.style.display = 'block';
+    } else if (im) { im.style.display = 'none'; v.style.display = ''; }
+  });
+}
+window.addEventListener('beforeprint', () => { document.documentElement.style.setProperty('--s', 1); swapVideos(true); });
+window.addEventListener('afterprint', () => { swapVideos(false); fit(); });
+
+const pick = document.getElementById('pick');
+let target = null;
+deck.addEventListener('click', e => {
+  const ph = e.target.closest('.ph');
+  if (ph) { target = ph; pick.click(); }
+});
+pick.addEventListener('change', () => {
+  const f = pick.files[0];
+  if (!f || !target) return;
+  const r = new FileReader();
+  r.onload = () => {
+    target.style.backgroundImage = `url(${r.result})`;
+    target.classList.add('has-img');
+    pick.value = '';
+  };
+  r.readAsDataURL(f);
+});
+</script>
+</body>
+</html>
