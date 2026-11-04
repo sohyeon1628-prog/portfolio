@@ -196,7 +196,7 @@ const projects = [
     lead: '취재 · 녹취 · 팩트체크 · 기사 작성 · SNS 변환 · 보관을 기사 ID 하나로 잇는 로컬 설치형 AI 뉴스룸 앱입니다.',
     bg: '기자가 기사 한 건을 내보내기까지 오가는 여러 프로그램을 하나의 작업 공간으로 묶었습니다. 팀에서 저는 팀원들이 만든 화면을 하나의 앱으로 묶는 <b>프론트엔드 통합 책임</b>을 맡았고, <b>녹취를 글로 바꾸는 STT</b>와 녹취 · 콘텐츠 변환 화면을 직접 만들었습니다.',
     skill: '기사 하나를 SNS · 카드뉴스로 바꾸는 변환 화면과 여러 사람의 작업을 하나로 묶은 협업 경험 — SHOWBITE 작품별 SNS 콘텐츠 제작 흐름과 연결',
-    shotsH: 239,
+    shotsH: 290,
     shots: [
       { src: 'assets/ainews/writer.jpg', title: '기사 작성', desc: '제목 · 부제 · 본문 작성과 AI 제안, 사진 편집' },
       { src: 'assets/ainews/interview.jpg', title: '오디오 전사 · AI 요약', desc: '내 담당 — CLOVA Speech 녹취, 화자 편집 · 형광펜' },
@@ -391,12 +391,12 @@ projects.forEach((p, i) => {
   if (p.single) {
     slides.push(
       (p.video
-        ? `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:130px;width:560px;height:315px"></video>` + T('sm', p.video.caption, 'left:70px;top:453px;width:560px') + T('p', meta, 'left:70px;top:483px;width:560px')
+        ? `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:160px;width:560px;height:315px"></video>` + T('sm', p.video.caption, 'left:70px;top:485px;width:560px') + T('p', meta, 'left:70px;top:520px;width:560px')
         : p.shots
-          ? `<div class="shotslider a" style="left:90px;top:130px;width:500px" data-caps="${JSON.stringify(p.shots.map((sh, k) => `${String(k + 1).padStart(2, '0')} / ${String(p.shots.length).padStart(2, '0')} · ${sh.title} — ${sh.desc}`)).replace(/"/g, '&quot;')}"><div class="ss-view" style="height:${p.shotsH || 313}px">${p.shots.map((sh, k) => `<img src="${sh.src}" alt="${sh.title}"${k ? '' : ' class="on"'}>`).join('')}<button type="button" class="ss-btn prev" aria-label="이전 화면">‹</button><button type="button" class="ss-btn next" aria-label="다음 화면">›</button></div><div class="ss-bar"><span class="ss-cap"></span><span class="ss-dots">${p.shots.map(() => '<i></i>').join('')}</span></div></div>` + T('p', meta, `left:70px;top:${130 + (p.shotsH || 313) + 38}px;width:560px`)
-          : P('left:70px;top:130px;width:560px;height:350px', '메인 화면', p.shot.src, 'center') + T('sm', p.shot.caption, 'left:70px;top:488px;width:560px') + T('p', meta, 'left:70px;top:518px;width:560px')) +
-      T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:70px;top:50px;width:560px') +
-      T('ht', p.name, 'left:68px;top:74px;width:560px;font-size:40px;letter-spacing:-1.5px') +
+          ? `<div class="shotslider a" style="left:70px;top:160px;width:560px" data-caps="${JSON.stringify(p.shots.map((sh, k) => `${String(k + 1).padStart(2, '0')} / ${String(p.shots.length).padStart(2, '0')} · ${sh.title} — ${sh.desc}`)).replace(/"/g, '&quot;')}"><div class="ss-view" style="height:${p.shotsH || 300}px">${p.shots.map((sh, k) => `<img src="${sh.src}" alt="${sh.title}"${k ? '' : ' class="on"'}>`).join('')}<button type="button" class="ss-btn prev" aria-label="이전 화면">‹</button><button type="button" class="ss-btn next" aria-label="다음 화면">›</button></div><div class="ss-bar"><span class="ss-cap"></span><span class="ss-dots">${p.shots.map(() => '<i></i>').join('')}</span></div></div>` + T('p', meta, `left:70px;top:${160 + (p.shotsH || 300) + 56}px;width:560px`)
+          : P('left:70px;top:160px;width:560px;height:330px', '메인 화면', p.shot.src, 'center') + T('sm', p.shot.caption, 'left:70px;top:488px;width:560px') + T('p', meta, 'left:70px;top:518px;width:560px')) +
+      T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:70px;top:46px;width:560px') +
+      T('ht', p.name, 'left:68px;top:72px;width:560px;font-size:40px;letter-spacing:-1.5px') +
       T('sm', p.sub, 'left:670px;top:84px;width:460px;font-size:12px;font-weight:700;color:#444') +
       T('lead', p.lead, 'left:670px;top:110px;width:440px') +
       T('p', p.bg, 'left:670px;top:180px;width:440px') +
