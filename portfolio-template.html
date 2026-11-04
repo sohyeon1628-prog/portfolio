@@ -257,9 +257,9 @@ const projects = [
     ] },
   { n: '01', name: '콘텐츠 제작', sub: '60초 단편영화 · 단편영화 · 라이브커머스', cat: '영상 · 방송',
     lead: '60초 브랜드 영상, 단편영화, 라이브커머스 방송을 직접 기획 · 제작하며, 짧은 시간 안에 메시지를 전하고 화면 너머 관객의 반응을 끌어내는 법을 익혔습니다.',
-    bg: '<b>60초 단편영화</b> — 신한은행 주최 [대회명] 출품작. [핵심 메시지]를 [콘셉트]로 풀고 [맡은 일]을 담당했습니다.<br><b style="display:inline-block;margin-top:8px">단편영화</b> — [로그라인 · 장르]의 단편영화에서 <b>[내 역할]</b>을 맡아 한정된 일정과 인원 안에서 완성했습니다.<br><b style="display:inline-block;margin-top:8px">라이브커머스</b> — [대회명] 출품작. [상품]을 소개하는 라이브 방송을 기획하고 [진행 · 촬영 등 맡은 일]을 담당했습니다.',
+    bg: '<b>60초 단편영화</b> — 신한은행 주최 [대회명] 출품작. [핵심 메시지]를 [콘셉트]로 풀었고, <b>기획 · 스토리보드 작성 · 로케 · 촬영 · 편집</b>을 맡았습니다.<br><b style="display:inline-block;margin-top:8px">단편영화</b> — [로그라인 · 장르]의 단편영화에서 <b>시나리오 작성 · 촬영 · 편집</b>을 맡고 배우로도 출연해 한정된 일정과 인원 안에서 완성했습니다.<br><b style="display:inline-block;margin-top:8px">라이브커머스</b> — [대회명] 출품작. [상품]을 소개하는 라이브 방송을 기획하고 [진행 · 촬영 등 맡은 일]을 담당했습니다.',
     skill: '짧은 영상 기획 · 편집, 영화 제작, 라이브 방송 진행 — SHOWBITE 숏폼 제작 · 편집과 SNS 채널에서 관객과 소통하는 일로 연결',
-    stages: ['작품마다 전할 메시지 하나와 타깃을 먼저 정하고, 60초 구성안 · 시나리오 · 방송 큐시트를 만들었습니다.', '핵심 컷에 집중해 [촬영 · 편집]하고, 라이브 방송에서는 [홍보 방법]으로 시청자를 모아 채팅으로 소통했습니다.', '[조회수 · 심사 피드백], [상영 · 관객 반응], [시청자 수 · 참여도]를 정리했습니다. (수상이 없다면 수상처럼 보이는 표현은 쓰지 않습니다)'],
+    stages: ['작품마다 전할 메시지 하나와 타깃을 먼저 정하고, 60초 구성안 · 시나리오 · 방송 큐시트를 만들었습니다.', '두 영화는 스토리보드 · 시나리오부터 직접 쓰고 핵심 컷에 집중해 촬영 · 편집했고, 라이브 방송에서는 [홍보 방법]으로 시청자를 모아 채팅으로 소통했습니다.', '[조회수 · 심사 피드백], [상영 · 관객 반응], [시청자 수 · 참여도]를 정리했습니다. (수상이 없다면 수상처럼 보이는 표현은 쓰지 않습니다)'],
     metrics: ['조회 · 시청자 수', '심사 · 관객 반응', '제작한 영상 작품'],
     nums: ['[00]', '[00]', '3'],
     units: ['[단위 / 설명]', '[단위 / 설명]', '60초 영상 · 단편영화 · 라이브 방송'],
@@ -274,7 +274,7 @@ const projects = [
         period: '2026.08', tech: 'HTML · CSS · JS', gh: 'https://github.com/sohyeon1628-prog/0826',
         link: '<a href="https://sohyeon1628-prog.github.io/0826/" target="_blank" rel="noopener" style="color:var(--g)">사이트 보기</a>',
         imgs: { card: 'assets/shop/main.jpg', cardPos: 'top center' } },
-      { name: '영화 사이트 (MEGABOX)', lead: '기존 메가박스 사이트를 각색하고 AI를 붙여, 오늘의 기분을 적으면 감정을 읽고 영화를 추천해 주는 기능을 더했습니다.',
+      { name: '영화 사이트 (MEGABOX)', role: '개인 작업 — 기획부터 개발까지 전 과정', lead: '기존 메가박스 사이트를 각색하고 AI를 붙여, 오늘의 기분을 적으면 감정을 읽고 영화를 추천해 주는 기능을 더했습니다.',
         desc: '감정 입력 → 영화 · 위로 한마디 추천, 박스오피스(KOBIS) · 포스터(TMDB) 연동',
         point: '영화를 고르는 기준을 “지금 내 기분”까지 넓힌 추천',
         period: '2026.09', tech: 'React · Router · KOBIS / TMDB API',
@@ -363,7 +363,7 @@ projects.forEach((p, i) => {
       p.group.map((g, k) => {
         const x = x0 + k * (W + GAP);
         return P(`left:${x}px;top:168px;width:${W}px;height:165px`, g.name + ' 화면', g.imgs?.card, g.imgs?.cardPos || 'top center') +
-          T('p webc', `<b style="display:block;text-align:center;font-size:17px;font-weight:900;margin-bottom:6px">${g.name}</b><span class="sm">${g.lead}</span><span class="k">주요 기능</span><span class="sm">${g.desc}</span><span class="k">보여준 점</span><span class="sm">${g.point}</span><span class="meta">${g.period || '[기간]'} · ${g.tech || '[사용 기술]'}<br>${g.link || '[사이트 링크]'}${g.gh ? ` · <a href="${g.gh}" target="_blank" rel="noopener">${g.gh.replace('https://', '')}</a>` : ''}</span>`, `left:${x}px;top:345px;width:${W}px;text-align:left`);
+          T('p webc', `<b style="display:block;text-align:center;font-size:17px;font-weight:900;margin-bottom:6px">${g.name}</b><span class="sm">${g.lead}</span><span class="k">주요 기능</span><span class="sm">${g.desc}</span><span class="k">보여준 점</span><span class="sm">${g.point}</span><span class="meta">${g.role ? g.role + '<br>' : ''}${g.period || '[기간]'} · ${g.tech || '[사용 기술]'}<br>${g.link || '[사이트 링크]'}${g.gh ? ` · <a href="${g.gh}" target="_blank" rel="noopener">${g.gh.replace('https://', '')}</a>` : ''}</span>`, `left:${x}px;top:345px;width:${W}px;text-align:left`);
       }).join('')
     );
     return;
