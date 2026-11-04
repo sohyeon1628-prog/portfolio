@@ -107,7 +107,7 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 .gh svg { width: 10px; height: 10px; }
 .gh:hover { background: #1F2EC0; }
 .wrap:not(.in) .slide > .gh { opacity: 0; translate: 0 var(--rise); }
-.cv h4.skh2 { margin-top: 20px; padding-top: 10px; border-top: 2px solid #111; font-size: 12px; }
+.cv h4.skh2 { margin-top: 14px; padding-top: 8px; border-top: 2px solid #111; font-size: 12px; }
 .cv .tl.sk { border-top: 0; padding: 3px 0; gap: 20px; }
 .cv .tl.sk b { width: 70px; color: #111; font-weight: 800; font-size: 12px; }
 .cv .tl.sk span { flex: 1; font-size: 12px; color: #666; line-height: 1.7; }
@@ -116,7 +116,7 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 .cv .tl.sk em { font-style: normal; color: #c4c4c4; margin: 0 7px; }
 .cv h4 { font-size: 11px; font-weight: 800; color: var(--g); margin: 8px 0 2px; letter-spacing: .02em; }
 .cv h4:first-child { margin-top: 0; }
-.cv .tl { padding: 4px 0; }
+.cv .tl { padding: 3px 0; }
 .cv .tl b { width: 150px; font-weight: 600; color: #444; white-space: nowrap; }
 .cv .tl i { width: 235px; }
 .cv .tl i.wide { width: auto; flex: 1; white-space: nowrap; }
@@ -332,7 +332,7 @@ slides.push(
 
 const SKILLS = [
   ['콘텐츠 제작', 'CONTENT', 1, [['영상 기획 · 편집', 1], ['Premiere Pro', 1], ['스토리텔링 · 세계관 기획', 1], ['촬영 · 조명 · 사운드', 0], ['광고 기획 · 카피', 0], ['기사 작성', 0], ['단편영화 제작', 0], ['라이브커머스 영상 제작', 0], ['참여형 콘텐츠 기획', 0], ['카드뉴스 · SNS 원고', 0]]],
-  ['생성형 AI', 'AI', 0, [['Claude', 1], ['OpenAI API (이미지)', 1], ['ChatGPT', 0], ['Gemini', 0], ['CLOVA Speech', 0]]],
+  ['생성형 AI', 'AI', 0, [['Claude', 1], ['OpenAI API (이미지)', 1], ['ChatGPT', 0], ['Gemini', 0], ['AI 영상 제작 (일관성 유지)', 1], ['CLOVA Speech', 0]]],
   ['개발', 'DEV', 0, [['React · Three.js', 1], ['HTML / CSS / JS', 0], ['Node.js · Express', 0], ['SQLite · Supabase', 0], ['GitHub Actions', 0], ['Render 배포', 0]]]
 ];
 const SKILLS_HTML = SKILLS.map(([h, en, main, xs]) => `<div class="tl sk"><b>${h}</b><span>${xs.map(([x, hi], k) => `<i class="it">${hi ? `<strong>${x}</strong>` : x}${k < xs.length - 1 ? '<em>·</em>' : ''}</i>`).join(' ')}</span></div>`).join('');
@@ -348,16 +348,16 @@ slides.push(
     '<h4>학력 · 교육</h4>' +
     [['2021.03 – 2026.02', '[대학교명] 미디어커뮤니케이션학과', '졸업 (4년제) &nbsp;|&nbsp; 광고 기획 · 카피 · 기사 작성 · 시나리오 · 촬영(짐벌) · 조명 · 사운드 · 편집', 1], ['2026.07.06 – 2026.11.13', '[동아일보 그룹] 생성형 AI 마스터 클래스 (콘텐츠 플랫폼 개발)', 'MBC아카데미 KDT · 수료 예정 &nbsp;|&nbsp; AI 영상 · 기사 자동화 · 웹서비스', 1]].map(r => r[3] ? `<div class="tl"><b>${r[0]}</b><i class="wide">${r[1]}<span>${r[2]}</span></i></div>` : `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join('') +
     '<h4>대회 · 활동</h4>' +
-    [['[YYYY.MM]', '신한은행 주최 [대회명]', '60초 단편영화 출품'], ['[YYYY.MM]', '[대회명]', '라이브커머스 영상 제작 출품'], ['[YYYY.MM]', '코삭 2회 (도박, 청도)', '[맡은 역할 · 결과]'], ['[YYYY.MM – YYYY.MM]', '촬영 동아리', '[확인 필요: 활동 내용]']].map(r => `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join('') +
+    [['[YYYY.MM]', '신한은행 주최 [대회명]', '60초 단편영화 출품'], ['[YYYY.MM]', '[대회명]', '라이브커머스 영상 제작 출품'], ['[YYYY.MM]', '코삭 2회 (도박, 청도)', '[맡은 역할 · 결과]'], ['[YYYY.MM – YYYY.MM]', '촬영 동아리', '[확인 필요: 활동 내용]'], ['[YYYY.MM – ]', '<a href="https://www.youtube.com/channel/UCsEygxpdE-pjkuL_9a_IN_w" target="_blank" rel="noopener" style="color:inherit">YouTube · SHOW-HYUN</a>', 'AI 영상 제작 방법 학습 (일관성 유지 등)']].map(r => `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join('') +
     '<h4 class="skh2">Skills &amp; Tools</h4>' + SKILLS_HTML + '',
-    'left:470px;top:200px;width:640px') +
+    'left:470px;top:192px;width:640px') +
   T('vt', 'about me', 'right:30px')
 );
 
 // 3. STRENGTHS
 slides.push(
   T('big', '영상 제작의 전 과정을 학과에서 배우고 작품으로 만들어 봤으며, 이야기 하나를 여러 콘텐츠로 넓히는 기획을 해 봤고, AI를 활용해 서비스를 만들며 팀 작업을 하나의 앱으로 통합해 봤습니다.', 'left:150px;top:80px;width:600px') +
-  [['영상 제작 전 과정', '60초 단편영화 · 단편영화', '학과에서 기획 · 시나리오 · 촬영 · 조명 · 사운드 · 편집을 배우고 두 편을 직접 제작'], ['작품별 콘텐츠 기획', '나루 우체국 · 만약에', '이야기 하나를 게임 · 그림일기 서비스로 기획해 배포'], ['AI 활용 · 협업', 'AI NEWSROOM · 만약에', 'AI로 서비스를 만들고, 팀이 만든 화면을 하나의 앱으로 통합']].map((s, i) =>
+  [['영상 제작 전 과정', '60초 단편영화 · 단편영화', '학과에서 기획 · 시나리오 · 촬영 · 조명 · 사운드 · 편집을 배우고 두 편을 직접 제작'], ['작품별 콘텐츠 기획', '나루 우체국 · 만약에', '이야기 하나를 게임 · 그림일기 서비스로 기획해 배포'], ['AI 활용 · 협업', 'AI NEWSROOM · 만약에 · SHOW-HYUN', 'AI로 서비스를 만들고 AI 영상 제작법을 익힘, 팀 화면을 하나의 앱으로 통합']].map((s, i) =>
     P(`left:${150 + i * 200}px;top:360px;width:170px;height:200px`, '이미지') +
     T('p', `<b>${s[0]}</b><br><span class="sm">${s[1]}<br>${s[2]}</span>`, `left:${150 + i * 200}px;top:575px;width:170px`)
   ).join('') +
