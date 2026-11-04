@@ -100,6 +100,11 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 .hl .k { color: #666; margin-top: 0; }
 .hl .sm { margin-bottom: 0; font-size: 14.5px; font-weight: 700; line-height: 1.55; color: #111; }
 .hl .sub { display: block; margin-top: 7px; font-size: 11.5px; line-height: 1.5; color: #666; }
+.story5 { display: flex; margin: 2px 0 12px; }
+.story5 > div { flex: 1; position: relative; padding: 10px 8px 0 0; border-top: 2px solid #111; }
+.story5 > div::before { content: ''; position: absolute; top: -5px; left: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--g); }
+.story5 b { display: block; font-size: 13px; font-weight: 900; color: #111; letter-spacing: -.3px; }
+.story5 span { display: block; margin-top: 4px; font-size: 10.5px; line-height: 1.45; color: #666; word-break: keep-all; }
 .st3 { display: flex; gap: 18px; margin: 2px 0 4px; }
 .st3 > div { flex: 1; border-top: 2px solid #111; padding-top: 8px; }
 .st3 b { display: block; font-size: 30px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; color: #111; }
@@ -254,18 +259,20 @@ const RICH_AINEWS = `
 
 // 나루 우체국 · 만약에 오른쪽 본문 (AI NEWSROOM과 같은 구조: 숫자 → 표 → 내가 한 일 → 회색 박스)
 const RICH_NARU = `
-<div class="st3">
-  <div><b>4통</b><span>부치지 못한 편지<br>어머니 · 친구 · 자녀 · 반려견</span></div>
-  <div><b>3편</b><span>3D 연출 영상<br>오프닝 · 에필로그 · 병 편지</span></div>
-  <div><b>42</b><span>개발 커밋<br>10월 말 – 11월 초</span></div>
+<span class="k">하나의 게임에 담은 이야기</span>
+<div class="story5">
+  <div><b>오프닝</b><span>바람길 세계관</span></div>
+  <div><b>섬마다 편지</b><span>섬 하나에 사연 하나</span></div>
+  <div><b>복선</b><span>“맨 밑 주머니”</span></div>
+  <div><b>에필로그</b><span>해무의 비밀 회수</span></div>
+  <div><b>내 편지</b><span>직접 써서 보냄</span></div>
 </div>
-<span class="k">이야기 → 플레이 설계</span>
-<div class="qa"><i>“부치지 못한 편지 네 통”</i><b>네 섬 · 네 사연</b></div>
-<div class="qa"><i>“맨 밑 주머니는 열지 말게”</i><b>에필로그에서 회수하는 복선</b></div>
+<span class="k">이야기를 플레이로 옮긴 방법</span>
 <div class="qa"><i>사연이 무거워질수록</i><b>바람이 거세지는 비행</b></div>
+<div class="qa"><i>실패해도</i><b>체크포인트로 이야기가 끊기지 않음</b></div>
 <span class="k">내가 한 일</span>
 <div class="do"><b>기획 · 스토리</b><span>세계관 · 인물 · 복선 설계</span></div>
-<div class="do"><b>개발 · 배포</b><span>3D 비행 화면 · 편지 쓰기와 보내기 · 도착 영상 · 신고 · 관리자 화면 · 서버</span></div>
+<div class="do"><b>개발 · 배포</b><span>3D 비행 화면 · 편지 쓰기와 보내기 · 도착 영상 · 서버</span></div>
 <div class="hl"><span class="k">기획 의도</span><span class="sm">하나의 이야기를 웹 경험으로 녹여, <b style="color:var(--g)">“아끼는 사람에게 오늘 안부를 전하자”</b>는 메시지를 플레이로 전했습니다.</span><span class="sub">파생 — 작품 하나를 인물 소개 · 명장면 · 비하인드 SNS 시리즈로 확장</span></div>`;
 
 const RICH_MANYAK = `
