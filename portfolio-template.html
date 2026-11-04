@@ -310,14 +310,12 @@ slides.push(
   T('lead', '영화 한 편을 숏폼 · 이미지 · SNS 콘텐츠로 넓혀 관객에게 닿게 하는 사람', 'left:470px;top:80px;width:600px') +
   T('p', '단편영화 · 60초 영상을 직접 기획하고 편집했고, 게임과 웹서비스로 이야기를 설계해 봤습니다. 쇼박스 작품의 이야기를 SHOWBITE의 숏폼과 이미지 콘텐츠로 넓혀, 극장 밖에서도 관객이 작품을 만나게 하고 싶습니다.', 'left:470px;top:115px;width:600px') +
   T('p cv',
-    '<h4>경력</h4>' +
-    [['[YYYY.MM – YYYY.MM]', '[회사 · 기관]', '[직무 · 맡은 일 한 줄]'], ['[YYYY.MM – YYYY.MM]', '[회사 · 기관]', '[직무 · 맡은 일 한 줄]']].map(r => `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join('') +
     '<h4>학력 · 교육</h4>' +
     [['2021.03 – 2026.02', '[대학교명] 미디어커뮤니케이션학과', '졸업 (4년제)'], ['[YYYY.MM]', '[수료 과정]', '[배운 내용 한 줄]']].map(r => `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join('') +
     '<h4>대회 · 활동</h4>' +
     [['[YYYY.MM]', '신한은행 주최 [대회명]', '60초 단편영화 출품'], ['[YYYY.MM]', '[대회명]', '라이브커머스 기획 · 진행 출품'], ['[YYYY.MM]', '코삭 2회 (도박, 청도)', '[맡은 역할 · 결과]']].map(r => `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join('') +
-    '<h4>Tools</h4><span class="sm" style="font-size:12px;color:#444"><b>화면</b> React · Three.js(3D) · Vite &nbsp;/&nbsp; <b>서버</b> Node.js · Express · SQLite · Supabase &nbsp;/&nbsp; <b>AI</b> Claude · Gemini · ChatGPT · OpenAI API(이미지 생성) &nbsp;/&nbsp; <b>배포</b> Render · GitHub Actions</span>',
-    'left:470px;top:190px;width:640px') +
+    '<h4>Tools</h4><span style="display:flex;gap:10px;font-size:12px;color:#444;line-height:1.6;margin-bottom:4px"><b style="flex-shrink:0;width:30px;color:var(--g)">영상</b><span>Adobe Premiere Pro</span></span><span style="display:flex;gap:10px;font-size:12px;color:#444;line-height:1.6;margin-bottom:4px"><b style="flex-shrink:0;width:30px;color:var(--g)">개발</b><span><b>화면</b> React · Three.js(3D) · Vite &nbsp;/&nbsp; <b>서버</b> Node.js · Express · SQLite · Supabase &nbsp;/&nbsp; <b>AI</b> Claude · Gemini · ChatGPT · OpenAI API(이미지 생성) &nbsp;/&nbsp; <b>배포</b> Render · GitHub Actions</span></span>',
+    'left:470px;top:212px;width:640px') +
   T('vt', 'about me', 'right:30px')
 );
 
