@@ -139,11 +139,11 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 .pidx i { font-style: normal; margin-right: 6px; font-size: 10px; letter-spacing: .04em; }
 .slide .pidx a.on:not(.gh) { color: var(--g) !important; font-weight: 800; }
 .slide .pidx a.on:not(.gh)::after { content: ''; position: absolute; left: -3px; right: -3px; bottom: 0; height: 3px; background: var(--g); border-radius: 3px; transform: rotate(-1.2deg); opacity: .9; }
-.pbar { display: flex; align-items: center; gap: 12px; padding-top: 9px; border-top: 1px solid #e6e6e6; white-space: nowrap; z-index: 3; }
+.pbar { display: inline-flex; align-items: center; gap: 12px; padding-top: 9px; border-top: 1px solid #e6e6e6; white-space: nowrap; z-index: 3; }
 .pbar .np { font-size: 9.5px; font-weight: 800; letter-spacing: .14em; color: var(--g); }
 .pbar .np::before { content: '▶'; margin-right: 6px; font-size: 8px; }
 .pbar .cur { font-size: 12px; font-weight: 800; color: #111; letter-spacing: -.2px; }
-.pbar .eps { display: flex; gap: 6px; margin-left: auto; }
+.pbar .eps { display: flex; gap: 6px; margin-left: 10px; }
 .slide .pbar a:not(.gh) { padding: 3px 10px; border: 1px solid #dcdcdc; border-radius: 999px; background-image: none; color: #9a9a9a !important; font-size: 10px; font-weight: 700; letter-spacing: .04em; text-decoration: none; transition: color .2s, border-color .2s; }
 .slide .pbar a:not(.gh):hover { color: #111 !important; border-color: #111; background-color: transparent; }
 .slide .pbar a.on:not(.gh) { background: var(--g); border-color: var(--g); color: #fff !important; }
@@ -250,7 +250,7 @@ const LOOP = (st, cls) => DOOD(660, 156, ['M96.6 99.5 L89.8 97.1 L83.7 94.7 L78.
 const ARROW_DN = st => DOOD(190, 76, ['M6 8 C92 0 152 16 152 60', 'M152 66 L143 49', 'M152 66 L165 51'], st);
 const BRUSH = (w, st) => DOOD(w, 14, [`M3 8 C${w * .25} 3 ${w * .55} 11 ${w - 3} 5`], st, 'brush');
 // 하단 NOW PLAYING 바: 현재 에피소드 이름 + EP 칩(현재만 파란색), 누르면 해당 슬라이드로 이동 (프로젝트 슬라이드는 5번부터 한 장씩)
-const IDX = (cur) => `<nav class="pbar a" style="left:70px;top:680px;width:1040px"><span class="np">NOW PLAYING</span><span class="cur">EP.${String(cur + 1).padStart(2, '0')} ${projects[cur].short || projects[cur].name}</span><span class="eps">${projects.map((q, k) => `<a href="#s${5 + k}" title="${q.name}"${k === cur ? ' class="on"' : ''}>EP.${String(k + 1).padStart(2, '0')}</a>`).join('')}</span></nav>`;
+const IDX = (cur) => `<nav class="pbar a" style="left:70px;top:680px"><span class="np">NOW PLAYING</span><span class="cur">EP.${String(cur + 1).padStart(2, '0')} ${projects[cur].short || projects[cur].name}</span><span class="eps">${projects.map((q, k) => `<a href="#s${5 + k}" title="${q.name}"${k === cur ? ' class="on"' : ''}>EP.${String(k + 1).padStart(2, '0')}</a>`).join('')}</span></nav>`;
 const SPARK_UR = st => DOOD(40, 40, ['M10 30 L18 22', 'M9 19 L12 6', 'M21 33 L34 29'], st);
 const SPARK_UL = st => DOOD(40, 40, ['M30 30 L22 22', 'M31 19 L28 6', 'M19 33 L6 29'], st);
 const WAVE = (w, st) => DOOD(w, 12, [`M2 7 C${w * .15} 1 ${w * .25} 12 ${w * .38} 6 S${w * .6} 1 ${w * .72} 7 S${w * .9} 10 ${w - 2} 4`], st);
