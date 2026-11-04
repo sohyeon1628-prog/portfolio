@@ -133,6 +133,10 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 .shotslider .ss-btn:hover { opacity: 1; }
 .shotslider .ss-btn.prev { left: 14px; } .shotslider .ss-btn.next { right: 14px; }
 .shotslider .ss-btn { background: rgba(255,255,255,.92); box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+/* 평소엔 자동 슬라이드, 마우스를 올리면(또는 키보드로 닿으면) 화살표가 나타나고 멈춘다 */
+.shotslider .ss-btn { opacity: 0; pointer-events: none; transition: opacity .25s ease; }
+.shotslider:hover .ss-btn, .shotslider:focus-within .ss-btn { opacity: .95; pointer-events: auto; }
+@media (hover: none) { .shotslider .ss-btn { opacity: .85; pointer-events: auto; } }
 .shotslider .ss-bar { display: flex; justify-content: space-between; align-items: center; margin-top: 9px; font-size: 10.5px; color: var(--mute); }
 .shotslider .ss-dots { display: flex; gap: 5px; }
 .shotslider .ss-dots i { display: block; width: 6px; height: 6px; border-radius: 3px; background: #ccc; cursor: pointer; transition: width var(--fast) var(--e), background var(--fast); }
