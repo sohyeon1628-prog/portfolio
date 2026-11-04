@@ -96,6 +96,9 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 
 .mr { display: flex; gap: 16px; border-top: 1px solid #ddd; padding: 8px 0; font-size: 13px; }
 .mr b { width: 56px; font-weight: 700; flex-shrink: 0; }
+.hl { margin: 4px 0 16px; padding: 12px 16px; background: #eff1ff; border-left: 3px solid var(--g); border-radius: 0 8px 8px 0; }
+.hl .k { margin-top: 0; }
+.hl .sm { margin-bottom: 0; font-size: 14.5px; font-weight: 700; line-height: 1.55; color: #111; }
 .brief .k { margin-top: 0; }
 .brief .sm { font-size: 14px; line-height: 1.6; color: #222; margin-bottom: 22px; }
 .mv { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; row-gap: 7px; padding-top: 9px; border-top: 1px solid #ddd; }
@@ -482,9 +485,9 @@ projects.forEach((p, i) => {
       T('lead', p.lead, 'left:670px;top:152px;width:440px') +
       T('p mv', infoRows, 'left:670px;top:226px;width:440px') +
       (p.brief
-        ? T('p webc brief', p.brief.filter(h => h[0] !== '역할' && h[0] !== '사용 툴').map(h => `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join(''), 'left:670px;top:352px;width:440px')
+        ? T('p webc brief', p.brief.filter(h => h[0] !== '역할' && h[0] !== '사용 툴').map(h => h[0] === '기획 의도' ? `<div class="hl"><span class="k">${h[0]}</span><span class="sm">${h[1]}</span></div>` : `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join(''), 'left:670px;top:352px;width:440px')
         : T('p', p.bg, 'left:670px;top:300px;width:440px') +
-          T('p webc', p.highlights.map(h => `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join('') + `<span class="k" style="margin-top:14px">이 프로젝트로 보여줄 점</span><span class="sm">${p.skill}</span>`, 'left:670px;top:410px;width:440px')) +
+          T('p webc', p.highlights.map(h => `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join('') + `<div class="hl" style="margin-top:18px"><span class="k">이 프로젝트로 보여줄 점</span><span class="sm">${p.skill}</span></div>`, 'left:670px;top:410px;width:440px')) +
       T('vt', p.name, `right:30px;font-size:${small ? 64 : 84}px`)
     );
     return;
