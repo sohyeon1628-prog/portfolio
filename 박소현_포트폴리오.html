@@ -101,6 +101,12 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 .hl .sm { margin-bottom: 0; font-size: 14.5px; font-weight: 700; line-height: 1.55; color: #111; }
 .brief .k { margin-top: 0; }
 .brief .sm { font-size: 14px; line-height: 1.6; color: #222; margin-bottom: 22px; }
+.pidx { display: flex; justify-content: center; gap: 26px; font-size: 10.5px; font-weight: 600; color: #a8a8a8; white-space: nowrap; z-index: 3; }
+.slide .pidx a:not(.gh) { position: relative; color: #a8a8a8 !important; font-weight: 600; text-decoration: none; background-image: none; padding: 0 0 5px; transition: color .2s; }
+.slide .pidx a:not(.gh):hover { color: #555 !important; background-color: transparent; }
+.pidx i { font-style: normal; margin-right: 5px; font-size: 9px; letter-spacing: .04em; }
+.slide .pidx a.on:not(.gh) { color: var(--g) !important; font-weight: 800; }
+.slide .pidx a.on:not(.gh)::after { content: ''; position: absolute; left: -3px; right: -3px; bottom: 0; height: 3px; background: var(--g); border-radius: 3px; transform: rotate(-1.2deg); opacity: .9; }
 .mv { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; row-gap: 7px; padding-top: 9px; border-top: 1px solid #ddd; }
 .mv .mr { display: block; padding: 0; border-top: 0; }
 .mv .mr.wide { grid-column: 1 / -1; }
@@ -203,6 +209,8 @@ const OVAL = (st, cls) => DOOD(320, 120, ['M47.8 72.1 L44.7 68.9 L42.4 65.7 L40.
 const LOOP = (st, cls) => DOOD(660, 156, ['M96.6 99.5 L89.8 97.1 L83.7 94.7 L78.5 92.1 L74.0 89.5 L70.4 86.9 L67.7 84.2 L65.8 81.4 L64.7 78.7 L64.6 75.9 L65.3 73.1 L66.9 70.4 L69.4 67.6 L72.7 64.9 L76.9 62.2 L82.0 59.5 L87.9 56.9 L94.6 54.4 L102.1 51.9 L110.4 49.6 L119.4 47.3 L129.2 45.1 L139.6 43.0 L150.7 41.0 L162.3 39.2 L174.6 37.5 L187.4 35.9 L200.6 34.5 L214.3 33.2 L228.4 32.0 L242.8 31.0 L257.6 30.2 L272.5 29.5 L287.7 28.9 L303.0 28.6 L318.4 28.4 L333.9 28.3 L349.3 28.4 L364.7 28.7 L380.0 29.1 L395.1 29.7 L410.0 30.5 L424.7 31.4 L439.0 32.4 L453.1 33.6 L466.7 34.9 L479.9 36.4 L492.6 38.0 L504.8 39.8 L516.5 41.6 L527.6 43.6 L538.1 45.7 L547.9 47.9 L557.0 50.2 L565.4 52.6 L573.1 55.1 L580.0 57.7 L586.1 60.3 L591.4 63.0 L595.9 65.8 L599.5 68.6 L602.3 71.5 L604.2 74.3 L605.2 77.3 L605.4 80.2 L604.6 83.2 L603.0 86.1 L600.5 89.0 L597.1 92.0 L592.8 94.9 L587.6 97.7 L581.6 100.5 L574.8 103.3 L567.1 106.0 L558.6 108.7 L549.4 111.2 L539.4 113.7 L528.7 116.0 L517.3 118.3 L505.3 120.5 L492.6 122.5 L479.4 124.4 L465.6 126.1 L451.4 127.7 L436.7 129.2 L421.6 130.5 L406.2 131.6 L390.5 132.6 L374.6 133.4 L358.5 134.0 L342.2 134.5 L325.9 134.7 L309.6 134.8 L293.3 134.6 L277.1 134.3 L261.1 133.8 L245.3 133.1 L229.8 132.2 L214.5 131.1 L199.7 129.8 L185.2 128.4 L171.2 126.7 L157.8 124.9 L144.9 123.0 L132.6 120.8 L120.9 118.5 L109.9 116.1 L99.7 113.5 L90.2 110.8 L81.5 108.0 L73.5 105.1 L66.5 102.0 L60.2 98.9 L54.9 95.7 L50.4 92.4 L46.8 89.1 L44.2 85.7 L42.5 82.3 L41.7 78.9 L41.8 75.4 L42.9 72.0 L44.8 68.6 L47.7 65.2 L51.5 61.8 L56.3 58.5 L61.9 55.3 L68.3 52.1 L75.6 49.1 L83.8 46.1 L92.7 43.2 L102.4 40.4 L112.9 37.8 L124.1 35.3 L136.0 32.9 L148.5 30.7 L161.7 28.6 L175.4 26.7 L189.6 24.9 L204.4 23.3 L219.6 21.9 L235.1 20.7 L251.1 19.7 L267.3 18.8 L283.8 18.1 L300.5 17.7 L317.3 17.4 L334.2 17.3 L351.2 17.4 L368.1 17.7 L385.0 18.2 L401.7 18.9 L418.2 19.7 L434.5 20.8 L450.5 22.0 L466.1 23.4 L481.4 25.0 L496.1 26.8 L510.4 28.7 L524.0 30.8 L537.1 33.1 L549.5 35.5 L561.2 38.1 L572.1 40.8 L582.3 43.6 L591.6 46.5 L600.1 49.6 L607.7 52.7 L614.4 56.0 L620.2 59.4 L625.0 62.8 L628.8 66.3 L631.7 69.8 L633.5 73.4 L634.4 77.1 L634.2 80.8 L633.1 84.4 L630.9 88.1 L627.8 91.8 L623.6 95.4 L618.6 99.0 L612.5 102.6 L605.6 106.1 L597.7 109.6 L588.9 112.9 L579.4 116.2 L569.0 119.4 L557.8 122.4 L545.9 125.3 L533.2 128.1 L519.9 130.7 L506.0 133.2 L491.5 135.5 L476.5 137.6 L461.0 139.5 L445.1 141.3 L428.7 142.8 L412.1 144.1 L395.1 145.2 L378.0 146.1 L360.6 146.8 L343.2 147.2 L325.6 147.4 L308.1 147.4 L290.5 147.1 L273.1 146.6 L255.9 145.9 L238.8 144.9 L222.0 143.8 L205.5 142.3 L189.3 140.7 L173.6 138.9 L158.4 136.8 L143.6 134.5 L129.5 132.1 L115.9 129.4 L103.0 126.6 L90.8 123.6 L79.4 120.5 L68.7 117.2 L58.9 113.8 L49.9 110.3'], st, cls);
 const ARROW_DN = st => DOOD(190, 76, ['M6 8 C92 0 152 16 152 60', 'M152 66 L143 49', 'M152 66 L165 51'], st);
 const BRUSH = (w, st) => DOOD(w, 14, [`M3 8 C${w * .25} 3 ${w * .55} 11 ${w - 3} 5`], st, 'brush');
+// 상단 목차 인덱스: 현재 프로젝트만 파란색 + 굵은 밑줄, 누르면 해당 슬라이드로 이동 (프로젝트 슬라이드는 5번부터 한 장씩)
+const IDX = (cur) => `<nav class="pidx a" style="left:250px;top:22px;width:780px">${projects.map((q, k) => `<a href="#s${5 + k}"${k === cur ? ' class="on"' : ''}><i>${String(k + 1).padStart(2, '0')}</i>${q.short || q.name}</a>`).join('')}</nav>`;
 const SPARK_UR = st => DOOD(40, 40, ['M10 30 L18 22', 'M9 19 L12 6', 'M21 33 L34 29'], st);
 const SPARK_UL = st => DOOD(40, 40, ['M30 30 L22 22', 'M31 19 L28 6', 'M19 33 L6 29'], st);
 const WAVE = (w, st) => DOOD(w, 12, [`M2 7 C${w * .15} 1 ${w * .25} 12 ${w * .38} 6 S${w * .6} 1 ${w * .72} 7 S${w * .9} 10 ${w - 2} 4`], st);
@@ -322,7 +330,7 @@ const projects = [
         desc: '[출품 주제 · 맡은 일]', point: '[보여준 점 한 줄]',
         period: '[YYYY.MM]', tech: '[사용 툴]', link: '[링크]' }
     ] },
-  { n: '05', name: 'YouTube 채널 운영', sub: 'AI 영상 제작 · 채널 운영', cat: '영상 · AI', single: true, flow: true,
+  { n: '05', name: 'YouTube 채널 운영', short: 'YouTube', sub: 'AI 영상 제작 · 채널 운영', cat: '영상 · AI', single: true, flow: true,
     link: '<a href="https://www.youtube.com/channel/UCsEygxpdE-pjkuL_9a_IN_w" target="_blank" rel="noopener" style="color:var(--g)">YouTube 채널 →</a>',
     period: '[YYYY.MM – ]', role: '[확인 필요: 운영 방식 · 맡은 일]',
     lead: 'AI 이미지로 영상의 일관성을 유지하고, 컷편집으로 마무리해 결과물을 만드는 영상 제작 흐름으로 채널을 운영했습니다.',
@@ -437,7 +445,8 @@ projects.forEach((p, i) => {
     // 웹 제작 묶음: 제목은 위쪽 가운데, 사이트 카드들은 화면 가운데에 나란히 (결과 슬라이드 없음)
     const n = p.group.length, W = n > 3 ? 284 : 320, GAP = n > 3 ? 22 : 30, x0 = (1280 - (n * W + (n - 1) * GAP)) / 2;
     slides.push(
-      T('sm', `${CAT(p)}PROJECT ${p.n} · ${p.sub}`, 'left:0;top:40px;width:1280px;text-align:center') +
+      IDX(i) +
+      T('sm', `${CAT(p)}PROJECT ${p.n} · ${p.sub}`, 'left:0;top:44px;width:1280px;text-align:center') +
       T('ht', p.name, 'left:0;top:62px;width:1280px;text-align:center;font-size:52px') +
       T('lead', p.lead, 'left:140px;top:124px;width:1000px;text-align:center') +
       p.group.map((g, k) => {
@@ -456,6 +465,7 @@ projects.forEach((p, i) => {
     // 제작 흐름(단계) + 결과물 이미지 칸 + 정보 표
     const stepsHtml = p.steps.map((st, k) => T('p', `<span class="stnum">${String(k + 1).padStart(2, '0')}</span><b style="font-size:17px;font-weight:900">${st[0]}</b><br><span class="sm" style="font-size:12.5px;color:#444;margin-left:44px">${st[1]}</span>`, `left:70px;top:${150 + k * 80}px;width:560px`)).join('');
     slides.push(
+      IDX(i) +
       T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:70px;top:46px;width:560px') +
       T('ht', p.name, 'left:68px;top:72px;width:560px;font-size:40px;letter-spacing:-1.5px') +
       LV('left:85px;top:172px;height:228px') +
@@ -474,6 +484,7 @@ projects.forEach((p, i) => {
     // 왼쪽 덩어리(이미지 + 설명 + 링크)를 슬라이드 세로 가운데에 맞춤
     const vT = 162, sT = Math.round((720 - ((p.shotsH || 300) + 84)) / 2);
     slides.push(
+      IDX(i) +
       (p.video
         ? `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:${vT}px;width:560px;height:315px"></video>` + T('sm', p.video.caption, `left:70px;top:${vT + 325}px;width:560px`) + T('p mv', linkRow, `left:70px;top:${vT + 358}px;width:560px`)
         : p.shots
