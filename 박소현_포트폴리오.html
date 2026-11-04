@@ -100,6 +100,16 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 .hl .k { color: #666; margin-top: 0; }
 .hl .sm { margin-bottom: 0; font-size: 14.5px; font-weight: 700; line-height: 1.55; color: #111; }
 .hl .sub { display: block; margin-top: 7px; font-size: 11.5px; line-height: 1.5; color: #666; }
+.rx { word-break: keep-all; }
+.rx .k { margin: 22px 0 10px; font-size: 11.5px; }
+.rx .hl { margin: 0; padding: 16px 18px; }
+.rx .hl .k { margin: 0 0 6px; }
+.rx .hl .sm { font-size: 15px; line-height: 1.6; }
+.rx .hl .sub { margin-top: 9px; font-size: 12px; color: #555; }
+.rx .story5 b { font-size: 14px; }
+.rx .story5 span { font-size: 11.5px; color: #444; }
+.rx .do { gap: 14px; padding: 5px 0; font-size: 13px; line-height: 1.55; color: #333; }
+.rx .do b { flex: 0 0 96px; font-size: 13px; }
 .story5 { display: flex; margin: 2px 0 12px; }
 .story5 > div { flex: 1; position: relative; padding: 10px 8px 0 0; border-top: 2px solid #111; }
 .story5 > div::before { content: ''; position: absolute; top: -5px; left: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--g); }
@@ -257,40 +267,36 @@ const RICH_AINEWS = `
 <div class="do"><b>STT 모듈</b><span>CLOVA Speech 연동 · 녹취별 메모 · AI 요약 · 에디터 연동</span></div>
 <div class="hl"><span class="k">이 프로젝트로 보여줄 점</span><span class="sm">현업 인터뷰로 문제를 찾고, 사용자의 말을 화면으로 바꾼 경험</span></div>`;
 
-// 나루 우체국 · 만약에 오른쪽 본문 (AI NEWSROOM과 같은 구조: 숫자 → 표 → 내가 한 일 → 회색 박스)
-const RICH_NARU = `
+// 나루 우체국 · 만약에 오른쪽 본문: 기획 의도 → 흐름 → 내가 한 일 (3단, 읽기 쉬운 크기)
+const RICH_NARU = `<div class="rx">
+<div class="hl"><span class="k">기획 의도</span><span class="sm">하나의 이야기를 웹 경험으로 녹여, <b style="color:var(--g)">“아끼는 사람에게 오늘 안부를 전하자”</b>는 메시지를 플레이로 전했습니다.</span><span class="sub">파생 — 작품 하나를 인물 소개 · 명장면 · 비하인드 SNS 시리즈로 확장</span></div>
 <span class="k">하나의 게임에 담은 이야기</span>
 <div class="story5">
   <div><b>오프닝</b><span>바람길 세계관</span></div>
-  <div><b>섬마다 편지</b><span>섬 하나에 사연 하나</span></div>
+  <div><b>섬마다 편지</b><span>섬마다 사연</span></div>
   <div><b>복선</b><span>“맨 밑 주머니”</span></div>
-  <div><b>에필로그</b><span>해무의 비밀 회수</span></div>
+  <div><b>에필로그</b><span>비밀 회수</span></div>
   <div><b>내 편지</b><span>직접 써서 보냄</span></div>
 </div>
-<span class="k">이야기를 플레이로 옮긴 방법</span>
-<div class="qa"><i>사연이 무거워질수록</i><b>바람이 거세지는 비행</b></div>
-<div class="qa"><i>실패해도</i><b>체크포인트로 이야기가 끊기지 않음</b></div>
 <span class="k">내가 한 일</span>
-<div class="do"><b>기획 · 스토리</b><span>세계관 · 인물 · 복선 설계</span></div>
+<div class="do"><b>기획 · 스토리</b><span>세계관 · 인물 · 복선 설계, 사연의 무게를 바람 세기로 표현</span></div>
 <div class="do"><b>개발 · 배포</b><span>3D 비행 화면 · 편지 쓰기와 보내기 · 도착 영상 · 서버</span></div>
-<div class="hl"><span class="k">기획 의도</span><span class="sm">하나의 이야기를 웹 경험으로 녹여, <b style="color:var(--g)">“아끼는 사람에게 오늘 안부를 전하자”</b>는 메시지를 플레이로 전했습니다.</span><span class="sub">파생 — 작품 하나를 인물 소개 · 명장면 · 비하인드 SNS 시리즈로 확장</span></div>`;
+</div>`;
 
-const RICH_MANYAK = `
+const RICH_MANYAK = `<div class="rx">
+<div class="hl"><span class="k">기획 의도</span><span class="sm">어른이 되며 <b style="color:var(--g)">무뎌진 “만약에”라는 말</b>을 되찾기 위해, 심리학과 창의력의 인과관계 논문을 학습시켜 질문을 만들었습니다.</span><span class="sub">파생 — 질문 · 월드컵을 댓글 · 투표형 SNS 이벤트와 이미지 콘텐츠로 확장</span></div>
 <span class="k">하나의 답에서 이어지는 흐름</span>
 <div class="story5">
-  <div><b>질문</b><span>“만약에”에 답하기</span></div>
+  <div><b>질문</b><span>질문에 답하기</span></div>
   <div><b>그림일기</b><span>AI 손그림 삽화</span></div>
   <div><b>다이어리</b><span>모아서 꾸미기</span></div>
   <div><b>월드컵</b><span>주간 상상 대결</span></div>
   <div><b>우체통</b><span>엽서로 나누기</span></div>
 </div>
-<span class="k">상상을 서비스로 옮긴 방법</span>
-<div class="qa"><i>답을 쓰면</i><b>AI가 크레파스 삽화 그림일기로</b></div>
-<div class="qa"><i>혼자 쓰던 일기를</i><b>월드컵 · 우체통으로 함께</b></div>
 <span class="k">내가 한 일</span>
-<div class="do"><b>기획</b><span>심리학과 창의력 논문을 읽고 학습시켜 질문 96개 추출 · 서비스 흐름 설계</span></div>
+<div class="do"><b>기획</b><span>심리학과 창의력 논문을 학습시켜 질문 96개 추출 · 서비스 흐름 설계</span></div>
 <div class="do"><b>개발 · 배포</b><span>화면 · 서버 · AI 연동(답변 → 일기 문장 → 삽화) · 배포</span></div>
-<div class="hl"><span class="k">기획 의도</span><span class="sm">어른이 되며 <b style="color:var(--g)">무뎌진 “만약에”라는 말</b>을 되찾기 위해, 심리학과 창의력의 인과관계 논문을 학습시켜 질문을 만들었습니다.</span><span class="sub">파생 — 질문 · 월드컵을 댓글 · 투표형 SNS 이벤트와 이미지 콘텐츠로 확장</span></div>`;
+</div>`;
 
 const projects = [
   { n: '01', name: 'AI NEWSROOM', sub: 'AI Newsroom OS · 동아일보 부트캠프 5인 팀 (A-2조)', cat: 'AI 서비스', single: true,
