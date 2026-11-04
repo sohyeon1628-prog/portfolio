@@ -468,18 +468,18 @@ projects.forEach((p, i) => {
   if (p.single) {
     slides.push(
       (p.video
-        ? `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:160px;width:560px;height:315px"></video>` + T('sm', p.video.caption, 'left:70px;top:485px;width:560px') + T('p mv', meta, 'left:70px;top:512px;width:560px')
+        ? `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:110px;width:560px;height:315px"></video>` + T('sm', p.video.caption, 'left:70px;top:435px;width:560px') + T('p mv', meta, 'left:70px;top:468px;width:560px')
         : p.shots
-          ? `<div class="shotslider a" style="left:70px;top:160px;width:560px" data-caps="${JSON.stringify(p.shots.map((sh, k) => `${String(k + 1).padStart(2, '0')} / ${String(p.shots.length).padStart(2, '0')} · ${sh.title} — ${sh.desc}`)).replace(/"/g, '&quot;')}"><div class="ss-view" style="height:${p.shotsH || 300}px">${p.shots.map((sh, k) => `<img src="${sh.src}" alt="${sh.title}"${k ? '' : ' class="on"'}>`).join('')}<button type="button" class="ss-btn prev" aria-label="이전 화면">‹</button><button type="button" class="ss-btn next" aria-label="다음 화면">›</button></div><div class="ss-bar"><span class="ss-cap"></span><span class="ss-dots">${p.shots.map(() => '<i></i>').join('')}</span></div></div>` + T('p mv', meta, `left:70px;top:${160 + (p.shotsH || 300) + 46}px;width:560px`)
-          : P('left:70px;top:160px;width:560px;height:330px', '메인 화면', p.shot.src, 'center') + T('sm', p.shot.caption, 'left:70px;top:488px;width:560px') + T('p mv', meta, 'left:70px;top:518px;width:560px')) +
-      T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:70px;top:46px;width:560px') +
-      T('ht', p.name, 'left:68px;top:72px;width:560px;font-size:40px;letter-spacing:-1.5px') +
-      T('sm', p.sub, 'left:670px;top:84px;width:460px;font-size:12px;font-weight:700;color:#444') +
-      T('lead', p.lead, 'left:670px;top:110px;width:440px') +
+          ? `<div class="shotslider a" style="left:70px;top:110px;width:560px" data-caps="${JSON.stringify(p.shots.map((sh, k) => `${String(k + 1).padStart(2, '0')} / ${String(p.shots.length).padStart(2, '0')} · ${sh.title} — ${sh.desc}`)).replace(/"/g, '&quot;')}"><div class="ss-view" style="height:${p.shotsH || 300}px">${p.shots.map((sh, k) => `<img src="${sh.src}" alt="${sh.title}"${k ? '' : ' class="on"'}>`).join('')}<button type="button" class="ss-btn prev" aria-label="이전 화면">‹</button><button type="button" class="ss-btn next" aria-label="다음 화면">›</button></div><div class="ss-bar"><span class="ss-cap"></span><span class="ss-dots">${p.shots.map(() => '<i></i>').join('')}</span></div></div>` + T('p mv', meta, `left:70px;top:${110 + (p.shotsH || 300) + 46}px;width:560px`)
+          : P('left:70px;top:110px;width:560px;height:330px', '메인 화면', p.shot.src, 'center') + T('sm', p.shot.caption, 'left:70px;top:438px;width:560px') + T('p mv', meta, 'left:70px;top:468px;width:560px')) +
+      T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:670px;top:46px;width:440px') +
+      T('ht', p.name, 'left:668px;top:72px;width:440px;font-size:40px;letter-spacing:-1.5px') +
+      T('sm', p.sub, 'left:670px;top:126px;width:440px;font-size:12px;font-weight:700;color:#444') +
+      T('lead', p.lead, 'left:670px;top:152px;width:440px') +
       (p.brief
-        ? T('p webc brief', p.brief.filter(h => h[0] !== '역할' && h[0] !== '사용 툴').map(h => `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join(''), 'left:670px;top:196px;width:440px')
-        : T('p', p.bg, 'left:670px;top:180px;width:440px') +
-          T('p webc', p.highlights.map(h => `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join('') + `<span class="k" style="margin-top:14px">이 프로젝트로 보여줄 점</span><span class="sm">${p.skill}</span>`, 'left:670px;top:290px;width:440px')) +
+        ? T('p webc brief', p.brief.filter(h => h[0] !== '역할' && h[0] !== '사용 툴').map(h => `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join(''), 'left:670px;top:244px;width:440px')
+        : T('p', p.bg, 'left:670px;top:226px;width:440px') +
+          T('p webc', p.highlights.map(h => `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join('') + `<span class="k" style="margin-top:14px">이 프로젝트로 보여줄 점</span><span class="sm">${p.skill}</span>`, 'left:670px;top:336px;width:440px')) +
       T('vt', p.name, `right:30px;font-size:${small ? 64 : 84}px`)
     );
     return;
