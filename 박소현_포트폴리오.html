@@ -224,6 +224,21 @@ body { padding-left: var(--sw); }
 .wrap:not(.in) .slide > .vid { opacity: 0; translate: 0 var(--rise); }
 .cat { display: inline-block; vertical-align: middle; margin-right: 8px; padding: 2px 10px; border: 1.5px solid var(--g); border-radius: 999px; background: #fff; color: var(--g); font-size: 10.5px; font-weight: 800; line-height: 1.45; letter-spacing: .02em; }
 .row .ty .cat { margin-right: 6px; }
+/* SHOWBITE 시안 장 */
+.sbk { display: block; margin-bottom: 6px; font-size: 10.5px; font-weight: 800; letter-spacing: .06em; color: var(--g); }
+.sbtag { display: inline-block; padding: 3px 10px; border-radius: 999px; background: #111; color: #fff; font-size: 10.5px; font-weight: 800; letter-spacing: .04em; }
+.sbplan { font-size: 12.5px; line-height: 1.65; color: #222; word-break: keep-all; }
+.sbplan b { color: #111; }
+.sbconti { width: 100%; border-collapse: collapse; font-size: 11.5px; line-height: 1.45; word-break: keep-all; }
+.sbconti td { padding: 4px 6px; border-top: 1px solid #e3e3e3; vertical-align: top; color: #333; }
+.sbconti td:first-child { width: 52px; font-weight: 800; color: var(--g); white-space: nowrap; }
+.sbconti td:last-child { width: 62px; color: #888; font-size: 10.5px; }
+.sbth { font-size: 11px; line-height: 1.45; color: #444; word-break: keep-all; }
+.sbth b { display: block; font-size: 11.5px; color: #111; }
+.sbth .pick { color: var(--g); }
+.sbops div { display: flex; gap: 10px; padding: 6px 0; border-top: 1px solid #e3e3e3; font-size: 11.5px; line-height: 1.45; color: #333; word-break: keep-all; }
+.sbops div b { flex: 0 0 46px; color: #111; font-weight: 800; }
+.sbkpi { padding: 10px 12px; background: #f3f3f3; border-radius: 4px; font-size: 11.5px; line-height: 1.55; color: #222; word-break: keep-all; }
 .stage .sm { font-size: 12.5px; color: #444; line-height: 1.6; }
 .stage b { display: block; font-size: 11px; color: var(--g); font-weight: 800; margin-bottom: 4px; }
 .stage strong { display: block; font-size: 17px; font-weight: 900; margin-bottom: 6px; }
@@ -327,6 +342,32 @@ const RICH_MANYAK = `<div class="rx">
 </div>`;
 
 const projects = [
+  { n: '01', name: 'SHOWBITE 시안', short: 'SHOWBITE 시안 · 폭설', sub: '쇼박스 「폭설」 개봉 전 SNS 콘텐츠 기획 · 제작', cat: 'SNS 기획', showbite: true, single: true,
+    plan: '<b>타깃</b> 미스터리 · 스릴러를 즐기는 20–30대 &nbsp;/&nbsp; <b>목표</b> 개봉(11.18) 전 궁금증을 만들어 저장 · 공유 · 댓글 추리로 이어지게 &nbsp;/&nbsp; <b>훅</b> “폭설에 갇힌 설오역, 누가 거짓말을 하고 있나”',
+    insight: '[SHOWBITE 최근 게시물 분석 인사이트 한 줄 — 예: 첫 1초 자막 훅 · 15초 안팎 · 대사 자막 강조]',
+    short15: null,
+    conti: [
+      ['0–1초', '눈보라 속 설오역 + 큰 자막 “이 역에, 시신이 있다”', '훅'],
+      ['1–5초', '갑수(김윤석) “오늘 설오역이 바쁘다. 그렇지?”', '의심'],
+      ['5–11초', '현택(구교환) “제 말 좀 들어보세요. 선배님” ↔ 대치하는 두 사람 교차', '긴장'],
+      ['11–15초', '암전 → “폭설 11.18” + “누가 거짓말을 하고 있을까?”', 'CTA']
+    ],
+    thumbs: [
+      { t: 'A 감정', c: '갑수 클로즈업 + “역장은 무엇을 숨기나”', img: null },
+      { t: 'B 질문', c: '두 사람의 대치 + “누가 거짓말을 하고 있나?”', img: null, pick: '추천 — 댓글 추리 참여 유도' },
+      { t: 'C 세계관', c: '눈 덮인 설오역 전경 + “폭설에 갇힌 그날 밤”', img: null }
+    ],
+    cards: [['1', '표지'], ['2', '설오역'], ['3', '갑수 × 현택'], ['4', '발 묶인 경찰'], ['5', '관전 포인트'], ['6', '개봉 · 추리']],
+    cardsTitle: '카드뉴스 6장 — “폭설, 보기 전에 알면 더 재밌는 것들”',
+    ops: [
+      ['D-14', '15초 숏폼 + 썸네일 B로 첫 궁금증'],
+      ['D-10', '카드뉴스 “보기 전에 알면 더 재밌는 것들”'],
+      ['D-7', '인물 대사 숏폼 시리즈 (갑수 편 · 현택 편)'],
+      ['D-3', '“누가 거짓말?” 댓글 추리 이벤트'],
+      ['D-day', '개봉 알림 + 예매 링크'],
+      ['개봉 후', '관객 반응 숏폼, 게시물 아카이빙']
+    ],
+    kpi: '<b>성과 지표</b> 조회 · 저장 · 공유 · 댓글(추리 참여) — 숏폼은 첫 3초 이탈률, 카드뉴스는 저장 수로 판단' },
   { n: '01', name: 'AI NEWSROOM', sub: 'AI Newsroom OS · 동아일보 부트캠프 5인 팀 (A-2조)', cat: 'AI 서비스', single: true,
     gh: 'https://github.com/beang66/ai-newsroom-os',
     link: '<a href="https://github.com/beang66/ai-newsroom-os#run-locally" target="_blank" rel="noopener" style="color:var(--g)">AI NEWSROOM →</a>',
@@ -567,6 +608,34 @@ projects.forEach((p, i) => {
   const infoRows = '<div class="mr"><b>기간</b><span>' + (p.period || '[YYYY.MM – YYYY.MM]') + '</span></div>' + (p.rich ? (p.tools ? '<div class="mr wide"><b>사용 툴</b><span>' + p.tools + '</span></div>' : '') : p.brief ? p.brief.filter(h => h[0] === '역할' || h[0] === '사용 툴').map(h => '<div class="mr' + (h[0] === '사용 툴' ? ' wide' : '') + '"><b>' + h[0] + '</b><span>' + h[1] + '</span></div>').join('') : p.rich ? '' : '<div class="mr"><b>역할</b><span>' + (p.role || '[내가 맡은 일 — 팀이면 팀 규모와 내 범위]') + '</span></div>') + (p.single ? '' : '<div class="mr"><b>성격</b><span>' + p.sub + '</span></div>');
   const linkRow = '<div class="mr lnk">' + (p.link || '<span>[영상 · 사이트 링크]</span>') + ghLink + '</div>';
   const meta = infoRows + linkRow;
+  if (p.showbite) {
+    // SHOWBITE 시안: 기획 한 줄 → 15초 숏폼 · 콘티 → 썸네일 3종 → 카드뉴스 6장 → 운영 계획
+    const thumbs = p.thumbs.map((th, k) => {
+      const x = 300 + k * 192;
+      return P(`left:${x}px;top:334px;width:176px;height:99px`, '썸네일 ' + th.t[0], th.img, 'center') +
+        T('sbth', `<b${th.pick ? ' class="pick"' : ''}>${th.t}${th.pick ? ' ✓' : ''}</b>${th.c}${th.pick ? `<br><span class="pick">${th.pick}</span>` : ''}`, `left:${x}px;top:438px;width:176px`);
+    }).join('');
+    const cards = p.cards.map((c, k) => P(`left:${300 + k * 95}px;top:526px;width:84px;height:105px`, c[0] + ' ' + c[1], c[2] || null, 'center')).join('');
+    slides.push(
+      T('sm', `${CAT(p)}PROJECT ${p.n} &nbsp;<span class="sbtag">가상 시안 · 비공식</span>`, 'left:70px;top:44px;width:700px') +
+      T('ht', 'SHOWBITE 시안 · 「폭설」', 'left:68px;top:68px;width:900px;font-size:36px;letter-spacing:-1.2px') +
+      T('sbplan', p.plan, 'left:70px;top:118px;width:1140px') +
+      (p.short15
+        ? `<video class="vid a" src="${p.short15}" muted loop playsinline controls preload="metadata" style="left:70px;top:170px;width:200px;height:356px"></video>`
+        : P('left:70px;top:170px;width:200px;height:356px', '15초 숏폼 9:16', null, 'center')) +
+      T('sm', '15초 숏폼 · 세로 9:16 · Premiere Pro', 'left:70px;top:532px;width:200px') +
+      T('p', '<span class="sbk">15초 콘티</span><table class="sbconti">' + p.conti.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('') + '</table>', 'left:300px;top:166px;width:560px') +
+      T('sm', '<span class="sbk" style="margin:0">썸네일 3종 — 같은 영상, 다른 전략</span>', 'left:300px;top:314px;width:560px') +
+      thumbs +
+      T('sm', `<span class="sbk" style="margin:0">${p.cardsTitle}</span>`, 'left:300px;top:506px;width:600px') +
+      cards +
+      T('p', '<span class="sbk">개봉 전 운영 계획</span><div class="sbops">' + p.ops.map(o => `<div><b>${o[0]}</b><span>${o[1]}</span></div>`).join('') + '</div>', 'left:900px;top:166px;width:310px') +
+      T('sbkpi', p.kpi, 'left:900px;top:420px;width:310px') +
+      T('p', `<span class="sbk">SHOWBITE 분석</span><span class="sm" style="font-size:11.5px;color:#444">${p.insight}</span>`, 'left:900px;top:512px;width:310px') +
+      T('sm', '소재: 쇼박스 공개 예고편 · 스틸컷 (출처: 쇼박스) · 포트폴리오용 가상 시안', 'left:70px;top:648px;width:800px')
+    );
+    return;
+  }
   if (p.flow) {
     // 제작 흐름(단계) + 결과물 이미지 칸 + 정보 표
     const stepsHtml = p.steps.map((st, k) => T('p', `<span class="stnum">${String(k + 1).padStart(2, '0')}</span><b style="font-size:17px;font-weight:900">${st[0]}</b><br><span class="sm" style="font-size:12.5px;color:#444;margin-left:44px">${st[1]}</span>`, `left:70px;top:${168 + k * (p.steps.length > 4 ? 64 : 80)}px;width:560px`)).join('');
