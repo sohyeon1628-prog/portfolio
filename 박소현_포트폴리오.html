@@ -99,6 +99,7 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 .hl { margin: 6px 0 14px; padding: 12px 16px; background: #f2f2f2; }
 .hl .k { color: #666; margin-top: 0; }
 .hl .sm { margin-bottom: 0; font-size: 14.5px; font-weight: 700; line-height: 1.55; color: #111; }
+.hl .sub { display: block; margin-top: 7px; font-size: 11.5px; line-height: 1.5; color: #666; }
 .st3 { display: flex; gap: 18px; margin: 2px 0 4px; }
 .st3 > div { flex: 1; border-top: 2px solid #111; padding-top: 8px; }
 .st3 b { display: block; font-size: 30px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; color: #111; }
@@ -251,6 +252,37 @@ const RICH_AINEWS = `
 <div class="do"><b>STT 모듈</b><span>CLOVA Speech 연동 · 녹취별 메모 · AI 요약 · 에디터 연동</span></div>
 <div class="hl"><span class="k">이 프로젝트로 보여줄 점</span><span class="sm">현업 인터뷰로 문제를 찾고, 사용자의 말을 화면으로 바꾼 경험</span></div>`;
 
+// 나루 우체국 · 만약에 오른쪽 본문 (AI NEWSROOM과 같은 구조: 숫자 → 표 → 내가 한 일 → 회색 박스)
+const RICH_NARU = `
+<div class="st3">
+  <div><b>4통</b><span>부치지 못한 편지<br>어머니 · 친구 · 자녀 · 반려견</span></div>
+  <div><b>3편</b><span>3D 연출 영상<br>오프닝 · 에필로그 · 병 편지</span></div>
+  <div><b>42</b><span>개발 커밋<br>10월 말 – 11월 초</span></div>
+</div>
+<span class="k">이야기 → 플레이 설계</span>
+<div class="qa"><i>“부치지 못한 편지 네 통”</i><b>네 섬 · 네 사연</b></div>
+<div class="qa"><i>“맨 밑 주머니는 열지 말게”</i><b>에필로그에서 회수하는 복선</b></div>
+<div class="qa"><i>사연이 무거워질수록</i><b>바람이 거세지는 비행</b></div>
+<span class="k">내가 한 일</span>
+<div class="do"><b>기획 · 스토리</b><span>세계관 · 인물 · 복선 설계</span></div>
+<div class="do"><b>개발 · 배포</b><span>3D 비행 화면 · 편지 쓰기와 보내기 · 도착 영상 · 신고 · 관리자 화면 · 서버</span></div>
+<div class="hl"><span class="k">기획 의도</span><span class="sm">하나의 이야기를 웹 경험으로 녹여, <b style="color:var(--g)">“아끼는 사람에게 오늘 안부를 전하자”</b>는 메시지를 플레이로 전했습니다.</span><span class="sub">파생 — 작품 하나를 인물 소개 · 명장면 · 비하인드 SNS 시리즈로 확장</span></div>`;
+
+const RICH_MANYAK = `
+<div class="st3">
+  <div><b>96</b><span>논문 학습으로 추출한 질문<br>12개 주제 · 주제당 8개</span></div>
+  <div><b>8강</b><span>주간 상상 월드컵<br>닉네임당 1점 · 선착순</span></div>
+  <div><b>2단계</b><span>AI 그림일기 생성<br>일기 문장 → 삽화</span></div>
+</div>
+<span class="k">한 번의 답 → 이어지는 콘텐츠</span>
+<div class="qa"><i>질문 하나에 답하면</i><b>AI 그림일기 (문장 + 삽화)</b></div>
+<div class="qa"><i>일기가 쌓이면</i><b>월 · 주 다이어리</b></div>
+<div class="qa"><i>다 같이 즐기면</i><b>주간 월드컵 · 엽서 우체통</b></div>
+<span class="k">내가 한 일</span>
+<div class="do"><b>기획</b><span>심리학과 창의력 논문을 읽고 학습시켜 질문 96개 추출 · 그림일기 → 다이어리 → 월드컵 → 우체통 흐름</span></div>
+<div class="do"><b>개발 · 배포</b><span>화면 · 서버 · AI 연동(답변 → 일기 문장 → 삽화) · 배포</span></div>
+<div class="hl"><span class="k">기획 의도</span><span class="sm">어른이 되며 <b style="color:var(--g)">무뎌진 “만약에”라는 말</b>을 되찾기 위해, 심리학과 창의력의 인과관계 논문을 학습시켜 질문을 만들었습니다.</span><span class="sub">파생 — 질문 · 월드컵을 댓글 · 투표형 SNS 이벤트와 이미지 콘텐츠로 확장</span></div>`;
+
 const projects = [
   { n: '01', name: 'AI NEWSROOM', sub: 'AI Newsroom OS · 동아일보 부트캠프 5인 팀 (A-2조)', cat: 'AI 서비스', single: true,
     gh: 'https://github.com/beang66/ai-newsroom-os',
@@ -277,6 +309,8 @@ const projects = [
     gh: 'https://github.com/sohyeon1628-prog/1030',
     link: '<a href="https://naru-post.onrender.com" target="_blank" rel="noopener" style="color:var(--g)">나루 우체국 →</a>',
     role: '개인 프로젝트 — 기획 · 스토리 · 3D 화면 · 서버 · 배포 전 과정',
+    tools: 'React · Three.js · Node.js · SQLite · Render',
+    rich: RICH_NARU,
     brief: [
       ['기획 의도', '하나의 이야기를 웹 경험으로 녹였습니다. 해무가 사십 년간 부치지 못한 편지를 전하다, 마지막엔 내가 편지를 쓰게 됩니다.<br><b style="color:var(--g)">전하고 싶은 메시지</b> — 아끼는 사람에게 오늘 안부를 전하자.'],
       ['역할', '기획 · 스토리 · 3D 화면 · 서버 · 배포 (개인)'],
@@ -318,6 +352,8 @@ const projects = [
     gh: 'https://github.com/sohyeon1628-prog/man-yak',
     link: '<a href="https://man-yak.onrender.com" target="_blank" rel="noopener" style="color:var(--g)">만약에 →</a>',
     period: '2026.09 – 2026.10', role: '개인 프로젝트 — 기획 · 화면 · 서버 · AI 연동 · 배포',
+    tools: 'React · Node.js · OpenAI gpt-image-1 · Render',
+    rich: RICH_MANYAK,
     brief: [
       ['기획 의도', '혼자 쓰는 일기를 질문 · 월드컵 · 우체통으로 함께 즐기는 콘텐츠로'],
       ['역할', '기획 · 화면 · 서버 · AI 연동 · 배포 (개인)'],
@@ -485,7 +521,7 @@ projects.forEach((p, i) => {
     return;
   }
   const ghLink = p.gh ? `<a class="ghl" href="${p.gh}" target="_blank" rel="noopener">${GH_ICON}GitHub</a>` : '';
-  const infoRows = '<div class="mr"><b>기간</b><span>' + (p.period || '[YYYY.MM – YYYY.MM]') + '</span></div>' + (p.brief ? p.brief.filter(h => h[0] === '역할' || h[0] === '사용 툴').map(h => '<div class="mr' + (h[0] === '사용 툴' ? ' wide' : '') + '"><b>' + h[0] + '</b><span>' + h[1] + '</span></div>').join('') : p.rich ? '' : '<div class="mr"><b>역할</b><span>' + (p.role || '[내가 맡은 일 — 팀이면 팀 규모와 내 범위]') + '</span></div>') + (p.single ? '' : '<div class="mr"><b>성격</b><span>' + p.sub + '</span></div>');
+  const infoRows = '<div class="mr"><b>기간</b><span>' + (p.period || '[YYYY.MM – YYYY.MM]') + '</span></div>' + (p.rich ? (p.tools ? '<div class="mr wide"><b>사용 툴</b><span>' + p.tools + '</span></div>' : '') : p.brief ? p.brief.filter(h => h[0] === '역할' || h[0] === '사용 툴').map(h => '<div class="mr' + (h[0] === '사용 툴' ? ' wide' : '') + '"><b>' + h[0] + '</b><span>' + h[1] + '</span></div>').join('') : p.rich ? '' : '<div class="mr"><b>역할</b><span>' + (p.role || '[내가 맡은 일 — 팀이면 팀 규모와 내 범위]') + '</span></div>') + (p.single ? '' : '<div class="mr"><b>성격</b><span>' + p.sub + '</span></div>');
   const linkRow = '<div class="mr lnk">' + (p.link || '<span>[영상 · 사이트 링크]</span>') + ghLink + '</div>';
   const meta = infoRows + linkRow;
   if (p.flow) {
@@ -523,7 +559,7 @@ projects.forEach((p, i) => {
       T('lead', p.lead, 'left:670px;top:110px;width:440px') +
       T('p mv', infoRows, 'left:670px;top:184px;width:440px') +
       (p.rich
-        ? T('p webc rich', p.rich, 'left:670px;top:236px;width:440px')
+        ? T('p webc rich', p.rich, `left:670px;top:${p.tools ? 270 : 236}px;width:440px`)
         : p.brief
         ? T('p webc brief', p.brief.filter(h => h[0] !== '역할' && h[0] !== '사용 툴').map(h => h[0] === '기획 의도' ? `<div class="hl"><span class="k">${h[0]}</span><span class="sm">${h[1]}</span></div>` : `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join(''), 'left:670px;top:310px;width:440px')
         : T('p', p.bg, 'left:670px;top:258px;width:440px') +
