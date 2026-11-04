@@ -210,21 +210,20 @@ const projects = [
     period: '2026.09 – 2026.10',
     role: '팀 프로젝트 — 프론트엔드 통합 책임, STT 개발 (커밋 96건)',
     lead: '취재 · 녹취 · 팩트체크 · 기사 작성 · SNS 변환 · 보관을 기사 ID 하나로 잇는 로컬 설치형 AI 뉴스룸 앱입니다.',
-    bg: '기자가 기사 한 건을 내보내기까지 오가는 여러 프로그램을 하나의 작업 공간으로 묶었습니다. 팀에서 저는 팀원들이 만든 화면을 하나의 앱으로 묶는 <b>프론트엔드 통합 책임</b>을 맡았고, <b>녹취를 글로 바꾸는 STT</b>와 녹취 · 콘텐츠 변환 화면을 직접 만들었습니다.',
-    skill: '기사 하나를 SNS · 카드뉴스로 바꾸는 변환 화면과 여러 사람의 작업을 하나로 묶은 협업 경험 — SHOWBITE 작품별 SNS 콘텐츠 제작 흐름과 연결',
+    bg: '기자가 기사 한 건을 내보내기까지 오가는 여러 프로그램을 하나의 작업 공간으로 묶었습니다. 팀에서 저는 팀원들이 만든 화면을 하나의 앱으로 묶는 <b>프론트엔드 통합 책임</b>을 맡았고, <b>녹취를 글로 바꾸는 STT</b>와 녹취 화면을 직접 만들었습니다.',
+    skill: '여러 사람이 만든 화면을 하나의 앱으로 묶은 협업 경험과, 녹취를 글로 바꾸는 STT 개발',
     shotsH: 290,
     shots: [
       { src: 'assets/ainews/writer.jpg', title: '기사 작성', desc: '제목 · 부제 · 본문 작성과 AI 제안, 사진 편집' },
       { src: 'assets/ainews/interview.jpg', title: '오디오 전사 · AI 요약', desc: '내 담당 — CLOVA Speech 녹취, 화자 편집 · 형광펜' },
-      { src: 'assets/ainews/convert.jpg', title: '콘텐츠 변환', desc: '내 담당 — Instagram · Threads · 카드뉴스 원고와 카드 편집' },
+      { src: 'assets/ainews/convert.jpg', title: '콘텐츠 변환', desc: '팀 기능 — Instagram · Threads · 카드뉴스 원고와 카드 편집' },
       { src: 'assets/ainews/factcheck.jpg', title: '팩트체크', desc: '문장별로 근거자료를 찾아 판정' },
       { src: 'assets/ainews/datamap.jpg', title: '데이터맵', desc: '기사 · 자료의 링크와 관계망 탐색' },
       { src: 'assets/ainews/archive.jpg', title: '보관함', desc: '원고 · 송고본 검색 · 미리보기 · 공유' }
     ],
     highlights: [
       ['프론트엔드 통합', '팀원들이 각자 만든 화면 브랜치를 통합 브랜치로 합치고, 메뉴 · 화면 이름과 디자인을 맞춘 뒤 다시 빌드 · 테스트해 하나의 앱으로 묶었습니다.'],
-      ['STT · 녹취', 'NAVER CLOVA Speech 전사를 서버(Render)로 중계해 키를 앱 밖에 두고, 화자 이름 바꾸기 · 합치기, 형광펜, 파형을 눌러 다시 듣기, 녹취 보관함 폴더를 만들었습니다.'],
-      ['콘텐츠 변환', '확정한 기사를 Instagram · Threads · 카드뉴스 원고로 바꾸는 화면과 카드뉴스 직접 편집 · JPG 저장을 구현했습니다.']
+      ['STT · 녹취', 'NAVER CLOVA Speech 전사를 서버(Render)로 중계해 키를 앱 밖에 두고, 화자 이름 바꾸기 · 합치기, 형광펜, 파형을 눌러 다시 듣기, 녹취 보관함 폴더를 만들었습니다.']
     ] },
   { n: '02', name: '나루 우체국', sub: '3D 웹게임 · 스토리텔링 기획', cat: '인터랙티브 콘텐츠', single: true,
     highlights: [
@@ -379,7 +378,7 @@ slides.push(
 );
 
 const SKILLS = [
-  ['콘텐츠 제작', 'CONTENT', 1, [['영상 기획 · 편집 (Premiere Pro)', 1], ['스토리텔링 · 세계관 기획', 1], ['촬영 · 조명 · 사운드', 0], ['광고 기획 · 카피 · 기사 작성', 0], ['카드뉴스 · SNS 원고', 0]]],
+  ['콘텐츠 제작', 'CONTENT', 1, [['영상 기획 · 편집 (Premiere Pro)', 1], ['스토리텔링 · 세계관 기획', 1], ['촬영 · 조명 · 사운드', 0], ['광고 기획 · 카피 · 기사 작성', 0]]],
   ['생성형 AI', 'AI', 0, [['Claude', 1], ['OpenAI API (이미지)', 1], ['AI 영상 제작 (일관성 유지)', 1], ['Gemini · Flow', 0], ['ChatGPT · CLOVA Speech', 0]]],
   ['개발', 'DEV', 0, [['React · Three.js', 1], ['HTML / CSS / JS', 0], ['Node.js · Express', 0], ['SQLite · Supabase', 0], ['GitHub Actions · Render', 0]]]
 ];
