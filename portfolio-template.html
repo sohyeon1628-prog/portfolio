@@ -61,7 +61,7 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 
 .vt { writing-mode: vertical-rl; text-orientation: sideways; transform: rotate(180deg); font-weight: 900; font-size: 92px; line-height: .92; letter-spacing: -3px; top: 0; bottom: 0; white-space: nowrap; }
 .ht { font-weight: 900; font-size: 64px; line-height: .95; letter-spacing: -2px; }
-.lead { color: var(--g); font-weight: 800; font-size: 15px; line-height: 1.35; }
+.lead { word-break: keep-all; color: var(--g); font-weight: 800; font-size: 15px; line-height: 1.35; }
 .p { font-size: 14px; line-height: 1.6; color: #111; }
 .big { font-size: 21px; line-height: 1.45; font-weight: 500; letter-spacing: -.3px; }
 .sm { font-size: 10px; color: var(--mute); line-height: 1.5; }
@@ -96,7 +96,22 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 
 .mr { display: flex; gap: 16px; border-top: 1px solid #ddd; padding: 8px 0; font-size: 13px; }
 .mr b { width: 56px; font-weight: 700; flex-shrink: 0; }
-.hl { margin: 4px 0 16px; padding: 12px 16px; background: #eff1ff; border-left: 3px solid var(--g); border-radius: 0 8px 8px 0; }
+.hl { margin: 6px 0 14px; padding: 12px 16px; background: #f2f2f2; }
+.hl .k { color: #666; margin-top: 0; }
+.hl .sm { margin-bottom: 0; font-size: 14.5px; font-weight: 700; line-height: 1.55; color: #111; }
+.st3 { display: flex; gap: 18px; margin: 2px 0 4px; }
+.st3 > div { flex: 1; border-top: 2px solid #111; padding-top: 8px; }
+.st3 b { display: block; font-size: 30px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; color: #111; }
+.st3 span { display: block; margin-top: 6px; font-size: 11px; line-height: 1.4; color: #666; }
+.rich .note { margin: 0 0 6px; font-size: 10.5px; color: #888; }
+.rich .note b { color: #111; }
+.rich .qa { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 5px 0; border-top: 1px solid #e3e3e3; font-size: 12px; line-height: 1.45; }
+.rich .qa i { font-style: normal; color: #777; }
+.rich .qa b { color: #111; font-weight: 800; }
+.rich .qa b::before { content: '→ '; color: var(--g); }
+.rich .do { display: flex; gap: 10px; padding: 3px 0; font-size: 12px; line-height: 1.5; color: #444; }
+.rich .do b { flex: 0 0 92px; color: #111; font-weight: 800; }
+.brief .hl .sm { margin-bottom: 0; }
 .hl .k { margin-top: 0; }
 .hl .sm { margin-bottom: 0; font-size: 14.5px; font-weight: 700; line-height: 1.55; color: #111; }
 .brief .k { margin-top: 0; }
@@ -219,15 +234,31 @@ const LV = (st) => `<div class="line-v" style="${st}"></div>`;
 const LH = (st) => `<div class="line-h" style="${st}"></div>`;
 
 // 순서: AI NEWSROOM → 나루 우체국 → 만약에 → 콘텐츠 제작(60초 단편영화 · 단편영화 · 라이브커머스) → 웹 제작(쇼핑몰 · 영화 · 도서)
+// AI NEWSROOM 오른쪽 본문: 숫자 · 짧은 표 · 한 줄 목록 (팀 성과는 '팀 전체'로 표기)
+const RICH_AINEWS = `
+<div class="st3">
+  <div><b>9명</b><span>현업 조사<br>설문 5 · 인터뷰 4</span></div>
+  <div><b>5인</b><span>팀 프로젝트<br>약 7주</span></div>
+  <div><b>5명</b><span>현업 기자 사용자 테스트<br>팀 전체 결과</span></div>
+</div>
+<div class="note">사용자 테스트 평균 (5점 만점 · 팀 전체 · 5명 기준) — SNS 변환 <b>4.6</b> · STT <b>3.6</b></div>
+<span class="k">현업의 말 → 팀의 설계 결정</span>
+<div class="qa"><i>“수치를 원문과 한 화면에서 대조”</i><b>숫자 하이라이트 팩트체크</b></div>
+<div class="qa"><i>“취재원 정보는 본인만 접근”</i><b>로컬 암호화 저장 · 송고 시점 전송</b></div>
+<div class="qa"><i>“내 자료를 정말 나만 볼 수 있는지 불안”</i><b>로컬 EXE 패키징</b></div>
+<span class="k">내가 한 일</span>
+<div class="do"><b>전체 화면 UI/UX</b><span>조사 결과를 하나의 작업 화면으로 · 모듈 통합 시 인터랙션 충돌 조율</span></div>
+<div class="do"><b>STT 모듈</b><span>CLOVA Speech 연동 · 녹취별 메모 · AI 요약 · 에디터 연동</span></div>
+<div class="do"><b>공통 UI</b><span>팩트체크 서랍 · 공통 목록 · Raycast 스타일 키보드 탐색</span></div>
+<div class="hl"><span class="k">이 프로젝트로 보여줄 점</span><span class="sm">현업 인터뷰로 문제를 찾고, 사용자의 말을 화면으로 바꾼 경험</span></div>`;
+
 const projects = [
-  { n: '01', name: 'AI NEWSROOM', sub: 'AI Newsroom OS · 팀 프로젝트', cat: 'AI 서비스', single: true,
+  { n: '01', name: 'AI NEWSROOM', sub: 'AI Newsroom OS · 동아일보 부트캠프 5인 팀 (A-2조)', cat: 'AI 서비스', single: true,
     gh: 'https://github.com/beang66/ai-newsroom-os',
     link: '<a href="https://github.com/beang66/ai-newsroom-os#run-locally" target="_blank" rel="noopener" style="color:var(--g)">AI NEWSROOM →</a>',
-    period: '2026.09 – 2026.10',
-    role: '팀 프로젝트 — 프론트엔드 통합 책임, STT 개발 (커밋 96건)',
-    lead: '취재 · 녹취 · 팩트체크 · 기사 작성 · SNS 변환 · 보관을 기사 ID 하나로 잇는 로컬 설치형 AI 뉴스룸 앱입니다.',
-    bg: '기자가 기사 한 건을 내보내기까지 오가는 여러 프로그램을 하나의 작업 공간으로 묶었습니다. 팀에서 저는 팀원들이 만든 화면을 하나의 앱으로 묶는 <b>프론트엔드 통합 책임</b>을 맡았고, <b>녹취를 글로 바꾸는 STT</b>와 녹취 화면을 직접 만들었습니다.',
-    skill: '여러 사람이 만든 화면을 하나의 앱으로 묶은 협업 경험과, 녹취를 글로 바꾸는 STT 개발',
+    period: '2026.09.17 – 2026.11.11 (약 7주)',
+    role: '전체 화면 UI/UX · STT 모듈',
+    lead: '현업 기자 9명의 설문 · 인터뷰에서 문제를 찾고, 그 말을 화면으로 옮겼습니다.',
     shotsH: 290,
     shots: [
       { src: 'assets/ainews/writer.jpg', title: '기사 작성', desc: '제목 · 부제 · 본문 작성과 AI 제안, 사진 편집' },
@@ -237,10 +268,7 @@ const projects = [
       { src: 'assets/ainews/datamap.jpg', title: '데이터맵', desc: '기사 · 자료의 링크와 관계망 탐색' },
       { src: 'assets/ainews/archive.jpg', title: '보관함', desc: '원고 · 송고본 검색 · 미리보기 · 공유' }
     ],
-    highlights: [
-      ['프론트엔드 통합', '팀원들이 각자 만든 화면 브랜치를 통합 브랜치로 합치고, 메뉴 · 화면 이름과 디자인을 맞춘 뒤 다시 빌드 · 테스트해 하나의 앱으로 묶었습니다.'],
-      ['STT · 녹취', 'NAVER CLOVA Speech 전사를 서버(Render)로 중계해 키를 앱 밖에 두고, 화자 이름 바꾸기 · 합치기, 형광펜, 파형을 눌러 다시 듣기, 녹취 보관함 폴더를 만들었습니다.']
-    ] },
+    rich: RICH_AINEWS },
   { n: '02', name: '나루 우체국', sub: '3D 웹게임 · 스토리텔링 기획', cat: '인터랙티브 콘텐츠', single: true,
     highlights: [
       ['스토리텔링', '부치지 못한 편지 네 통 → 해무가 딸에게 쓴 스무 통의 비밀 → 내가 쓰는 편지. 오프닝의 “맨 밑 주머니” 복선을 에필로그에서 회수합니다.'],
@@ -251,7 +279,7 @@ const projects = [
     link: '<a href="https://naru-post.onrender.com" target="_blank" rel="noopener" style="color:var(--g)">나루 우체국 →</a>',
     role: '개인 프로젝트 — 기획 · 스토리 · 3D 화면 · 서버 · 배포 전 과정',
     brief: [
-      ['기획 의도', '이야기를 보던 플레이어가 마지막엔 직접 편지를 쓰는 사람이 되는 경험'],
+      ['기획 의도', '하나의 이야기를 웹 경험으로 녹였습니다. 해무가 사십 년간 부치지 못한 편지를 전하다, 마지막엔 내가 편지를 쓰게 됩니다.<br><b style="color:var(--g)">전하고 싶은 메시지</b> — 아끼는 사람에게 오늘 안부를 전하자.'],
       ['역할', '기획 · 스토리 · 3D 화면 · 서버 · 배포 (개인)'],
       ['사용 툴', 'React · Three.js · Node.js · SQLite · Render'],
       ['파생', '작품 하나를 인물 소개 · 명장면 · 비하인드 SNS 시리즈로 확장']
@@ -495,7 +523,9 @@ projects.forEach((p, i) => {
       T('sm', p.sub, 'left:670px;top:84px;width:440px;font-size:12px;font-weight:700;color:#444') +
       T('lead', p.lead, 'left:670px;top:110px;width:440px') +
       T('p mv', infoRows, 'left:670px;top:184px;width:440px') +
-      (p.brief
+      (p.rich
+        ? T('p webc rich', p.rich, 'left:670px;top:236px;width:440px')
+        : p.brief
         ? T('p webc brief', p.brief.filter(h => h[0] !== '역할' && h[0] !== '사용 툴').map(h => h[0] === '기획 의도' ? `<div class="hl"><span class="k">${h[0]}</span><span class="sm">${h[1]}</span></div>` : `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join(''), 'left:670px;top:310px;width:440px')
         : T('p', p.bg, 'left:670px;top:258px;width:440px') +
           T('p webc', p.highlights.map(h => `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join('') + `<div class="hl" style="margin-top:18px"><span class="k">이 프로젝트로 보여줄 점</span><span class="sm">${p.skill}</span></div>`, 'left:670px;top:368px;width:440px')) +
