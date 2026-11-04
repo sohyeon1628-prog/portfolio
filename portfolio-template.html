@@ -511,22 +511,6 @@ projects.forEach((p, i) => {
   );
 });
 
-// 6. PROPOSAL TIMELINE
-slides.push(
-  T('vt', 'timeline', 'left:30px;font-size:88px') +
-  T('lead', 'SHOWBITE 작품별 SNS 콘텐츠 운영안 (예시 구조)', 'left:150px;top:44px;width:600px') +
-  T('p', [
-    ['D-8주', '첫 숏폼 · 썸네일', '[작품 한 줄 훅 · 15초 컷 · 썸네일 문구]'],
-    ['D-6주', '인물 · 세계관 카드', '[캐릭터 소개 이미지 시리즈 · 카드뉴스]'],
-    ['D-4주', '참여형 콘텐츠', '[밸런스 게임 · “만약에” 질문 · 댓글 이벤트]'],
-    ['D-1주', '시사 반응 숏폼', '[관객 리액션 · 명대사 클립]'],
-    ['개봉주', '집중 업로드', '[업로드 주기 · 릴스 · 쇼츠 · 틱톡별 포맷]'],
-    ['개봉 후', '아카이빙 · 성과 점검', '[조회 · 저장 · 공유 지표, 콘텐츠 아카이브 정리]']
-  ].map(r => `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join(''), 'left:150px;top:100px;width:720px') +
-  T('lead', '쇼박스 작품 한 편을 정해 숏폼 · 이미지 · 참여형 콘텐츠 일정을 채워 넣으세요.<br><br>[선택한 작품 · 타깃 관객 · 핵심 KPI]', 'left:930px;top:100px;width:290px') +
-  P('left:150px;top:560px;width:720px;height:120px', '썸네일 · 홍보 이미지 시안')
-);
-
 // 7. THANK YOU
 slides.push(
   R('left:1000px;top:36px') + T('num', '26', 'left:1032px;top:26px;font-size:30px;letter-spacing:-1px') +
@@ -578,7 +562,7 @@ deck.querySelectorAll('.shotslider').forEach(sl => {
 
 // 점 내비
 const labels = ['Cover', 'About', 'Strengths', 'Projects',
-  ...projects.flatMap(p => (p.group || p.single) ? [p.name] : [p.name, p.name + ' · 결과', ...(p.screens ? [p.name + ' · 화면'] : []), ...(p.extra ? [p.name + ' · 구조'] : []), ...(p.code ? [p.name + ' · 코드'] : [])]), 'Timeline', 'Thank you'];
+  ...projects.flatMap(p => (p.group || p.single) ? [p.name] : [p.name, p.name + ' · 결과', ...(p.screens ? [p.name + ' · 화면'] : []), ...(p.extra ? [p.name + ' · 구조'] : []), ...(p.code ? [p.name + ' · 코드'] : [])]), 'Thank you'];
 const dots = document.getElementById('dots');
 dots.innerHTML = labels.map((l, i) => `<a href="#s${i + 1}" data-l="${l}" aria-label="${l}"></a>`).join('');
 const dotLinks = dots.querySelectorAll('a');
