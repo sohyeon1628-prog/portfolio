@@ -107,13 +107,12 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 .gh svg { width: 10px; height: 10px; }
 .gh:hover { background: #1F2EC0; }
 .wrap:not(.in) .slide > .gh { opacity: 0; translate: 0 var(--rise); }
+.skl3 { display: grid; grid-template-columns: 1.25fr 1fr 1fr; gap: 0 26px; margin-top: 10px; }
+.sl-h { font-size: 13px; font-weight: 900; color: #111; margin-bottom: 7px; letter-spacing: -.2px; }
+.sl-h small { margin-left: 7px; font-size: 8.5px; font-weight: 700; letter-spacing: .1em; color: var(--g); }
+.sl-i { font-size: 12px; line-height: 1.75; color: #666; }
+.sl-i.hi { color: #111; font-weight: 700; }
 .cv h4.skh2 { margin-top: 14px; padding-top: 8px; border-top: 2px solid #111; font-size: 12px; }
-.cv .tl.sk { border-top: 0; padding: 3px 0; gap: 20px; }
-.cv .tl.sk b { width: 70px; color: #111; font-weight: 800; font-size: 12px; }
-.cv .tl.sk span { flex: 1; font-size: 12px; color: #666; line-height: 1.7; }
-.cv .tl.sk strong { color: #111; font-weight: 800; }
-.cv .tl.sk i.it { display: inline-block; width: auto; font-style: normal; font-weight: 400; font-size: inherit; white-space: nowrap; }
-.cv .tl.sk em { font-style: normal; color: #c4c4c4; margin: 0 7px; }
 .stnum { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; margin-right: 14px; border: 1.5px solid var(--g); border-radius: 50%; background: #fff; color: var(--g); font-size: 11px; font-weight: 900; vertical-align: middle; }
 .cv h4 { font-size: 11px; font-weight: 800; color: var(--g); margin: 8px 0 2px; letter-spacing: .02em; }
 .cv h4:first-child { margin-top: 0; }
@@ -357,11 +356,11 @@ slides.push(
 );
 
 const SKILLS = [
-  ['콘텐츠 제작', 'CONTENT', 1, [['영상 기획 · 편집', 1], ['Premiere Pro', 1], ['스토리텔링 · 세계관 기획', 1], ['촬영 · 조명 · 사운드', 0], ['광고 기획 · 카피', 0], ['기사 작성', 0], ['단편영화 제작', 0], ['라이브커머스 영상 제작', 0], ['참여형 콘텐츠 기획', 0], ['카드뉴스 · SNS 원고', 0]]],
-  ['생성형 AI', 'AI', 0, [['Claude', 1], ['OpenAI API (이미지)', 1], ['ChatGPT', 0], ['Gemini', 0], ['AI 영상 제작 (일관성 유지)', 1], ['Flow', 0], ['CLOVA Speech', 0]]],
-  ['개발', 'DEV', 0, [['React · Three.js', 1], ['HTML / CSS / JS', 0], ['Node.js · Express', 0], ['SQLite · Supabase', 0], ['GitHub Actions', 0], ['Render 배포', 0]]]
+  ['콘텐츠 제작', 'CONTENT', 1, [['영상 기획 · 편집 (Premiere Pro)', 1], ['스토리텔링 · 세계관 기획', 1], ['촬영 · 조명 · 사운드', 0], ['광고 기획 · 카피 · 기사 작성', 0], ['카드뉴스 · SNS 원고', 0]]],
+  ['생성형 AI', 'AI', 0, [['Claude', 1], ['OpenAI API (이미지)', 1], ['AI 영상 제작 (일관성 유지)', 1], ['Gemini · Flow', 0], ['ChatGPT · CLOVA Speech', 0]]],
+  ['개발', 'DEV', 0, [['React · Three.js', 1], ['HTML / CSS / JS', 0], ['Node.js · Express', 0], ['SQLite · Supabase', 0], ['GitHub Actions · Render', 0]]]
 ];
-const SKILLS_HTML = SKILLS.map(([h, en, main, xs]) => `<div class="tl sk"><b>${h}</b><span>${xs.map(([x, hi], k) => `<i class="it">${hi ? `<strong>${x}</strong>` : x}${k < xs.length - 1 ? '<em>·</em>' : ''}</i>`).join(' ')}</span></div>`).join('');
+const SKILLS_HTML = '<div class="skl3">' + SKILLS.map(([h, en, main, xs]) => `<div><div class="sl-h">${h}<small>${en}</small></div>${xs.map(([x, hi]) => `<div class="sl-i${hi ? ' hi' : ''}">${x}</div>`).join('')}</div>`).join('') + '</div>';
 
 // 2. ABOUT
 slides.push(
