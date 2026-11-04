@@ -382,8 +382,8 @@ slides.push(
 
 // 3. STRENGTHS
 slides.push(
-  T('big', '영상 제작의 전 과정을 학과에서 배우고 작품으로 만들어 봤으며, 이야기 하나를 여러 콘텐츠로 넓히는 기획을 해 봤고, AI를 활용해 서비스를 만들며 팀 작업을 하나의 앱으로 통합해 봤습니다.', 'left:150px;top:80px;width:600px') +
-  [['영상 제작 전 과정', '60초 영상 · 단편영화 2편', '학과에서 기획 · 시나리오 · 촬영 · 조명 · 사운드 · 편집을 배우고 영상 작품을 직접 제작'], ['작품별 콘텐츠 기획', '나루 우체국 · 만약에', '이야기 하나를 게임 · 그림일기 서비스로 기획해 배포'], ['AI 활용 · 협업', 'AI NEWSROOM · 만약에', 'AI로 서비스를 만들고, 팀이 만든 화면을 하나의 앱으로 통합']].map((s, i) =>
+  T('big', '<b style="color:var(--g);font-weight:900">영상</b>을 기획부터 편집까지 직접 만들고,<br><b style="color:var(--g);font-weight:900">이야기</b> 하나를 여러 콘텐츠로 넓히고,<br><b style="color:var(--g);font-weight:900">AI</b>로 서비스를 완성합니다.', 'left:150px;top:84px;width:640px;font-size:34px;line-height:1.45;font-weight:800;letter-spacing:-1px') +
+  [['영상 제작 전 과정', '60초 영상 · 단편영화 2편', '학과에서 배운 기획 · 시나리오 · 촬영 · 조명 · 사운드 · 편집으로 직접 제작'], ['작품별 콘텐츠 기획', '나루 우체국 · 만약에', '이야기 하나를 게임 · 그림일기 서비스로 기획해 배포'], ['AI 활용 · 협업', 'AI NEWSROOM · 만약에', 'AI로 서비스를 만들고, 팀이 만든 화면을 하나의 앱으로 통합']].map((s, i) =>
     P(`left:${150 + i * 200}px;top:360px;width:170px;height:200px`, '이미지') +
     T('p', `<b>${s[0]}</b><br><span class="sm">${s[1]}<br>${s[2]}</span>`, `left:${150 + i * 200}px;top:575px;width:170px`)
   ).join('') +
