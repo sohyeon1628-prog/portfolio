@@ -524,13 +524,13 @@ projects.forEach((p, i) => {
     const n = p.group.length, W = n > 3 ? 284 : 320, GAP = n > 3 ? 22 : 30, x0 = (1280 - (n * W + (n - 1) * GAP)) / 2;
     slides.push(
       IDX(i) +
-      T('sm', `${CAT(p)}PROJECT ${p.n} · ${p.sub}`, 'left:0;top:64px;width:1280px;text-align:center') +
-      T('ht', p.name, 'left:0;top:82px;width:1280px;text-align:center;font-size:52px') +
-      T('lead', p.lead, 'left:140px;top:144px;width:1000px;text-align:center') +
+      T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:0;top:80px;width:1280px;text-align:center') +
+      T('ht', p.name, 'left:0;top:104px;width:1280px;text-align:center;font-size:48px') +
+      T('lead', p.lead, 'left:140px;top:164px;width:1000px;text-align:center') +
       p.group.map((g, k) => {
         const x = x0 + k * (W + GAP);
-        return P(`left:${x}px;top:188px;width:${W}px;height:165px`, g.imgLabel || (g.name + ' 화면'), g.imgs?.card, g.imgs?.cardPos || 'top center') +
-          T('p webc', `<b style="display:block;text-align:center;font-size:17px;font-weight:900;margin-bottom:6px">${g.name}</b><span class="sm">${g.lead}</span><span class="k">${p.k1 || '주요 기능'}</span><span class="sm">${g.desc}</span><span class="k">${p.k2 || '보여준 점'}</span><span class="sm">${g.point}</span><span class="meta">${g.role ? g.role + '<br>' : ''}${g.period || '[기간]'} · ${g.tech || '[사용 기술]'}<br>${g.link || '[사이트 링크]'}${g.gh ? ` · <a href="${g.gh}" target="_blank" rel="noopener">GitHub</a>` : ''}</span>`, `left:${x}px;top:365px;width:${W}px;text-align:left`);
+        return P(`left:${x}px;top:206px;width:${W}px;height:165px`, g.imgLabel || (g.name + ' 화면'), g.imgs?.card, g.imgs?.cardPos || 'top center') +
+          T('p webc', `<b style="display:block;text-align:center;font-size:17px;font-weight:900;margin-bottom:6px">${g.name}</b><span class="sm">${g.lead}</span><span class="k">${p.k1 || '주요 기능'}</span><span class="sm">${g.desc}</span><span class="k">${p.k2 || '보여준 점'}</span><span class="sm">${g.point}</span><span class="meta">${g.role ? g.role + '<br>' : ''}${g.period || '[기간]'} · ${g.tech || '[사용 기술]'}<br>${g.link || '[사이트 링크]'}${g.gh ? ` · <a href="${g.gh}" target="_blank" rel="noopener">GitHub</a>` : ''}</span>`, `left:${x}px;top:383px;width:${W}px;text-align:left`);
       }).join('')
     );
     return;
