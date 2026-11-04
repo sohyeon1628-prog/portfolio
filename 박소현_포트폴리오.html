@@ -22,6 +22,33 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 
 /* 진행 바 · 점 내비 */
 #progress { position: fixed; top: 0; left: 0; width: 100%; height: 3px; background: var(--g); transform: scaleX(0); transform-origin: 0 0; z-index: 70; }
+/* 왼쪽 사이드바 내비게이션 */
+:root { --sw: 210px; }
+body { padding-left: var(--sw); }
+.bar { left: calc(var(--sw) + 16px); }
+#progress, #dots { display: none !important; }
+#side { position: fixed; left: 0; top: 0; bottom: 0; width: var(--sw); z-index: 65; display: flex; flex-direction: column; padding: 30px 18px 22px 22px; background: #fafafa; border-right: 1px solid #ececec; transition: transform .3s var(--e, ease); }
+#side .sd-head b { display: block; font-size: 16px; font-weight: 900; letter-spacing: -.3px; color: #111; }
+#side .sd-head span { display: block; margin-top: 2px; font-size: 11px; color: var(--mute); }
+#sdnav { flex: 1; margin-top: 18px; overflow-y: auto; }
+#sdnav h6 { margin: 18px 0 6px; font-size: 10px; font-weight: 800; letter-spacing: .14em; color: #9a9a9a; }
+#sdnav a { display: flex; align-items: baseline; gap: 8px; margin-left: -12px; padding: 6px 10px 6px 9px; border-left: 3px solid transparent; border-radius: 0 6px 6px 0; font-size: 13px; line-height: 1.35; color: #555; text-decoration: none; transition: background .2s, color .2s, border-color .2s; }
+#sdnav a .n { flex: 0 0 18px; font-size: 10.5px; font-weight: 800; color: #b0b0b0; }
+#sdnav a.sub { padding-left: 35px; font-size: 11.5px; color: #888; }
+#sdnav a:hover { background: #f0f0f0; color: #111; }
+#sdnav a.on { border-left-color: var(--g); background: #eef0ff; color: #111; font-weight: 800; }
+#sdnav a.on .n { color: var(--g); }
+#side .sd-prog { margin-top: 14px; }
+#side .sd-prog .tr { height: 3px; border-radius: 2px; background: #e4e4e4; overflow: hidden; }
+#side .sd-prog i { display: block; height: 100%; width: 0; background: var(--g); transition: width .4s var(--e, ease); }
+#side .sd-prog span { display: block; margin-top: 6px; font-size: 11px; color: var(--mute); }
+#sdtoggle { display: none; position: fixed; left: 12px; top: 12px; z-index: 70; width: 38px; height: 38px; border: 1px solid #ddd; border-radius: 50%; background: #fff; font-size: 17px; cursor: pointer; box-shadow: 0 2px 10px rgba(0,0,0,.12); }
+@media (max-width: 900px) {
+  :root { --sw: 0px; }
+  #side { width: 230px; padding-top: 66px; transform: translateX(-100%); box-shadow: 0 0 30px rgba(0,0,0,.18); }
+  body.sd-open #side { transform: none; }
+  #sdtoggle { display: block; }
+}
 #dots { position: fixed; right: 12px; top: 50%; translate: 0 -50%; display: flex; flex-direction: column; gap: 8px; z-index: 60; }
 #dots a { position: relative; display: block; width: 6px; height: 6px; border-radius: 3px; background: #c9c9c9; transition: height .3s, background .3s; }
 #dots a.on { height: 22px; background: var(--g); }
@@ -101,8 +128,8 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 .hl .sm { margin-bottom: 0; font-size: 14.5px; font-weight: 700; line-height: 1.55; color: #111; }
 .hl .sub { display: block; margin-top: 7px; font-size: 11.5px; line-height: 1.5; color: #666; }
 .rx { word-break: keep-all; }
-.rx .k { margin: 22px 0 10px; font-size: 11.5px; }
-.rx .hl { margin: 0; padding: 16px 18px; }
+.rx .k { margin: 15px 0 7px; font-size: 11.5px; }
+.rx .hl { margin: 0; padding: 13px 18px; }
 .rx .hl .k { margin: 0 0 6px; }
 .rx .hl .sm { font-size: 15px; line-height: 1.6; }
 .rx .hl .sub { margin-top: 9px; font-size: 12px; color: #555; }
@@ -110,6 +137,8 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 .rx .story5 span { font-size: 11.5px; color: #444; }
 .rx .do { gap: 14px; padding: 5px 0; font-size: 13px; line-height: 1.55; color: #333; }
 .rx .do b { flex: 0 0 96px; font-size: 13px; }
+.rx .res { margin-top: 0; padding: 9px 14px; border-left: 3px solid var(--g); background: #f6f7ff; font-size: 13px; line-height: 1.6; color: #222; }
+.rx .res b { color: var(--g); }
 .story5 { display: flex; margin: 2px 0 12px; }
 .story5 > div { flex: 1; position: relative; padding: 10px 8px 0 0; border-top: 2px solid #111; }
 .story5 > div::before { content: ''; position: absolute; top: -5px; left: 0; width: 8px; height: 8px; border-radius: 50%; background: var(--g); }
@@ -205,7 +234,8 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
   .shotslider .ss-btn { display: none !important; }
   .shotslider .ss-view img:not(.on) { display: none !important; }
   html { scroll-snap-type: none; }
-  .bar, #dots, #progress { display: none; }
+  .bar, #dots, #progress, #side, #sdtoggle { display: none !important; }
+  body { padding-left: 0 !important; }
   .wrap { display: block; height: auto; min-height: 0; overflow: visible; page-break-after: always; }
   .fit { width: 1280px; height: 720px; }
   .slide { transform: none; }
@@ -223,6 +253,8 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 </div>
 <div id="progress"></div>
 <nav id="dots"></nav>
+<aside id="side" aria-label="포트폴리오 목차"><div class="sd-head"><b>박소현</b><span>Portfolio 2026</span></div><nav id="sdnav"></nav><div class="sd-prog"><div class="tr"><i id="sdbar"></i></div><span id="sdnum"></span></div></aside>
+<button type="button" id="sdtoggle" aria-label="목차 열기">☰</button>
 <div id="deck"></div>
 <input type="file" id="pick" accept="image/*" hidden>
 
@@ -261,7 +293,7 @@ const RICH_AINEWS = `
 
 // 나루 우체국 · 만약에 오른쪽 본문: 기획 의도 → 흐름 → 내가 한 일 (3단, 읽기 쉬운 크기)
 const RICH_NARU = `<div class="rx">
-<div class="hl"><span class="k">기획 의도</span><span class="sm">하나의 이야기를 웹 경험으로 녹여, <b style="color:var(--g)">“아끼는 사람에게 오늘 안부를 전하자”</b>는 메시지를 플레이로 전했습니다.</span><span class="sub">파생 — 작품 하나를 인물 소개 · 명장면 · 비하인드 SNS 시리즈로 확장</span></div>
+<div class="hl"><span class="k">기획 의도</span><span class="sm"><b style="color:var(--g)">“아끼는 사람에게 오늘 안부를 전하자”</b>는 메시지를 하나의 이야기로 만들고, 그 이야기를 직접 플레이하는 웹 경험으로 녹였습니다.</span><span class="sub">이야기를 세계관 · 인물 · 복선으로 나눠 여러 장면으로 풀어낸 이 방식은, 작품 하나를 인물 소개 · 명장면 · 비하인드 SNS 시리즈로 넓히는 일로 그대로 이어집니다.</span></div>
 <span class="k">하나의 게임에 담은 이야기</span>
 <div class="story5">
   <div><b>오프닝</b><span>바람길 세계관</span></div>
@@ -270,9 +302,11 @@ const RICH_NARU = `<div class="rx">
   <div><b>에필로그</b><span>비밀 회수</span></div>
   <div><b>내 편지</b><span>직접 써서 보냄</span></div>
 </div>
-<span class="k">내가 한 일</span>
+<span class="k">내가 한 일 · 1인 개인 프로젝트</span>
 <div class="do"><b>기획 · 스토리</b><span>세계관 · 인물 · 복선 설계, 사연의 무게를 바람 세기로 표현</span></div>
 <div class="do"><b>개발 · 배포</b><span>3D 비행 화면 · 편지 쓰기와 보내기 · 도착 영상 · 서버</span></div>
+<span class="k">결과</span>
+<div class="res">혼자 기획부터 배포까지 완성 — <b>지금 링크로 플레이할 수 있고</b>, 편지를 보내면 받는 사람에게 도착 영상이 재생됩니다.</div>
 </div>`;
 
 const RICH_MANYAK = `<div class="rx">
@@ -285,9 +319,11 @@ const RICH_MANYAK = `<div class="rx">
   <div><b>월드컵</b><span>주간 상상 대결</span></div>
   <div><b>우체통</b><span>엽서로 나누기</span></div>
 </div>
-<span class="k">내가 한 일</span>
+<span class="k">내가 한 일 · 1인 개인 프로젝트</span>
 <div class="do"><b>기획</b><span>심리학과 창의력 논문을 학습시켜 질문 96개 추출 · 서비스 흐름 설계</span></div>
 <div class="do"><b>개발 · 배포</b><span>화면 · 서버 · AI 연동(답변 → 일기 문장 → 삽화) · 배포</span></div>
+<span class="k">결과</span>
+<div class="res"><b>질문 96개 · 12개 주제</b>로 완성해 배포 — 답 하나가 일기 · 월드컵 · 우체통으로 이어지는 흐름이 지금 링크에서 동작합니다.</div>
 </div>`;
 
 const projects = [
@@ -403,20 +439,21 @@ const projects = [
   { n: '05', name: 'YouTube 채널 운영', short: 'YouTube', sub: 'AI 영상 제작 · 채널 운영', cat: '영상 · AI', single: true, flow: true,
     link: '<a href="https://www.youtube.com/channel/UCsEygxpdE-pjkuL_9a_IN_w" target="_blank" rel="noopener" style="color:var(--g)">YouTube 채널 →</a>',
     period: '[YYYY.MM – ]', role: '[확인 필요: 운영 방식 · 맡은 일]',
-    lead: 'AI 이미지로 영상의 일관성을 유지하고, 컷편집으로 마무리해 결과물을 만드는 영상 제작 흐름으로 채널을 운영했습니다.',
+    lead: '여러 AI로 프롬프트를 쓰고, 캐릭터를 고정해 영상을 만들고, 음악을 입혀 컷편집으로 마무리하는 AI 영상 제작 흐름으로 채널을 운영했습니다.',
     bg: '[확인 필요: 채널 주제 · 올린 영상 · 운영 기간]',
     steps: [
-      ['Gemini', '이미지 출력'],
-      ['Flow', '이미지로 영상의 일관성 유지'],
-      ['영상 생성', 'Flow에서 영상 출력'],
-      ['Premiere Pro', '간단한 이어 붙이기 · 컷편집으로 결과물 도출']
+      ['프롬프트', 'Gemini · ChatGPT · Claude로 장면별 프롬프트 작성'],
+      ['캐릭터 이미지', 'Gemini로 캐릭터 · 장면 기준 이미지 만들기'],
+      ['Flow · Ingredients to Video', '캐릭터 이미지를 재료로 넣어 장면이 바뀌어도 같은 캐릭터로 영상 생성'],
+      ['Suno', '영상 분위기에 맞는 배경음악 · 사운드 제작'],
+      ['Premiere Pro', '영상 · 음악을 이어 붙이고 컷편집해 완성']
     ],
     highlights: [
-      ['일관성 유지', '이미지를 기준으로 영상의 일관성을 유지하는 방법을 학습해 영상 생성에 적용했습니다.'],
-      ['편집', '생성한 영상은 Premiere Pro에서 이어 붙이고 컷편집해 하나의 결과물로 완성했습니다.'],
+      ['캐릭터 일관성', 'AI 영상은 장면마다 인물이 달라지기 쉬워, 구글 Flow의 Ingredients to Video에 캐릭터 이미지를 기준(재료)으로 넣어 여러 장면에서 같은 캐릭터를 유지했습니다.'],
+      ['사운드 · 편집', 'Suno로 영상에 맞는 음악을 만들고, Premiere Pro에서 영상과 음악을 이어 붙여 컷편집으로 하나의 결과물로 완성했습니다.'],
       ['운영', '[확인 필요: 올린 영상 수 · 구독자 · 조회수 — 있는 것만]']
     ],
-    skill: 'AI 이미지 → 영상 → 편집으로 이어지는 영상 제작 과정 — SHOWBITE 숏폼 제작 · 편집으로 연결' },
+    skill: '프롬프트 → 캐릭터 고정 영상 → 음악 → 편집으로 이어지는 제작 과정 — SHOWBITE 숏폼 제작 · 편집으로 연결' },
   { n: '05', name: '웹 제작', sub: '쇼핑몰 · 영화 · 도서 사이트', cat: '웹 개발',
     lead: '쇼핑몰 · 영화 · 도서 사이트를 만들며, 사용자가 무엇을 먼저 보고 고르는지에 맞춰 정보를 배치하는 연습을 했습니다.',
     skill: '사용자가 고르는 순간에 맞춘 정보 구조 — 플랫폼 · 디지털 콘텐츠 아카이빙 관리와 연결',
@@ -465,7 +502,7 @@ slides.push(
 
 const SKILLS = [
   ['콘텐츠 제작', 'CONTENT', 1, [['영상 기획 · 편집 (Premiere Pro)', 1], ['스토리텔링 · 세계관 기획', 1], ['촬영 · 조명 · 사운드', 0], ['광고 기획 · 카피 · 기사 작성', 0]]],
-  ['생성형 AI', 'AI', 0, [['Claude', 1], ['OpenAI API (이미지)', 1], ['AI 영상 제작 (일관성 유지)', 1], ['Gemini · Flow', 0], ['ChatGPT · CLOVA Speech', 0]]],
+  ['생성형 AI', 'AI', 0, [['Claude', 1], ['OpenAI API (이미지)', 1], ['AI 영상 제작 (일관성 유지)', 1], ['Gemini · Flow (Ingredients to Video) · Suno', 0], ['ChatGPT · CLOVA Speech', 0]]],
   ['개발', 'DEV', 0, [['React · Three.js', 1], ['HTML / CSS / JS', 0], ['Node.js · Express', 0], ['SQLite · Supabase', 0], ['GitHub Actions · Render', 0]]]
 ];
 const SKILLS_HTML = '<div class="skl3">' + SKILLS.map(([h, en, main, xs]) => `<div><div class="sl-h">${h}<small>${en}</small></div>${xs.map(([x, hi]) => `<div class="sl-i${hi ? ' hi' : ''}">${x}</div>`).join('')}</div>`).join('') + '</div>';
@@ -479,9 +516,9 @@ slides.push(
   T('p', '단편영화 · 60초 영상을 직접 기획하고 편집했고, 게임과 웹서비스로 이야기를 설계해 봤습니다. 쇼박스 작품의 이야기를 SHOWBITE의 숏폼과 이미지 콘텐츠로 넓혀, 극장 밖에서도 관객이 작품을 만나게 하고 싶습니다.', 'left:470px;top:115px;width:600px') +
   T('p cv',
     '<h4>학력 · 교육</h4>' +
-    [['2021.03 – 2026.02', '[대학교명] 미디어커뮤니케이션학과', '졸업 (4년제) &nbsp;|&nbsp; 광고 기획 · 카피 · 기사 작성 · 시나리오 · 촬영(짐벌) · 조명 · 사운드 · 편집', 1], ['2026.07.06 – 2026.11.13', '[동아일보 그룹] 생성형 AI 마스터 클래스 (콘텐츠 플랫폼 개발)', 'MBC아카데미 KDT · 수료 예정 &nbsp;|&nbsp; AI 영상 · 기사 자동화 · 웹서비스', 1]].map(r => r[3] ? `<div class="tl"><b>${r[0]}</b><i class="wide">${r[1]}<span>${r[2]}</span></i></div>` : `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join('') +
+    [['2021.03 – 2026.02', '[대학교명] 미디어커뮤니케이션학과', '졸업 (4년제)', 1], ['2026.07.06 – 2026.11.13', '[동아일보 그룹] 생성형 AI 마스터 클래스 (콘텐츠 플랫폼 개발)', 'MBC아카데미 KDT · 수료 예정 &nbsp;|&nbsp; AI 영상 · 기사 자동화 · 웹서비스', 1]].map(r => r[3] ? `<div class="tl"><b>${r[0]}</b><i class="wide">${r[1]}<span>${r[2]}</span></i></div>` : `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join('') +
     '<h4>대회 · 활동</h4>' +
-    [['[YYYY.MM]', '신한은행 주최 [대회명]', '60초 단편영화 출품'], ['[YYYY.MM]', '[대회명]', '라이브커머스 영상 제작 출품'], ['[YYYY.MM]', '코삭 2회 (도박, 청도)', '[맡은 역할 · 결과]'], ['[YYYY.MM – YYYY.MM]', '촬영 동아리', '[확인 필요: 활동 내용]'], ['[YYYY.MM – ]', '<a href="https://www.youtube.com/channel/UCsEygxpdE-pjkuL_9a_IN_w" target="_blank" rel="noopener" style="color:inherit">YouTube 채널 운영</a>', 'Gemini 이미지 → Flow(일관성 유지) → 영상 생성 → Premiere Pro 컷편집으로 결과물 제작', 1]].map(r => r[3] ? `<div class="tl"><b>${r[0]}</b><i class="wide">${r[1]}<span>${r[2]}</span></i></div>` : `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join('') +
+    [['[YYYY.MM]', '신한은행 주최 [대회명]', '60초 단편영화 출품'], ['[YYYY.MM]', '[대회명]', '라이브커머스 영상 제작 출품'], ['[YYYY.MM]', '코삭 2회 (도박, 청도)', '[맡은 역할 · 결과]'], ['[YYYY.MM – YYYY.MM]', '촬영 동아리', '[확인 필요: 활동 내용]'], ['[YYYY.MM – ]', '<a href="https://www.youtube.com/channel/UCsEygxpdE-pjkuL_9a_IN_w" target="_blank" rel="noopener" style="color:inherit">YouTube 채널 운영</a>', 'AI 프롬프트 → Gemini 이미지 → Flow Ingredients to Video(캐릭터 일관성) → Suno 음악 → Premiere Pro 컷편집', 1]].map(r => r[3] ? `<div class="tl"><b>${r[0]}</b><i class="wide">${r[1]}<span>${r[2]}</span></i></div>` : `<div class="tl"><b>${r[0]}</b><i>${r[1]}</i><span>${r[2]}</span></div>`).join('') +
     '<h4 class="skh2">Skills &amp; Tools</h4>' + SKILLS_HTML + '',
     'left:470px;top:192px;width:640px') +
   T('vt', 'about me', 'right:30px')
@@ -491,7 +528,7 @@ slides.push(
 slides.push(
   ARROW_DN('left:156px;top:246px') +
   T('big', '<b style="color:var(--g);font-weight:900">영상</b>을 기획부터 편집까지 직접 만들고,<br><b style="color:var(--g);font-weight:900">이야기</b> 하나를 여러 콘텐츠로 넓히고,<br><b style="color:var(--g);font-weight:900">AI</b>로 서비스를 완성합니다.', 'left:150px;top:84px;width:640px;font-size:34px;line-height:1.45;font-weight:800;letter-spacing:-1px') +
-  [['영상 제작 전 과정', '60초 영상 · 단편영화 2편', '학과에서 배운 기획 · 시나리오 · 촬영 · 조명 · 사운드 · 편집으로 직접 제작'], ['작품별 콘텐츠 기획', '나루 우체국 · 만약에', '이야기 하나를 게임 · 그림일기 서비스로 기획해 배포'], ['AI 활용 · 협업', 'AI NEWSROOM · 만약에', 'AI로 서비스를 만들고, 팀이 만든 화면을 하나의 앱으로 통합']].map((s, i) =>
+  [['영상 제작 전 과정', '60초 영상 · 단편영화 2편', '학과에서 익힌 시나리오 · 촬영(짐벌) · 조명 · 사운드 · 편집으로 처음부터 끝까지 직접 제작'], ['작품별 콘텐츠 기획', '나루 우체국 · 만약에', '광고 기획 · 카피 · 기사 작성으로 다진 글 감각으로, 이야기 하나를 게임 · 그림일기 서비스로 기획해 배포'], ['AI 활용 · 협업', 'AI NEWSROOM · 만약에', 'AI로 서비스를 만들고, 팀이 만든 화면을 하나의 앱으로 통합']].map((s, i) =>
     P(`left:${150 + i * 200}px;top:360px;width:170px;height:200px`, '이미지') +
     T('p', `<b>${s[0]}</b><br><span class="sm">${s[1]}<br>${s[2]}</span>`, `left:${150 + i * 200}px;top:575px;width:170px`)
   ).join('') +
@@ -503,7 +540,7 @@ slides.push(
 slides.push(
   T('vt', 'projects', 'left:30px;font-size:80px') +
   BRUSH(150, 'left:150px;top:90px') +
-  T('lead', '프로젝트마다 카테고리를 붙였습니다 — AI 서비스 · 인터랙티브 콘텐츠 · 영상 · 웹 개발.', 'left:150px;top:36px;width:520px') +
+  T('lead', '모든 프로젝트는 같은 순서로 읽힙니다 — 의도 → 과정 → 내가 한 일 → 결과.', 'left:150px;top:36px;width:620px') +
   T('p', projects.map(p => `<div class="row"><span class="n">${p.n}</span><span class="nm">${p.name}</span><span class="ty">${CAT(p)}${p.sub}</span></div>`).join(''), 'left:150px;top:100px;width:980px') +
   P('left:150px;top:530px;width:980px;height:150px', '프로젝트 이미지 모음')
 );
@@ -532,11 +569,11 @@ projects.forEach((p, i) => {
   const meta = infoRows + linkRow;
   if (p.flow) {
     // 제작 흐름(단계) + 결과물 이미지 칸 + 정보 표
-    const stepsHtml = p.steps.map((st, k) => T('p', `<span class="stnum">${String(k + 1).padStart(2, '0')}</span><b style="font-size:17px;font-weight:900">${st[0]}</b><br><span class="sm" style="font-size:12.5px;color:#444;margin-left:44px">${st[1]}</span>`, `left:70px;top:${168 + k * 80}px;width:560px`)).join('');
+    const stepsHtml = p.steps.map((st, k) => T('p', `<span class="stnum">${String(k + 1).padStart(2, '0')}</span><b style="font-size:17px;font-weight:900">${st[0]}</b><br><span class="sm" style="font-size:12.5px;color:#444;margin-left:44px">${st[1]}</span>`, `left:70px;top:${168 + k * (p.steps.length > 4 ? 64 : 80)}px;width:560px`)).join('');
     slides.push(
       T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:70px;top:64px;width:560px') +
       T('ht', p.name, 'left:68px;top:90px;width:560px;font-size:40px;letter-spacing:-1.5px') +
-      LV('left:85px;top:190px;height:228px') +
+      LV(`left:85px;top:190px;height:${(p.steps.length - 1) * (p.steps.length > 4 ? 64 : 80) - 12}px`) +
       stepsHtml +
       T('p mv', meta, 'left:70px;top:508px;width:560px') +
       T('sm', p.sub, 'left:670px;top:102px;width:460px;font-size:12px;font-weight:700;color:#444') +
@@ -550,20 +587,19 @@ projects.forEach((p, i) => {
   }
   if (p.single) {
     // 왼쪽 덩어리(이미지 + 설명 + 링크)를 슬라이드 세로 가운데에 맞춤
-    const vT = 176, sT = Math.round((720 - ((p.shotsH || 300) + 84)) / 2) + 12;
+    const vT = 150, sT = Math.round((720 - ((p.shotsH || 300) + 150)) / 2) + 12;
     slides.push(
       (p.video
-        ? `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:${vT}px;width:560px;height:315px"></video>` + T('sm', p.video.caption, `left:70px;top:${vT + 325}px;width:560px`) + T('p mv', linkRow, `left:70px;top:${vT + 358}px;width:560px`)
+        ? `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:${vT}px;width:560px;height:315px"></video>` + T('sm', p.video.caption, `left:70px;top:${vT + 325}px;width:560px`) + T('p mv', meta, `left:70px;top:${vT + 358}px;width:560px`)
         : p.shots
-          ? `<div class="shotslider a" style="left:70px;top:${sT}px;width:560px" data-caps="${JSON.stringify(p.shots.map((sh, k) => `${String(k + 1).padStart(2, '0')} / ${String(p.shots.length).padStart(2, '0')} · ${sh.title} — ${sh.desc}`)).replace(/"/g, '&quot;')}"><div class="ss-view" style="height:${p.shotsH || 300}px">${p.shots.map((sh, k) => `<img src="${sh.src}" alt="${sh.title}"${k ? '' : ' class="on"'}>`).join('')}<button type="button" class="ss-btn prev" aria-label="이전 화면">‹</button><button type="button" class="ss-btn next" aria-label="다음 화면">›</button></div><div class="ss-bar"><span class="ss-cap"></span><span class="ss-dots">${p.shots.map(() => '<i></i>').join('')}</span></div></div>` + T('p mv', linkRow, `left:70px;top:${sT + (p.shotsH || 300) + 46}px;width:560px`)
-          : P(`left:70px;top:${vT}px;width:560px;height:330px`, '메인 화면', p.shot.src, 'center') + T('sm', p.shot.caption, `left:70px;top:${vT + 328}px;width:560px`) + T('p mv', linkRow, `left:70px;top:${vT + 358}px;width:560px`)) +
+          ? `<div class="shotslider a" style="left:70px;top:${sT}px;width:560px" data-caps="${JSON.stringify(p.shots.map((sh, k) => `${String(k + 1).padStart(2, '0')} / ${String(p.shots.length).padStart(2, '0')} · ${sh.title} — ${sh.desc}`)).replace(/"/g, '&quot;')}"><div class="ss-view" style="height:${p.shotsH || 300}px">${p.shots.map((sh, k) => `<img src="${sh.src}" alt="${sh.title}"${k ? '' : ' class="on"'}>`).join('')}<button type="button" class="ss-btn prev" aria-label="이전 화면">‹</button><button type="button" class="ss-btn next" aria-label="다음 화면">›</button></div><div class="ss-bar"><span class="ss-cap"></span><span class="ss-dots">${p.shots.map(() => '<i></i>').join('')}</span></div></div>` + T('p mv', meta, `left:70px;top:${sT + (p.shotsH || 300) + 46}px;width:560px`)
+          : P(`left:70px;top:${vT}px;width:560px;height:330px`, '메인 화면', p.shot.src, 'center') + T('sm', p.shot.caption, `left:70px;top:${vT + 328}px;width:560px`) + T('p mv', meta, `left:70px;top:${vT + 358}px;width:560px`)) +
       T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:70px;top:64px;width:560px') +
       T('ht', p.name, 'left:68px;top:90px;width:560px;font-size:40px;letter-spacing:-1.5px') +
       T('sm', p.sub, 'left:670px;top:84px;width:440px;font-size:12px;font-weight:700;color:#444') +
       T('lead', p.lead, 'left:670px;top:110px;width:440px') +
-      T('p mv', infoRows, 'left:670px;top:184px;width:440px') +
       (p.rich
-        ? T('p webc rich', p.rich, `left:670px;top:${p.tools ? 270 : 236}px;width:440px`)
+        ? T('p webc rich', p.rich, 'left:670px;top:186px;width:440px')
         : p.brief
         ? T('p webc brief', p.brief.filter(h => h[0] !== '역할' && h[0] !== '사용 툴').map(h => h[0] === '기획 의도' ? `<div class="hl"><span class="k">${h[0]}</span><span class="sm">${h[1]}</span></div>` : `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join(''), 'left:670px;top:310px;width:440px')
         : T('p', p.bg, 'left:670px;top:258px;width:440px') +
@@ -686,6 +722,29 @@ const dots = document.getElementById('dots');
 dots.innerHTML = labels.map((l, i) => `<a href="#s${i + 1}" data-l="${l}" aria-label="${l}"></a>`).join('');
 const dotLinks = dots.querySelectorAll('a');
 
+// 사이드바: INTRO / PROJECTS / 마무리로 묶고, 장 이름을 글자로 보여 준다
+const sdItems = [
+  { g: 'INTRO', t: '표지' }, { t: 'About' }, { t: '강점' }, { t: '목차' },
+  ...projects.flatMap((p, pi) => {
+    const subs = (p.group || p.single) ? [] : ['결과', ...(p.screens ? ['화면'] : []), ...(p.extra ? ['구조'] : []), ...(p.code ? ['코드'] : [])];
+    return [{ g: pi === 0 ? 'PROJECTS' : null, n: p.n, t: p.short || p.name }, ...subs.map(x => ({ t: x, sub: true }))];
+  }),
+  { g: 'OUTRO', t: 'Thank you' }
+];
+const sdnav = document.getElementById('sdnav');
+sdnav.innerHTML = sdItems.map((it, i) => (it.g ? `<h6>${it.g}</h6>` : '') + `<a href="#s${i + 1}"${it.sub ? ' class="sub"' : ''}>${it.n ? `<span class="n">${it.n}</span>` : ''}<span>${it.t}</span></a>`).join('');
+const sdLinks = sdnav.querySelectorAll('a');
+const sdBar = document.getElementById('sdbar'), sdNum = document.getElementById('sdnum');
+sdLinks.forEach(a => a.addEventListener('click', () => document.body.classList.remove('sd-open')));
+document.getElementById('sdtoggle').addEventListener('click', () => document.body.classList.toggle('sd-open'));
+function sdMark(idx) {
+  sdLinks.forEach((a, i) => a.classList.toggle('on', i === idx));
+  const tot = sdLinks.length;
+  sdBar.style.width = ((idx + 1) / tot * 100) + '%';
+  sdNum.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(tot).padStart(2, '0')}`;
+  sdLinks[idx]?.scrollIntoView({ block: 'nearest' });
+}
+
 // 슬라이드 진입 시 .in → 모션 재생 (다시 돌아오면 다시 재생)
 const wraps = deck.querySelectorAll('.wrap');
 const io = new IntersectionObserver(es => es.forEach(e => {
@@ -696,6 +755,7 @@ const io = new IntersectionObserver(es => es.forEach(e => {
   if (e.isIntersecting) {
     const idx = [...wraps].indexOf(e.target);
     dotLinks.forEach((d, i) => d.classList.toggle('on', i === idx));
+    sdMark(idx);
   }
 }), { threshold: 0.55 });
 wraps.forEach(w => io.observe(w));
@@ -717,7 +777,8 @@ function onScroll() {
 addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(onScroll); } }, { passive: true });
 
 function fit() {
-  const s = Math.min(window.innerWidth / 1280, window.innerHeight / 720);
+  const sw = window.innerWidth > 900 ? 210 : 0;   // 사이드바 폭을 빼고 맞춘다
+  const s = Math.min((window.innerWidth - sw) / 1280, window.innerHeight / 720);
   document.documentElement.style.setProperty('--s', s);
   onScroll();
 }
