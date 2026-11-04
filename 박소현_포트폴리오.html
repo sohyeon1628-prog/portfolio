@@ -101,10 +101,10 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 .hl .sm { margin-bottom: 0; font-size: 14.5px; font-weight: 700; line-height: 1.55; color: #111; }
 .brief .k { margin-top: 0; }
 .brief .sm { font-size: 14px; line-height: 1.6; color: #222; margin-bottom: 22px; }
-.pidx { display: flex; justify-content: center; gap: 26px; font-size: 10.5px; font-weight: 600; color: #a8a8a8; white-space: nowrap; z-index: 3; }
-.slide .pidx a:not(.gh) { position: relative; color: #a8a8a8 !important; font-weight: 600; text-decoration: none; background-image: none; padding: 0 0 5px; transition: color .2s; }
+.pidx { display: flex; justify-content: center; gap: 38px; font-size: 12.5px; font-weight: 600; color: #a8a8a8; white-space: nowrap; z-index: 3; }
+.slide .pidx a:not(.gh) { position: relative; color: #a8a8a8 !important; font-weight: 600; text-decoration: none; background-image: none; padding: 0 0 7px; transition: color .2s; }
 .slide .pidx a:not(.gh):hover { color: #555 !important; background-color: transparent; }
-.pidx i { font-style: normal; margin-right: 5px; font-size: 9px; letter-spacing: .04em; }
+.pidx i { font-style: normal; margin-right: 6px; font-size: 10px; letter-spacing: .04em; }
 .slide .pidx a.on:not(.gh) { color: var(--g) !important; font-weight: 800; }
 .slide .pidx a.on:not(.gh)::after { content: ''; position: absolute; left: -3px; right: -3px; bottom: 0; height: 3px; background: var(--g); border-radius: 3px; transform: rotate(-1.2deg); opacity: .9; }
 .mv { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; row-gap: 7px; padding-top: 9px; border-top: 1px solid #ddd; }
@@ -210,7 +210,7 @@ const LOOP = (st, cls) => DOOD(660, 156, ['M96.6 99.5 L89.8 97.1 L83.7 94.7 L78.
 const ARROW_DN = st => DOOD(190, 76, ['M6 8 C92 0 152 16 152 60', 'M152 66 L143 49', 'M152 66 L165 51'], st);
 const BRUSH = (w, st) => DOOD(w, 14, [`M3 8 C${w * .25} 3 ${w * .55} 11 ${w - 3} 5`], st, 'brush');
 // 상단 목차 인덱스: 현재 프로젝트만 파란색 + 굵은 밑줄, 누르면 해당 슬라이드로 이동 (프로젝트 슬라이드는 5번부터 한 장씩)
-const IDX = (cur) => `<nav class="pidx a" style="left:250px;top:22px;width:780px">${projects.map((q, k) => `<a href="#s${5 + k}"${k === cur ? ' class="on"' : ''}><i>${String(k + 1).padStart(2, '0')}</i>${q.short || q.name}</a>`).join('')}</nav>`;
+const IDX = (cur) => `<nav class="pidx a" style="left:200px;top:24px;width:880px">${projects.map((q, k) => `<a href="#s${5 + k}"${k === cur ? ' class="on"' : ''}><i>${String(k + 1).padStart(2, '0')}</i>${q.short || q.name}</a>`).join('')}</nav>`;
 const SPARK_UR = st => DOOD(40, 40, ['M10 30 L18 22', 'M9 19 L12 6', 'M21 33 L34 29'], st);
 const SPARK_UL = st => DOOD(40, 40, ['M30 30 L22 22', 'M31 19 L28 6', 'M19 33 L6 29'], st);
 const WAVE = (w, st) => DOOD(w, 12, [`M2 7 C${w * .15} 1 ${w * .25} 12 ${w * .38} 6 S${w * .6} 1 ${w * .72} 7 S${w * .9} 10 ${w - 2} 4`], st);
@@ -446,13 +446,13 @@ projects.forEach((p, i) => {
     const n = p.group.length, W = n > 3 ? 284 : 320, GAP = n > 3 ? 22 : 30, x0 = (1280 - (n * W + (n - 1) * GAP)) / 2;
     slides.push(
       IDX(i) +
-      T('sm', `${CAT(p)}PROJECT ${p.n} · ${p.sub}`, 'left:0;top:44px;width:1280px;text-align:center') +
-      T('ht', p.name, 'left:0;top:62px;width:1280px;text-align:center;font-size:52px') +
-      T('lead', p.lead, 'left:140px;top:124px;width:1000px;text-align:center') +
+      T('sm', `${CAT(p)}PROJECT ${p.n} · ${p.sub}`, 'left:0;top:64px;width:1280px;text-align:center') +
+      T('ht', p.name, 'left:0;top:82px;width:1280px;text-align:center;font-size:52px') +
+      T('lead', p.lead, 'left:140px;top:144px;width:1000px;text-align:center') +
       p.group.map((g, k) => {
         const x = x0 + k * (W + GAP);
-        return P(`left:${x}px;top:168px;width:${W}px;height:165px`, g.imgLabel || (g.name + ' 화면'), g.imgs?.card, g.imgs?.cardPos || 'top center') +
-          T('p webc', `<b style="display:block;text-align:center;font-size:17px;font-weight:900;margin-bottom:6px">${g.name}</b><span class="sm">${g.lead}</span><span class="k">${p.k1 || '주요 기능'}</span><span class="sm">${g.desc}</span><span class="k">${p.k2 || '보여준 점'}</span><span class="sm">${g.point}</span><span class="meta">${g.role ? g.role + '<br>' : ''}${g.period || '[기간]'} · ${g.tech || '[사용 기술]'}<br>${g.link || '[사이트 링크]'}${g.gh ? ` · <a href="${g.gh}" target="_blank" rel="noopener">GitHub</a>` : ''}</span>`, `left:${x}px;top:345px;width:${W}px;text-align:left`);
+        return P(`left:${x}px;top:188px;width:${W}px;height:165px`, g.imgLabel || (g.name + ' 화면'), g.imgs?.card, g.imgs?.cardPos || 'top center') +
+          T('p webc', `<b style="display:block;text-align:center;font-size:17px;font-weight:900;margin-bottom:6px">${g.name}</b><span class="sm">${g.lead}</span><span class="k">${p.k1 || '주요 기능'}</span><span class="sm">${g.desc}</span><span class="k">${p.k2 || '보여준 점'}</span><span class="sm">${g.point}</span><span class="meta">${g.role ? g.role + '<br>' : ''}${g.period || '[기간]'} · ${g.tech || '[사용 기술]'}<br>${g.link || '[사이트 링크]'}${g.gh ? ` · <a href="${g.gh}" target="_blank" rel="noopener">GitHub</a>` : ''}</span>`, `left:${x}px;top:365px;width:${W}px;text-align:left`);
       }).join('')
     );
     return;
@@ -463,19 +463,19 @@ projects.forEach((p, i) => {
   const meta = infoRows + linkRow;
   if (p.flow) {
     // 제작 흐름(단계) + 결과물 이미지 칸 + 정보 표
-    const stepsHtml = p.steps.map((st, k) => T('p', `<span class="stnum">${String(k + 1).padStart(2, '0')}</span><b style="font-size:17px;font-weight:900">${st[0]}</b><br><span class="sm" style="font-size:12.5px;color:#444;margin-left:44px">${st[1]}</span>`, `left:70px;top:${150 + k * 80}px;width:560px`)).join('');
+    const stepsHtml = p.steps.map((st, k) => T('p', `<span class="stnum">${String(k + 1).padStart(2, '0')}</span><b style="font-size:17px;font-weight:900">${st[0]}</b><br><span class="sm" style="font-size:12.5px;color:#444;margin-left:44px">${st[1]}</span>`, `left:70px;top:${168 + k * 80}px;width:560px`)).join('');
     slides.push(
       IDX(i) +
-      T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:70px;top:46px;width:560px') +
-      T('ht', p.name, 'left:68px;top:72px;width:560px;font-size:40px;letter-spacing:-1.5px') +
-      LV('left:85px;top:172px;height:228px') +
+      T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:70px;top:64px;width:560px') +
+      T('ht', p.name, 'left:68px;top:90px;width:560px;font-size:40px;letter-spacing:-1.5px') +
+      LV('left:85px;top:190px;height:228px') +
       stepsHtml +
-      T('p mv', meta, 'left:70px;top:490px;width:560px') +
-      T('sm', p.sub, 'left:670px;top:84px;width:460px;font-size:12px;font-weight:700;color:#444') +
-      T('lead', p.lead, 'left:670px;top:110px;width:440px') +
-      T('p', p.bg, 'left:670px;top:176px;width:440px') +
-      T('p webc', p.highlights.map(h => `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join('') + `<span class="k" style="margin-top:14px">이 프로젝트로 보여줄 점</span><span class="sm">${p.skill}</span>`, 'left:670px;top:222px;width:440px') +
-      P('left:670px;top:540px;width:440px;height:130px', '결과물 영상 · 캡처') +
+      T('p mv', meta, 'left:70px;top:508px;width:560px') +
+      T('sm', p.sub, 'left:670px;top:102px;width:460px;font-size:12px;font-weight:700;color:#444') +
+      T('lead', p.lead, 'left:670px;top:128px;width:440px') +
+      T('p', p.bg, 'left:670px;top:194px;width:440px') +
+      T('p webc', p.highlights.map(h => `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join('') + `<span class="k" style="margin-top:14px">이 프로젝트로 보여줄 점</span><span class="sm">${p.skill}</span>`, 'left:670px;top:240px;width:440px') +
+      P('left:670px;top:558px;width:440px;height:130px', '결과물 영상 · 캡처') +
       T('vt', p.name, 'right:30px;font-size:56px')
     );
     return;
@@ -490,15 +490,15 @@ projects.forEach((p, i) => {
         : p.shots
           ? `<div class="shotslider a" style="left:70px;top:${sT}px;width:560px" data-caps="${JSON.stringify(p.shots.map((sh, k) => `${String(k + 1).padStart(2, '0')} / ${String(p.shots.length).padStart(2, '0')} · ${sh.title} — ${sh.desc}`)).replace(/"/g, '&quot;')}"><div class="ss-view" style="height:${p.shotsH || 300}px">${p.shots.map((sh, k) => `<img src="${sh.src}" alt="${sh.title}"${k ? '' : ' class="on"'}>`).join('')}<button type="button" class="ss-btn prev" aria-label="이전 화면">‹</button><button type="button" class="ss-btn next" aria-label="다음 화면">›</button></div><div class="ss-bar"><span class="ss-cap"></span><span class="ss-dots">${p.shots.map(() => '<i></i>').join('')}</span></div></div>` + T('p mv', linkRow, `left:70px;top:${sT + (p.shotsH || 300) + 46}px;width:560px`)
           : P(`left:70px;top:${vT}px;width:560px;height:330px`, '메인 화면', p.shot.src, 'center') + T('sm', p.shot.caption, `left:70px;top:${vT + 328}px;width:560px`) + T('p mv', linkRow, `left:70px;top:${vT + 358}px;width:560px`)) +
-      T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:670px;top:46px;width:440px') +
-      T('ht', p.name, 'left:668px;top:72px;width:440px;font-size:40px;letter-spacing:-1.5px') +
-      T('sm', p.sub, 'left:670px;top:126px;width:440px;font-size:12px;font-weight:700;color:#444') +
-      T('lead', p.lead, 'left:670px;top:152px;width:440px') +
-      T('p mv', infoRows, 'left:670px;top:226px;width:440px') +
+      T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:670px;top:64px;width:440px') +
+      T('ht', p.name, 'left:668px;top:90px;width:440px;font-size:40px;letter-spacing:-1.5px') +
+      T('sm', p.sub, 'left:670px;top:144px;width:440px;font-size:12px;font-weight:700;color:#444') +
+      T('lead', p.lead, 'left:670px;top:170px;width:440px') +
+      T('p mv', infoRows, 'left:670px;top:244px;width:440px') +
       (p.brief
-        ? T('p webc brief', p.brief.filter(h => h[0] !== '역할' && h[0] !== '사용 툴').map(h => h[0] === '기획 의도' ? `<div class="hl"><span class="k">${h[0]}</span><span class="sm">${h[1]}</span></div>` : `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join(''), 'left:670px;top:352px;width:440px')
-        : T('p', p.bg, 'left:670px;top:300px;width:440px') +
-          T('p webc', p.highlights.map(h => `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join('') + `<div class="hl" style="margin-top:18px"><span class="k">이 프로젝트로 보여줄 점</span><span class="sm">${p.skill}</span></div>`, 'left:670px;top:410px;width:440px')) +
+        ? T('p webc brief', p.brief.filter(h => h[0] !== '역할' && h[0] !== '사용 툴').map(h => h[0] === '기획 의도' ? `<div class="hl"><span class="k">${h[0]}</span><span class="sm">${h[1]}</span></div>` : `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join(''), 'left:670px;top:370px;width:440px')
+        : T('p', p.bg, 'left:670px;top:318px;width:440px') +
+          T('p webc', p.highlights.map(h => `<span class="k">${h[0]}</span><span class="sm">${h[1]}</span>`).join('') + `<div class="hl" style="margin-top:18px"><span class="k">이 프로젝트로 보여줄 점</span><span class="sm">${p.skill}</span></div>`, 'left:670px;top:428px;width:440px')) +
       T('vt', p.name, `right:30px;font-size:${small ? 64 : 84}px`)
     );
     return;
