@@ -102,6 +102,7 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 .st3 { display: flex; gap: 18px; margin: 2px 0 4px; }
 .st3 > div { flex: 1; border-top: 2px solid #111; padding-top: 8px; }
 .st3 b { display: block; font-size: 30px; font-weight: 900; letter-spacing: -1.5px; line-height: 1; color: #111; }
+.st3 b small { margin-left: 3px; font-size: 14px; font-weight: 700; letter-spacing: 0; color: #888; }
 .st3 span { display: block; margin-top: 6px; font-size: 11px; line-height: 1.4; color: #666; }
 .rich .note { margin: 0 0 6px; font-size: 10.5px; color: #888; }
 .rich .note b { color: #111; }
@@ -238,10 +239,9 @@ const LH = (st) => `<div class="line-h" style="${st}"></div>`;
 const RICH_AINEWS = `
 <div class="st3">
   <div><b>9명</b><span>현업 조사<br>설문 5 · 인터뷰 4</span></div>
-  <div><b>5인</b><span>팀 프로젝트<br>약 7주</span></div>
   <div><b>5명</b><span>현업 기자 사용자 테스트<br>팀 전체 결과</span></div>
+  <div><b>3.6<small>/5</small></b><span>STT 테스트 평균<br>5점 만점 · 5명 기준</span></div>
 </div>
-<div class="note">사용자 테스트 평균 (5점 만점 · 팀 전체 · 5명 기준) — SNS 변환 <b>4.6</b> · STT <b>3.6</b></div>
 <span class="k">현업의 말 → 팀의 설계 결정</span>
 <div class="qa"><i>“수치를 원문과 한 화면에서 대조”</i><b>숫자 하이라이트 팩트체크</b></div>
 <div class="qa"><i>“취재원 정보는 본인만 접근”</i><b>로컬 암호화 저장 · 송고 시점 전송</b></div>
