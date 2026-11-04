@@ -96,10 +96,10 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 
 .mr { display: flex; gap: 16px; border-top: 1px solid #ddd; padding: 8px 0; font-size: 13px; }
 .mr b { width: 56px; font-weight: 700; flex-shrink: 0; }
-.mv { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; }
-.mv .mr { display: block; padding: 7px 0 8px; }
-.mv .mr b { display: block; width: auto; margin-bottom: 2px; font-size: 10.5px; font-weight: 800; letter-spacing: .04em; color: var(--g); }
-.mv .mr span { display: block; font-size: 13px; line-height: 1.45; color: #222; }
+.mv { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; row-gap: 7px; padding-top: 9px; border-top: 1px solid #ddd; }
+.mv .mr { display: block; padding: 0; border-top: 0; }
+.mv .mr b { display: block; width: auto; margin-bottom: 1px; font-size: 9.5px; font-weight: 800; letter-spacing: .05em; color: var(--g); }
+.mv .mr span { display: block; font-size: 12px; line-height: 1.4; color: #222; }
 .mr span { color: #444; }
 .row { display: flex; align-items: baseline; gap: 18px; border-bottom: 1px solid #111; padding: 12px 0; }
 .row .n { font-weight: 900; font-size: 22px; width: 40px; }
@@ -450,9 +450,9 @@ projects.forEach((p, i) => {
   if (p.single) {
     slides.push(
       (p.video
-        ? `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:160px;width:560px;height:315px"></video>` + T('sm', p.video.caption, 'left:70px;top:485px;width:560px') + T('p mv', meta, 'left:70px;top:520px;width:560px')
+        ? `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:160px;width:560px;height:315px"></video>` + T('sm', p.video.caption, 'left:70px;top:485px;width:560px') + T('p mv', meta, 'left:70px;top:512px;width:560px')
         : p.shots
-          ? `<div class="shotslider a" style="left:70px;top:160px;width:560px" data-caps="${JSON.stringify(p.shots.map((sh, k) => `${String(k + 1).padStart(2, '0')} / ${String(p.shots.length).padStart(2, '0')} · ${sh.title} — ${sh.desc}`)).replace(/"/g, '&quot;')}"><div class="ss-view" style="height:${p.shotsH || 300}px">${p.shots.map((sh, k) => `<img src="${sh.src}" alt="${sh.title}"${k ? '' : ' class="on"'}>`).join('')}<button type="button" class="ss-btn prev" aria-label="이전 화면">‹</button><button type="button" class="ss-btn next" aria-label="다음 화면">›</button></div><div class="ss-bar"><span class="ss-cap"></span><span class="ss-dots">${p.shots.map(() => '<i></i>').join('')}</span></div></div>` + T('p mv', meta, `left:70px;top:${160 + (p.shotsH || 300) + 56}px;width:560px`)
+          ? `<div class="shotslider a" style="left:70px;top:160px;width:560px" data-caps="${JSON.stringify(p.shots.map((sh, k) => `${String(k + 1).padStart(2, '0')} / ${String(p.shots.length).padStart(2, '0')} · ${sh.title} — ${sh.desc}`)).replace(/"/g, '&quot;')}"><div class="ss-view" style="height:${p.shotsH || 300}px">${p.shots.map((sh, k) => `<img src="${sh.src}" alt="${sh.title}"${k ? '' : ' class="on"'}>`).join('')}<button type="button" class="ss-btn prev" aria-label="이전 화면">‹</button><button type="button" class="ss-btn next" aria-label="다음 화면">›</button></div><div class="ss-bar"><span class="ss-cap"></span><span class="ss-dots">${p.shots.map(() => '<i></i>').join('')}</span></div></div>` + T('p mv', meta, `left:70px;top:${160 + (p.shotsH || 300) + 46}px;width:560px`)
           : P('left:70px;top:160px;width:560px;height:330px', '메인 화면', p.shot.src, 'center') + T('sm', p.shot.caption, 'left:70px;top:488px;width:560px') + T('p mv', meta, 'left:70px;top:518px;width:560px')) +
       T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:70px;top:46px;width:560px') +
       T('ht', p.name, 'left:68px;top:72px;width:560px;font-size:40px;letter-spacing:-1.5px') +
