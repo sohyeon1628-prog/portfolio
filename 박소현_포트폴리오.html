@@ -96,6 +96,10 @@ body { background: #fff; font-family: Inter, 'Noto Sans KR', sans-serif; color: 
 
 .mr { display: flex; gap: 16px; border-top: 1px solid #ddd; padding: 8px 0; font-size: 13px; }
 .mr b { width: 56px; font-weight: 700; flex-shrink: 0; }
+.mv { display: grid; grid-template-columns: 1fr 1fr; column-gap: 24px; }
+.mv .mr { display: block; padding: 7px 0 8px; }
+.mv .mr b { display: block; width: auto; margin-bottom: 2px; font-size: 10.5px; font-weight: 800; letter-spacing: .04em; color: var(--g); }
+.mv .mr span { display: block; font-size: 13px; line-height: 1.45; color: #222; }
 .mr span { color: #444; }
 .row { display: flex; align-items: baseline; gap: 18px; border-bottom: 1px solid #111; padding: 12px 0; }
 .row .n { font-weight: 900; font-size: 22px; width: 40px; }
@@ -227,7 +231,7 @@ const projects = [
       ['실제 서비스', '쓴 편지를 링크로 보내면 받는 사람에게 해무가 배달하는 도착 영상이 재생되고, 반응 · 신고 · 관리자 화면까지 갖춰 배포했습니다.']
     ],
     gh: 'https://github.com/sohyeon1628-prog/1030',
-    link: '<a href="https://naru-post.onrender.com" target="_blank" rel="noopener" style="color:var(--g)">naru-post.onrender.com</a> (플레이 가능)',
+    link: '<a href="https://naru-post.onrender.com" target="_blank" rel="noopener" style="color:var(--g)">나루 우체국 플레이하기 →</a>',
     role: '개인 프로젝트 — 기획 · 스토리 · 3D 화면 · 서버 · 배포 전 과정',
     period: '2026.10 – 2026.11',
     lead: '은퇴하는 우체부 해무의 가방을 이어받아 네 섬에 편지를 전하고, 마지막엔 내 편지를 써서 진짜 링크로 보내는 3D 웹게임입니다.',
@@ -262,7 +266,7 @@ const projects = [
     } },
   { n: '03', name: '만약에', sub: 'AI 그림일기 웹서비스 · 콘텐츠 기획', cat: 'AI 서비스', single: true,
     gh: 'https://github.com/sohyeon1628-prog/man-yak',
-    link: '<a href="https://man-yak.onrender.com" target="_blank" rel="noopener" style="color:var(--g)">man-yak.onrender.com</a>',
+    link: '<a href="https://man-yak.onrender.com" target="_blank" rel="noopener" style="color:var(--g)">만약에 바로가기 →</a>',
     period: '2026.09 – 2026.10', role: '개인 프로젝트 — 기획 · 화면 · 서버 · AI 연동 · 배포',
     lead: '“만약에” 질문에 답하면 AI가 손그림 삽화가 있는 그림일기로 바꿔 주는, 상상을 기록하고 나누는 웹서비스입니다.',
     bg: '“어른이 되며 잊은 ‘만약에’라는 주문을 되찾자”는 브랜드 스토리에서 출발했습니다. 질문에 답하면 <b>그림일기 → 다이어리 → 주간 월드컵 → 우체통</b>으로 이어져, 혼자 쓰는 일기가 함께 즐기는 콘텐츠가 됩니다. 기획부터 AI 연동 · 배포까지 혼자 만든 개인 프로젝트입니다.',
@@ -418,12 +422,12 @@ projects.forEach((p, i) => {
       p.group.map((g, k) => {
         const x = x0 + k * (W + GAP);
         return P(`left:${x}px;top:168px;width:${W}px;height:165px`, g.imgLabel || (g.name + ' 화면'), g.imgs?.card, g.imgs?.cardPos || 'top center') +
-          T('p webc', `<b style="display:block;text-align:center;font-size:17px;font-weight:900;margin-bottom:6px">${g.name}</b><span class="sm">${g.lead}</span><span class="k">${p.k1 || '주요 기능'}</span><span class="sm">${g.desc}</span><span class="k">${p.k2 || '보여준 점'}</span><span class="sm">${g.point}</span><span class="meta">${g.role ? g.role + '<br>' : ''}${g.period || '[기간]'} · ${g.tech || '[사용 기술]'}<br>${g.link || '[사이트 링크]'}${g.gh ? ` · <a href="${g.gh}" target="_blank" rel="noopener">${g.gh.replace('https://', '')}</a>` : ''}</span>`, `left:${x}px;top:345px;width:${W}px;text-align:left`);
+          T('p webc', `<b style="display:block;text-align:center;font-size:17px;font-weight:900;margin-bottom:6px">${g.name}</b><span class="sm">${g.lead}</span><span class="k">${p.k1 || '주요 기능'}</span><span class="sm">${g.desc}</span><span class="k">${p.k2 || '보여준 점'}</span><span class="sm">${g.point}</span><span class="meta">${g.role ? g.role + '<br>' : ''}${g.period || '[기간]'} · ${g.tech || '[사용 기술]'}<br>${g.link || '[사이트 링크]'}${g.gh ? ` · <a href="${g.gh}" target="_blank" rel="noopener">GitHub</a>` : ''}</span>`, `left:${x}px;top:345px;width:${W}px;text-align:left`);
       }).join('')
     );
     return;
   }
-  const ghRow = p.gh ? `<div class="mr"><b>GitHub</b><span><a href="${p.gh}" target="_blank" rel="noopener" style="color:var(--g)">${p.gh.replace('https://', '')}</a></span></div>` : '';
+  const ghRow = p.gh ? `<div class="mr"><b>GitHub</b><span><a href="${p.gh}" target="_blank" rel="noopener" style="color:var(--g)">GitHub 저장소 보기 →</a></span></div>` : '';
   const meta = '<div class="mr"><b>기간</b><span>' + (p.period || '[YYYY.MM – YYYY.MM]') + '</span></div><div class="mr"><b>역할</b><span>' + (p.role || '[내가 맡은 일 — 팀이면 팀 규모와 내 범위]') + '</span></div>' + (p.single ? '' : '<div class="mr"><b>성격</b><span>' + p.sub + '</span></div>') + '<div class="mr"><b>링크</b><span>' + (p.link || '[영상 · 사이트 · 저장소 링크]') + '</span></div>' + ghRow;
   if (p.flow) {
     // 제작 흐름(단계) + 결과물 이미지 칸 + 정보 표
@@ -433,7 +437,7 @@ projects.forEach((p, i) => {
       T('ht', p.name, 'left:68px;top:72px;width:560px;font-size:40px;letter-spacing:-1.5px') +
       LV('left:85px;top:172px;height:228px') +
       stepsHtml +
-      T('p', meta, 'left:70px;top:490px;width:560px') +
+      T('p mv', meta, 'left:70px;top:490px;width:560px') +
       T('sm', p.sub, 'left:670px;top:84px;width:460px;font-size:12px;font-weight:700;color:#444') +
       T('lead', p.lead, 'left:670px;top:110px;width:440px') +
       T('p', p.bg, 'left:670px;top:176px;width:440px') +
@@ -446,10 +450,10 @@ projects.forEach((p, i) => {
   if (p.single) {
     slides.push(
       (p.video
-        ? `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:160px;width:560px;height:315px"></video>` + T('sm', p.video.caption, 'left:70px;top:485px;width:560px') + T('p', meta, 'left:70px;top:520px;width:560px')
+        ? `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:160px;width:560px;height:315px"></video>` + T('sm', p.video.caption, 'left:70px;top:485px;width:560px') + T('p mv', meta, 'left:70px;top:520px;width:560px')
         : p.shots
-          ? `<div class="shotslider a" style="left:70px;top:160px;width:560px" data-caps="${JSON.stringify(p.shots.map((sh, k) => `${String(k + 1).padStart(2, '0')} / ${String(p.shots.length).padStart(2, '0')} · ${sh.title} — ${sh.desc}`)).replace(/"/g, '&quot;')}"><div class="ss-view" style="height:${p.shotsH || 300}px">${p.shots.map((sh, k) => `<img src="${sh.src}" alt="${sh.title}"${k ? '' : ' class="on"'}>`).join('')}<button type="button" class="ss-btn prev" aria-label="이전 화면">‹</button><button type="button" class="ss-btn next" aria-label="다음 화면">›</button></div><div class="ss-bar"><span class="ss-cap"></span><span class="ss-dots">${p.shots.map(() => '<i></i>').join('')}</span></div></div>` + T('p', meta, `left:70px;top:${160 + (p.shotsH || 300) + 56}px;width:560px`)
-          : P('left:70px;top:160px;width:560px;height:330px', '메인 화면', p.shot.src, 'center') + T('sm', p.shot.caption, 'left:70px;top:488px;width:560px') + T('p', meta, 'left:70px;top:518px;width:560px')) +
+          ? `<div class="shotslider a" style="left:70px;top:160px;width:560px" data-caps="${JSON.stringify(p.shots.map((sh, k) => `${String(k + 1).padStart(2, '0')} / ${String(p.shots.length).padStart(2, '0')} · ${sh.title} — ${sh.desc}`)).replace(/"/g, '&quot;')}"><div class="ss-view" style="height:${p.shotsH || 300}px">${p.shots.map((sh, k) => `<img src="${sh.src}" alt="${sh.title}"${k ? '' : ' class="on"'}>`).join('')}<button type="button" class="ss-btn prev" aria-label="이전 화면">‹</button><button type="button" class="ss-btn next" aria-label="다음 화면">›</button></div><div class="ss-bar"><span class="ss-cap"></span><span class="ss-dots">${p.shots.map(() => '<i></i>').join('')}</span></div></div>` + T('p mv', meta, `left:70px;top:${160 + (p.shotsH || 300) + 56}px;width:560px`)
+          : P('left:70px;top:160px;width:560px;height:330px', '메인 화면', p.shot.src, 'center') + T('sm', p.shot.caption, 'left:70px;top:488px;width:560px') + T('p mv', meta, 'left:70px;top:518px;width:560px')) +
       T('sm', `${CAT(p)}PROJECT ${p.n}`, 'left:70px;top:46px;width:560px') +
       T('ht', p.name, 'left:68px;top:72px;width:560px;font-size:40px;letter-spacing:-1.5px') +
       T('sm', p.sub, 'left:670px;top:84px;width:460px;font-size:12px;font-weight:700;color:#444') +
@@ -465,7 +469,7 @@ projects.forEach((p, i) => {
     slides.push(
       `<video class="vid a" src="${p.video.src}" poster="${p.video.poster}" muted loop playsinline controls preload="metadata" style="left:70px;top:70px;width:560px;height:315px"></video>` +
       T('sm', p.video.caption, 'left:70px;top:395px;width:560px') +
-      T('p', meta, 'left:70px;top:430px;width:560px') +
+      T('p mv', meta, 'left:70px;top:430px;width:560px') +
       T('sm', `${CAT(p)}PROJECT ${p.n} · ${p.sub}`, 'left:670px;top:54px;width:460px') +
       T('lead', p.lead, 'left:670px;top:110px;width:440px') +
       T('p', `${p.bg}<br><br><span class="sm">이 프로젝트로 보여줄 점: ${p.skill}</span>`, 'left:670px;top:185px;width:440px') +
@@ -476,7 +480,7 @@ projects.forEach((p, i) => {
     T('sm', `${CAT(p)}PROJECT ${p.n} · ${p.sub}`, 'left:410px;top:54px;width:460px') +
     T('lead', p.lead, 'left:410px;top:110px;width:440px') +
     T('p', `${p.bg}<br><br><span class="sm">이 프로젝트로 보여줄 점: ${p.skill}</span>`, 'left:410px;top:230px;width:440px') +
-    T('p', meta, 'left:410px;top:470px;width:440px') +
+    T('p mv', meta, 'left:410px;top:470px;width:440px') +
     P('left:880px;top:50px;width:230px;height:620px', '서브 이미지', p.imgs?.sub, p.imgs?.subPos) +
     T('vt', p.name, `right:30px;font-size:${small ? 64 : 84}px`)
   );
